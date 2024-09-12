@@ -76,7 +76,7 @@
         <ImageView
             android:layout_width="65dp"
             android:layout_height="90dp"
-            android:src="@drawable/facebook"/>"/>
+            android:src="@drawable/facebook"/>
 
          </LinearLayout>
 
