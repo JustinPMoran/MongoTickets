@@ -1,34 +1,56 @@
 package com.example.loginapp;
 
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
 public class LoginApp extends AppCompatActivity {
+
+    private EditText usernameEditText;  // define username edittext variable
+    private EditText passwordEditText;  // define password edittext variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Link the layout to this activity
-        setContentView(R.layout.activity_main); // Make sure this matches your layout file name
+        setContentView(R.layout.activity_main);            // link to Login activity XML
 
-        // Find the views by their ID
-        EditText usernameEditText = findViewById(R.id.username);  // Replace with your actual ID
-        EditText passwordEditText = findViewById(R.id.password);  // Replace with your actual ID
-        Button loginButton = findViewById(R.id.login_button);     // Replace with your actual ID
+        /* initialize UI elements */
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
+        // define login button variable
+        Button loginButton = findViewById(R.id.login_button);    // link to login button in the Login activity XML
+        // define signup button variable
+        Button signupButton = findViewById(R.id.signup_button);  // link to signup button in the Login activity XML
 
-        // Handle button click
-        loginButton.setOnClickListener(view -> {
-            String username = usernameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
+        /* click listener on login button pressed */
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            // Basic login logic
-            if (username.equals("admin") && password.equals("password")) {
-                Toast.makeText(LoginApp.this, "Login successful", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(LoginApp.this, "Invalid login credentials", Toast.LENGTH_SHORT).show();
+                /* grab strings from user inputs */
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                /* when login button is pressed, use intent to switch to Login Activity */
+                Intent intent = new Intent(LoginApp.this, WelcomePage.class);
+                intent.putExtra("USERNAME", username);  // key-value to pass to the MainActivity
+                intent.putExtra("PASSWORD", password);  // key-value to pass to the MainActivity
+                startActivity(intent);  // go to MainActivity with the key-value data
+            }
+        });
+
+        /* click listener on signup button pressed */
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /* when signup button is pressed, use intent to switch to Signup Activity */
+                Intent intent = new Intent(LoginApp.this, Signup.class);
+                startActivity(intent);  // go to SignupActivity
             }
         });
     }

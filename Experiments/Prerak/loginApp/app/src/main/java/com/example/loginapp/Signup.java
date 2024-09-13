@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.loginapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SignupActivity extends AppCompatActivity {
+public class Signup extends AppCompatActivity {
 
     private EditText usernameEditText;  // define username edittext variable
     private EditText passwordEditText;  // define password edittext variable
@@ -23,11 +23,11 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         /* initialize UI elements */
-        usernameEditText = findViewById(R.id.signup_username_edt);  // link to username edtext in the Signup activity XML
-        passwordEditText = findViewById(R.id.signup_password_edt);  // link to password edtext in the Signup activity XML
-        confirmEditText = findViewById(R.id.signup_confirm_edt);    // link to confirm edtext in the Signup activity XML
-        loginButton = findViewById(R.id.signup_login_btn);    // link to login button in the Signup activity XML
-        signupButton = findViewById(R.id.signup_signup_btn);  // link to signup button in the Signup activity XML
+        usernameEditText = findViewById(R.id.username);  // link to username edtext in the Signup activity XML
+        passwordEditText = findViewById(R.id.password);  // link to password edtext in the Signup activity XML
+        confirmEditText = findViewById(R.id.confirm_password);    // link to confirm edtext in the Signup activity XML
+        loginButton = findViewById(R.id.login_button);    // link to login button in the Signup activity XML
+        signupButton = findViewById(R.id.signup_button);  // link to signup button in the Signup activity XML
 
         /* click listener on login button pressed */
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +35,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 /* when login button is pressed, use intent to switch to Login Activity */
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                Intent intent = new Intent(Signup.this, LoginApp.class);
                 startActivity(intent);  // go to LoginActivity
             }
         });
