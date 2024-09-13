@@ -17,8 +17,4 @@ class WelcomeController {
         return "Hello and welcome to COMS 309: " + name;
     }
 
-    @GetMapping("/new_route")
-    public String new_route() {
-        return "This is my new route in the Welcome Controller";
-    }
 }
