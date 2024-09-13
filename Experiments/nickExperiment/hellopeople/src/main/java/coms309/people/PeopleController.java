@@ -1,13 +1,6 @@
 package coms309.people;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.HashMap;
@@ -39,6 +32,17 @@ public class PeopleController {
         return peopleList;
     }
 
+    @GetMapping("/people/area_code")
+    public  HashMap<String,Person> getAllPersonsWithCode(@RequestParam("area_code") String area_code) {
+        HashMap<String, Person> res = new HashMap<>();
+        for (Person p : peopleList.values()){
+            if (p.getTelephone().contains(area_code)) {
+                res.put(p.getFirstName(), p);
+            }
+        }
+        return res;
+    }
+
     // THIS IS THE CREATE OPERATION
     // springboot automatically converts JSON input into a person object and 
     // the method below enters it into the list.
@@ -49,7 +53,7 @@ public class PeopleController {
     public  String createPerson(@RequestBody Person person) {
         System.out.println(person);
         peopleList.put(person.getFirstName(), person);
-        return "New person "+ person.getFirstName() + " Saved";
+        return "New person " + person.getFirstName() + " Saved";
     }
 
     // THIS IS THE READ OPERATION
@@ -74,6 +78,13 @@ public class PeopleController {
     @PutMapping("/people/{firstName}")
     public Person updatePerson(@PathVariable String firstName, @RequestBody Person p) {
         peopleList.replace(firstName, p);
+        return peopleList.get(firstName);
+    }
+
+    @PutMapping("/people/{firstName}/telephone")
+    public Person updatePhone(@PathVariable String firstName, @RequestBody Person p) {
+        Person update = peopleList.get(firstName);
+        update.setTelephone(p.getTelephone());
         return peopleList.get(firstName);
     }
 
