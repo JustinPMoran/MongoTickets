@@ -49,49 +49,62 @@ public class Ticket {
 
     // =============================== Getters and Setters for each field ================================== //
 
+    // ID for every ticket returns ticket ID number
     public int getId(){
         return id;
     }
 
+    // Sets the ticket ID
     public void setId(int id){
         this.id = id;
     }
+
+    // Returns the name of the event
     public String getEvent_name() {
         return event_name;
     }
 
+    // Sets the name of the event
     public void setEvent_name(String event_name) {
         this.event_name = event_name;
     }
 
+    // returns the date of the event
     public String getEvent_date() {
         return event_date;
     }
 
+    // sets the events date
     public void setEvent_date(String event_date) {
         this.event_date = event_date;
     }
 
+    // gets the user
     public User getUser(){
         return user;
     }
 
+    
     public void setUser(User User){
         this.user = User;
     }
 
+    // sets the ticket price
     public void setPrice(int price) {
         this.price = price;
     }
 
+    // gets the ticket price
     public int getPrice() {
         return price;
     }
 
+    // Gets the ticket Section 
     public String getSection() {
         return section;
     }
 
+    // Gets the ticket row
     public int getRow() {
         return row;
     }
