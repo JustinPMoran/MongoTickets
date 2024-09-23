@@ -27,6 +27,9 @@ public class Ticket {
     private int id;
     private String event_name;
     private String event_date;
+    private String section;
+    private int price;
+    private int row;
 
     /*
      * @OneToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
