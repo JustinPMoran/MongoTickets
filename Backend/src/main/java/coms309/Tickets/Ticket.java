@@ -36,9 +36,11 @@ public class Ticket {
     @JsonIgnore
     private User user;
 
-    public Ticket(String event_name, String event_date) {
+    public Ticket(String event_name, String event_date, String section, int row) {
         this.event_name = event_name;
         this.event_date = event_date;
+        this.section = section;
+        this.row = row;
 
     }
 
@@ -78,4 +80,19 @@ public class Ticket {
         this.user = User;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public int getRow() {
+        return row;
+    }
 }
