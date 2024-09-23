@@ -36,9 +36,9 @@ class Application {
             User user1 = new User("Anoop", "anoop@iastate.edu");
             User user2 = new User("Nick", "nick@iastate.edu");
             User user3 = new User("Justin", "justin@iastate.edu");
-            Ticket ticket1 = new Ticket("Football", "Sep 23");
-            Ticket ticket2 = new Ticket("Volleyball", "Sep 24");
-            Ticket ticket3 = new Ticket("Basketball", "Oct 15");
+            Ticket ticket1 = new Ticket("Football", "Sep 23","G7", 8);
+            Ticket ticket2 = new Ticket("Volleyball", "Sep 24","A2", 3);
+            Ticket ticket3 = new Ticket("Basketball", "Oct 15","A11",1);
             user1.setTicket(ticket1);
             user2.setTicket(ticket2);
             user3.setTicket(ticket3);
