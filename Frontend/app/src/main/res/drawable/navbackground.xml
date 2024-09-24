@@ -6,7 +6,7 @@
         android:startColor="#383638"
         android:endColor="#313333"
         android:centerX="0.5"
-        android:centerY="0.6">
+        android:centerY="0.5">
         <stop android:offset="0.3" android:color="#FFC3A0" />
         <stop android:offset="0.7" android:color="#00BFFF" />
     </gradient>
