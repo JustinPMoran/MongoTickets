@@ -27,24 +27,17 @@ import org.hibernate.annotations.NotFoundAction;
 import org.springframework.core.style.ToStringCreator;
 
 /**
- * Simple JavaBean domain object representing an owner.
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- * @author Sam Brannen
- * @author Michael Isvy
- * @ModifiedBy Tanmay Ghosh
- * @Modified By Vivek Bengre
+ * Simple JavaBean domain object representing a student.
  */
 @Entity
-@Table(name = "owners")
-public class Owners {
+@Table(name = "student")
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotFound(action = NotFoundAction.IGNORE)
-    private Integer id;
+    private int id;
 
     @Column(name = "first_name")
     @NotFound(action = NotFoundAction.IGNORE)
@@ -54,27 +47,36 @@ public class Owners {
     @NotFound(action = NotFoundAction.IGNORE)
     private String lastName;
 
-    @Column(name = "address")
+    @Column(name = "student_id_number")
     @NotFound(action = NotFoundAction.IGNORE)
-    private String address;
+    private int studentIdNumber;
 
-    @Column(name = "telephone")
+    @Column(name = "year")
     @NotFound(action = NotFoundAction.IGNORE)
-    private String telephone;
+    private int year;
 
-    public Owners(){
-        
+    @Column(name = "experience_level")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private String experienceLevel;
+
+    @Column(name = "grade")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private String grade;
+
+    public Student() {
     }
 
-    public Owners(int id, String firstName, String lastName, String address, String telephone){
+    public Student(int id, String firstName, String lastName, int studentIdNumber, int year, String experienceLevel, String grade) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
-        this.telephone = telephone;
+        this.studentIdNumber = studentIdNumber;
+        this.year = year;
+        this.experienceLevel = experienceLevel;
+        this.grade = grade;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -82,12 +84,8 @@ public class Owners {
         this.id = id;
     }
 
-    public boolean isNew() {
-        return this.id == null;
-    }
-
     public String getFirstName() {
-        return this.firstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
@@ -95,38 +93,57 @@ public class Owners {
     }
 
     public String getLastName() {
-        return this.lastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return this.address;
+    public int getStudentIdNumber() {
+        return studentIdNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStudentIdNumber(int studentIdNumber) {
+        this.studentIdNumber = studentIdNumber;
     }
 
-    public String getTelephone() {
-        return this.telephone;
+    public int getYear() {
+        return year;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setYear(int year) {
+        this.year = year;
     }
+
+    public String getExperienceLevel() {
+        return experienceLevel;
+    }
+
+    public void setExperienceLevel(String experienceLevel) {
+        this.experienceLevel = experienceLevel;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+
 
     @Override
     public String toString() {
         return new ToStringCreator(this)
-
                 .append("id", this.getId())
-                .append("new", this.isNew())
-                .append("lastName", this.getLastName())
                 .append("firstName", this.getFirstName())
-                .append("address", this.address)
-                .append("telephone", this.telephone).toString();
+                .append("lastName", this.getLastName())
+                .append("studentIdNumber", this.studentIdNumber)
+                .append("year", this.year)
+                .append("experienceLevel", this.experienceLevel)
+                .append("grade", this.grade)
+                .toString();
     }
 }
