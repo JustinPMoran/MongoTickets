@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="#191E1F"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -16,8 +16,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/navbackground"
-            app:popupTheme="@style/Theme.Dashbaord.PopupOverlay" />
+            android:background="@drawable/ticket"
+            android:backgroundTint="@null"
+            app:popupTheme="@style/Theme.Dashbaord.PopupOverlay"
+            android:paddingStart="16dp"
+            android:paddingEnd="0dp"/>
+
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
