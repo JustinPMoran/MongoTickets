@@ -1,0 +1,238 @@
+Essentials
+Design & Plan
+Develop
+Google Play
+Community
+Search
+/
+
+
+English
+Android Studio
+Sign in
+Core areas
+UI
+Overview
+Tutorial
+Samples
+Guides
+Try Quick Guides ➡️
+Filter
+
+Updated Mar 25, 2024
+Updated Mar 25, 2024
+Updated Mar 25, 2024
+Android Developers
+Develop
+Core areas
+UI
+Guides
+Was this helpful?
+
+Convert the designs to code in Android Studio 
+
+bookmark_border
+Import design from Figma
+Now, we are going to incorporate the UI Package created in Figma into the Android Studio project. To incorporate the UI Package, copy the share URL that we generated in the previous section into Android Studio’s import wizard.
+
+Download the pre-configured Android Studio project ZIP file (which is the same project as in the Install Relay page).
+
+Double-click the file to unzip it, which creates a folder called HelloFigma. Move it to your home folder..
+
+Go back to Android Studio. Go to File > Open, navigate to your home folder, select HelloFigma, and click Open.
+
+When you open the project, Android Studio may ask you if you trust the project. Click Trust Project.
+
+In Android Studio, select File > New > Import UI Packages….
+
+Import UI Packages… option under the File menu
+In the Import UI Packages dialog, paste the URL of your Figma file and click Next.
+
+Import UI Package dialog
+Note: If you don’t have your Figma URL, repeat the instructions for getting the URL and come back to this dialog.
+Note: If you see a keychain prompt, enter your password and click Allow.
+Keychain system dialog
+Note: If you instead see a dialog about Figma Access Token, proceed with the prompts or repeat instructions to setup your Figma Access Token.
+Wait for the file to download. When successfully downloaded, the component preview is displayed. Click Create.
+
+Note: The above button may say Finish instead of Create, depending on the version of Android Studio you are using.
+Preview of the component
+Notice that new files have been added to your project — these should be committed to source control as part of your project. In the Android view of your project, you’ll see:
+
+UI-packages folder in the Android view
+app/ui-packages/hello_card/*
+All source assets required to describe the component in code. These files are used for code generation in the build step.
+
+app/ui-packages/hello_card/hello_card.json
+The JSON file which contains the definition of the component (including its layout and other properties).
+
+app/ui-packages/hello_card/fonts/*
+Any font files required to support the component in Jetpack Compose.
+
+app/ui-packages/hello_card/*.png or *.jpeg
+Any image assets required to support the component.
+
+app/ui-packages/hello_card/VERSION.txt
+The version of the Relay for Android Studio plugin used to import the UI Package.
+
+app/ui-packages/hello_card/config.json
+The theme used for previews.
+
+Build & generate code
+Click on Make Project button to build your project.
+
+Make Project button in the toolbar
+To view the build result, click the Build tab.
+
+Build tab at bottom of the Android Studio
+Note: For build issues, see this page for common troubleshooting.
+Generated code is now added to your project. Since this is generated code, it should not be committed to source control as part of your project. In the Android view of your project, you can view:
+
+Generated code in the Android view
+app/java (generated)/com/example/hellofigma/hellocard
+Generated Jetpack Compose code and fonts.
+
+app/java (generated)/com/google/relay/compose
+Shared runtime code that is used across all UI Packages.
+
+Open app/java (generated)/com/example/hellofigma/hellocard/HelloCard.kt. This is the generated Jetpack Compose function for the Figma component. You can also preview the component.
+
+The layout, assets, and styling information are now transferred from Figma to code.
+
+Preview of the component
+In the code, the summary added in Figma is now translated to a comment above the generated composable.
+
+ /**
+ * Hello Card component used to display the image and the title content
+ *
+ * This composable was generated from the UI package ‘ hello_card’
+ * Generated code; do not edit directly
+ */
+@Composable
+fun HelloCard(modifier: Modifier = Modifier) {...
+Integrate component & run app
+Now, let’s integrate the component to the main activity.
+
+In app/java/com/example/hellofigma/MainActivity.kt, add to the import section at the top:
+
+import com.example.hellofigma.hellocard.HelloCard
+Further down in the same file, change the following code in the MainActivity class:
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            HelloFigmaTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(color = MaterialTheme.colors.background) {
+                    // Greeting("Android") // Delete this line
+                    HelloCard()  // Add this line
+                }
+            }
+        }
+    }
+}
+Further down in the same file, in the composable’s preview, change one line:
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    HelloFigmaTheme {
+        HelloCard() // Change this line
+    }
+}
+Make sure a device is selected in the toolbar.
+
+Run the project by clicking ▶ in the toolbar.
+
+Run button in the toolbar 
+The emulator will boot up, the project will build, and your app will start.
+
+App preview in the emulator
+Congratulations! You have successfully incorporated your first Figma component into a Jetpack Compose app!
+
+Next step
+Make and propagate design updates
+
+Now that you have an end-to-end working example, let's see how to update the original design and regenerate our code.
+
+Recommended for you
+
+Content parameters
+Jetpack Compose is Android's recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.
+
+Updated Mar 25, 2024
+Make and propagate design updates
+Jetpack Compose is Android's recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.
+
+Updated Mar 25, 2024
+Handling design variants
+Jetpack Compose is Android's recommended modern toolkit for building native UI. It simplifies and accelerates UI development on Android. Quickly bring your app to life with less code, powerful tools, and intuitive Kotlin APIs.
+
+Updated Mar 25, 2024
+Was this helpful?
+
+Content and code samples on this page are subject to the licenses described in the Content License. Java and OpenJDK are trademarks or registered trademarks of Oracle and/or its affiliates.
+
+Last updated 2024-03-25 UTC.
+
+XX
+Follow @AndroidDev on X
+YouTubeYouTube
+Check out Android Developers on YouTube
+LinkedInLinkedIn
+Connect with the Android Developers community on LinkedIn
+More Android
+Android
+Android for Enterprise
+Security
+Source
+News
+Blog
+Podcasts
+Discover
+Gaming
+Machine Learning
+Health & Fitness
+Camera & Media
+Privacy
+5G
+Android Devices
+Large screens
+Wear OS
+ChromeOS devices
+Android for cars
+Android TV
+Releases
+Android 14
+Android 13
+Android 12
+Android 11
+Android 10
+Pie
+Oreo
+Nougat
+Documentation and Downloads
+Android Studio guide
+Developers guides
+API reference
+Download Studio
+Android NDK
+Support
+Report platform bug
+Report documentation bug
+Google Play support
+Join research studies
+Google Developers
+Android
+Chrome
+Firebase
+Google Cloud Platform
+All products
+Privacy
+License
+Brand guidelines
+Get news and tips by email
+Subscribe
+
+English
