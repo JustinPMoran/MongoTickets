@@ -1,24 +1,20 @@
 package coms309.Tickets;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import coms309.Users.User;
 
 /**
- * 
+ *
  * @author Pablo Leguizamo
- */ 
+ */
 
 @Entity
 public class Ticket {
-    
-    /* 
+
+    /*
      * The annotation @ID marks the field below as the primary key for the table created by springboot
      * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
      */
@@ -27,8 +23,10 @@ public class Ticket {
     private int id;
     private String event_name;
     private String event_date;
+    //    @Column(name = "price")
+    private double price;
     private String section;
-    private int price;
+    @Column(name = "`ROW`")
     private int row;
 
     /*
@@ -39,9 +37,10 @@ public class Ticket {
     @JsonIgnore
     private User user;
 
-    public Ticket(String event_name, String event_date, String section, int row) {
+    public Ticket(String event_name, String event_date, double price, String section, int row) {
         this.event_name = event_name;
         this.event_date = event_date;
+        this.price = price;
         this.section = section;
         this.row = row;
 
@@ -52,63 +51,60 @@ public class Ticket {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    // ID for every ticket returns ticket ID number
     public int getId(){
         return id;
     }
 
-    // Sets the ticket ID
     public void setId(int id){
         this.id = id;
     }
 
-    // Returns the name of the event
     public String getEvent_name() {
         return event_name;
     }
 
-    // Sets the name of the event
     public void setEvent_name(String event_name) {
         this.event_name = event_name;
     }
 
-    // returns the date of the event
     public String getEvent_date() {
         return event_date;
     }
 
-    // sets the events date
     public void setEvent_date(String event_date) {
         this.event_date = event_date;
     }
 
-    // gets the user
-    public User getUser(){
-        return user;
-    }
-
-    
-    public void setUser(User User){
-        this.user = User;
-    }
-
-    // sets the ticket price
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    // gets the ticket price
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    // Gets the ticket Section 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public String getSection() {
         return section;
     }
 
-    // Gets the ticket row
+    public void setSection(String section) {
+        this.section = section;
+    }
+
     public int getRow() {
         return row;
     }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

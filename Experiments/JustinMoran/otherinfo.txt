@@ -200,11 +200,7 @@ Privacy
 Android Devices
 Large screens
 Wear OS
-ChromeOS devices
-Android for cars
-Android TV
-Releases
-Android 14
+ChromeOS d
 Android 13
 Android 12
 Android 11
