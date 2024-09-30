@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
  *
  */
 
-//@SpringBootApplication
+@SpringBootApplication
 class Application {
 
     public static void main(String[] args) {
