@@ -1,0 +1,30 @@
+[
+    {
+      "Ticket_Id": 1,
+      "Rows": 12,
+      "Section": "A",
+      "Price": 75.00,
+      "User_Id": 101,
+      "Event_Id": 5001,
+      "isActive": true
+    },
+    {
+      "Ticket_Id": 2,
+      "Rows": 8,
+      "Section": "B",
+      "Price": 50.00,
+      "User_Id": 102,
+      "Event_Id": 5002,
+      "isActive": false
+    },
+    {
+      "Ticket_Id": 3,
+      "Rows": 15,
+      "Section": "C",
+      "Price": 100.00,
+      "User_Id": 103,
+      "Event_Id": 5003,
+      "isActive": true
+    }
+  ]
+  
