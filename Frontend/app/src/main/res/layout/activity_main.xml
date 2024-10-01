@@ -17,13 +17,13 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:background="@drawable/navbackground"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="#222629"
         android:fitsSystemWindows="true"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@color/white"
         app:headerLayout="@layout/nav_header_main"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/activity_main_drawer" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
