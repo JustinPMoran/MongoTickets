@@ -12,7 +12,8 @@
         android:layout_height="221dp"
         app:srcCompat="@drawable/transparent_mongoticketlogo"
         tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="-46dp" />
+        tools:layout_editor_absoluteY="-46dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView2"
@@ -24,7 +25,8 @@
         android:textSize="30sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="114dp" />
+        tools:layout_editor_absoluteY="114dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView3"
@@ -33,7 +35,8 @@
         android:text="_______________________________________________________________________________"
         android:textColor="#779CFF24"
         tools:layout_editor_absoluteX="-57dp"
-        tools:layout_editor_absoluteY="149dp" />
+        tools:layout_editor_absoluteY="149dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView4"
@@ -44,7 +47,8 @@
         android:textColor="#FFFFFF"
         android:textSize="35sp"
         tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="192dp" />
+        tools:layout_editor_absoluteY="192dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress2"
@@ -59,7 +63,8 @@
         android:textColor="#2C5B03"
         android:textColorHint="#2C5B03"
         tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="345dp" />
+        tools:layout_editor_absoluteY="345dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
@@ -74,7 +79,8 @@
         android:textColor="#2C5B03"
         android:textColorHint="#2C5B03"
         tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="254dp" />
+        tools:layout_editor_absoluteY="254dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress3"
@@ -90,7 +96,8 @@
         android:textColorHint="#2C5B03"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="439dp" />
+        tools:layout_editor_absoluteY="439dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button"
@@ -103,7 +110,8 @@
         android:textColor="@color/black"
         app:backgroundTint="@null"
         tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="555dp" />
+        tools:layout_editor_absoluteY="555dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button2"
@@ -115,6 +123,7 @@
         android:textSize="10sp"
         app:backgroundTint="@null"
         tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="635dp" />
+        tools:layout_editor_absoluteY="635dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
