@@ -3,14 +3,9 @@ package coms309.Tickets;
 import java.util.List;
 
 import coms309.Accounts.Account;
+import coms309.Accounts.AccountController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import coms309.Accounts.AccountRepository;
 
@@ -37,11 +32,6 @@ public class TicketController {
         return ticketRepository.findAll();
     }
 
-    @GetMapping(path = "/tickets/{id}")
-    Ticket getTicketById(@PathVariable int id){
-        return ticketRepository.findById(id);
-    }
-
     @PostMapping(path = "/tickets")
     String createTicket(@RequestBody Ticket Ticket){
         if (Ticket == null)
@@ -50,6 +40,12 @@ public class TicketController {
         return success;
     }
 
+    @GetMapping(path = "/tickets/{id}")
+    Ticket getTicketById(@PathVariable int id){
+        return ticketRepository.findById(id);
+    }
+
+
     @PutMapping(path = "/tickets/{id}")
     Ticket updateTicket(@PathVariable int id, @RequestBody Ticket request){
         Ticket ticket = ticketRepository.findById(id);
@@ -57,6 +53,14 @@ public class TicketController {
             return null;
         ticketRepository.save(request);
         return ticketRepository.findById(id);
+    }
+
+    @DeleteMapping(path = "/tickets/{id}")
+    String deleteTicket(@PathVariable int id){
+        Ticket ticket = ticketRepository.findById(id);
+        if(ticket == null) { return failure; }
+        ticketRepository.delete(ticket);
+        return success;
     }
 
 //    @DeleteMapping(path = "/tickets/{id}")
@@ -71,4 +75,15 @@ public class TicketController {
 //        ticketRepository.deleteById(id);
 //        return success;
 //    }
+
+    @PutMapping("/tickets/assign")
+    void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
+        Account account = accountRepository.findById(accountId);
+        Ticket ticket = ticketRepository.findById(ticketId);
+        account.addTicket(ticket);
+        ticket.setAccount(account);
+//        ticketRepository.save(ticket);
+        accountRepository.save(account);
+
+    }
 }
