@@ -1,4 +1,4 @@
-package com.example.dashbaord.ui
+package com.example.dashboard.ui.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.dashboard.R
 import com.example.dashboard.R.*
-import com.example.dashboard.ui.login.LoginFragment
 
 class SignupFragment : Fragment() {
 
