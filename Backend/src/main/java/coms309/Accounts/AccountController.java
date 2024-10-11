@@ -96,7 +96,26 @@ public class AccountController {
         else { return false; }
     }
 
+    @PostMapping ("/user/forgot/password")
+    public void forgotPassword(@RequestParam String email, @RequestParam String pass) {
+        Account user = AccountRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        user.setPassword(pass);
+        AccountRepository.save(user);
+    }
 
-
+    @PutMapping ("/user/change/password")
+    public void changePassword(@RequestParam String email, @RequestParam String pass, @RequestParam String newPass) {
+        Account user = AccountRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        if (user.getPassword().equals(pass)) { // logged in
+            user.setPassword(newPass);
+        }
+        AccountRepository.save(user);
+    }
 
 }
