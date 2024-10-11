@@ -17,12 +17,15 @@
         <action
             android:id="@+id/action_nav_login_to_nav_signup"
             app:destination="@id/nav_signup" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_gall_home"
+            app:destination="@id/nav_gall_home" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_signup"
         android:name="com.example.dashboard.ui.login.SignupFragment"
         tools:layout="@layout/fragment_signup"/>
-
 
     <fragment
         android:id="@+id/nav_gall_home"
