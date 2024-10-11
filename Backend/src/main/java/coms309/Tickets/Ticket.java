@@ -1,10 +1,10 @@
 package coms309.Tickets;
 
+import coms309.Accounts.Account;
+import coms309.Events.Event;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import coms309.Users.User;
 
 /**
  *
@@ -21,29 +21,29 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String event_name;
-    private String event_date;
-    //    @Column(name = "price")
-    private double price;
+    @Column(name = "`row`")
+    private String row;
     private String section;
-    @Column(name = "`ROW`")
-    private int row;
-
+    private double price;
+    private boolean is_active;
     /*
      * @OneToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either User/Ticket objects (Ticket->User->Ticket->...)
      */
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
-    private User user;
+    private Account account;
 
-    public Ticket(String event_name, String event_date, double price, String section, int row) {
-        this.event_name = event_name;
-        this.event_date = event_date;
-        this.price = price;
-        this.section = section;
+    @OneToOne
+//    @JsonIgnore
+    private Event event;
+
+
+    public Ticket(String row, String section, double price, boolean is_active) {
         this.row = row;
-
+        this.section = section;
+        this.price = price;
+        this.is_active = is_active;
     }
 
     public Ticket() {
@@ -51,36 +51,21 @@ public class Ticket {
 
     // =============================== Getters and Setters for each field ================================== //
 
-    public int getId(){
+
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getEvent_name() {
-        return event_name;
+    public String getRow() {
+        return row;
     }
 
-    public void setEvent_name(String event_name) {
-        this.event_name = event_name;
-    }
-
-    public String getEvent_date() {
-        return event_date;
-    }
-
-    public void setEvent_date(String event_date) {
-        this.event_date = event_date;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
+    public void setRow(String row) {
+        this.row = row;
     }
 
     public String getSection() {
@@ -91,20 +76,27 @@ public class Ticket {
         this.section = section;
     }
 
-    public int getRow() {
-        return row;
+    public double getPrice() {
+        return price;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public User getUser() {
-        return user;
+    public boolean isIs_active() {
+        return is_active;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

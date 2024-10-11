@@ -1,4 +1,4 @@
-package coms309.Users;
+package coms309.Accounts;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ import coms309.Tickets.TicketRepository;
  */ 
 
 @RestController
-public class UserController {
+public class AccountController {
 
     @Autowired
-    UserRepository UserRepository;
+    AccountRepository AccountRepository;
 
     @Autowired
     TicketRepository ticketRepository;
@@ -33,53 +33,53 @@ public class UserController {
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/users")
-    List<User> getAllUsers(){
-        return UserRepository.findAll();
+    List<Account> getAllUsers(){
+        return AccountRepository.findAll();
     }
 
     @GetMapping(path = "/user/{id}")
-    User getUserById(@PathVariable int id){
-        return UserRepository.findById(id);
+    Account getUserById(@PathVariable int id){
+        return AccountRepository.findById(id);
     }
 
     @PostMapping(path = "/users")
-    String createUsers(@RequestBody User User){
-        if (User == null)
+    String createUsers(@RequestBody Account Account){
+        if (Account == null)
             return failure;
-        UserRepository.save(User);
+        AccountRepository.save(Account);
         return success;
     }
 
     @PutMapping("/user/{id}")
-    User updateUser(@PathVariable int id, @RequestBody User request){
-        User User = UserRepository.findById(id);
+    Account updateUser(@PathVariable int id, @RequestBody Account request){
+        Account Account = AccountRepository.findById(id);
 
-        if(User == null) {
+        if(Account == null) {
             throw new RuntimeException("User id does not exist");
         }
-        else if (User.getId() != id){
+        else if (Account.getId() != id){
             throw new RuntimeException("path variable id does not match user request id");
         }
 
-        UserRepository.save(request);
-        return UserRepository.findById(id);
+        AccountRepository.save(request);
+        return AccountRepository.findById(id);
     }
 
-    @PutMapping("/Users/{userId}/tickets/{ticketId}")
-    String assignTicketToUser(@PathVariable int userId,@PathVariable int ticketId){
-        User user = UserRepository.findById(userId);
-        Ticket ticket = ticketRepository.findById(ticketId);
-        if(user == null || ticket == null)
-            return failure;
-        ticket.setUser(user);
-        user.setTicket(ticket);
-        UserRepository.save(user);
-        return success;
-    }
+//    @PutMapping("/Users/{userId}/tickets/{ticketId}")
+//    String assignTicketToUser(@PathVariable int userId,@PathVariable int ticketId){
+//        Account account = AccountRepository.findById(userId);
+//        Ticket ticket = ticketRepository.findById(ticketId);
+//        if(account == null || ticket == null)
+//            return failure;
+//        ticket.setUser(account);
+//        account.setTicket(ticket);
+//        AccountRepository.save(account);
+//        return success;
+//    }
 
     @DeleteMapping(path = "/users/{id}")
     String deleteUser(@PathVariable int id){
-        UserRepository.deleteById(id);
+        AccountRepository.deleteById(id);
         return success;
     }
 }
