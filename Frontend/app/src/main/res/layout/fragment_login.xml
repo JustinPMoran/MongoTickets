@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000" >
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="179dp"
+        android:layout_height="220dp"
+        app:srcCompat="@drawable/logo"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="114dp"
+        tools:layout_editor_absoluteY="-37dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/alata"
+        android:text="M O N G O T I C K E T S"
+        android:textColor="#65D107"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="474dp"
+        android:layout_height="36dp"
+        android:text="____________________________________________________________________________"
+        android:textColor="#779CFF24"
+        tools:layout_editor_absoluteX="-57dp"
+        tools:layout_editor_absoluteY="149dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_black"
+        android:text="LOGIN"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="193dp" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress2"
+        android:layout_width="284dp"
+        android:layout_height="67dp"
+        android:background="@drawable/text_background"
+        android:ems="10"
+        android:fontFamily="@font/asap_medium"
+        android:hint="ENTER EMAIL"
+        android:inputType="textEmailAddress"
+        android:padding="10sp"
+        android:textColor="#2C5B03"
+        android:textColorHint="#2C5B03"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="63dp"
+        tools:layout_editor_absoluteY="281dp" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress3"
+        android:layout_width="284dp"
+        android:layout_height="67dp"
+        android:background="@drawable/text_background"
+        android:ems="10"
+        android:fontFamily="@font/asap_medium"
+        android:hint="ENTER PASSWORD"
+        android:inputType="textEmailAddress"
+        android:padding="10sp"
+        android:textColor="#2C5B03"
+        android:textColorHint="#2C5B03"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="63dp"
+        tools:layout_editor_absoluteY="392dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:background="@drawable/text_background_white_outline"
+        android:padding="8dp"
+        android:text="Don't have an account? SIGN UP!"
+        android:textSize="10sp"
+        app:backgroundTint="@null"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="588dp" />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="277dp"
+        android:layout_height="48dp"
+        android:padding="8dp"
+        android:background="@drawable/text_background_white"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/archivo_black"
+        android:text="LOGIN!"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="67dp"
+        tools:layout_editor_absoluteY="508dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
