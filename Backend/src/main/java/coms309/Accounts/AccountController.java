@@ -117,4 +117,27 @@ public class AccountController {
         AccountRepository.save(user);
     }
 
+    @PostMapping ("/signup")
+    void signUp(@RequestBody Account account) {
+        String email = account.getEmail();
+        String password = account.getPassword();
+        String username = account.getUsername();
+
+        if (email == null || password == null || username == null) {
+            throw new RuntimeException("Email and password are required");
+        }
+        AccountRepository.save(account);
+    }
+
+    @PutMapping("/change/username")
+    void changeUsername(@RequestParam String email, @RequestParam String newUsername) {
+        Account account = AccountRepository.findByEmail(email);
+        if (account == null) {
+            throw new RuntimeException("User not found");
+        }
+        account.setUsername(newUsername);
+        AccountRepository.save(account);
+    }
+
+
 }
