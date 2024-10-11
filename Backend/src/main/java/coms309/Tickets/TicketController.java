@@ -2,6 +2,7 @@ package coms309.Tickets;
 
 import java.util.List;
 
+import coms309.Accounts.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import coms309.Users.User;
-import coms309.Users.UserRepository;
+import coms309.Accounts.AccountRepository;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class TicketController {
     TicketRepository ticketRepository;
 
     @Autowired
-    UserRepository userRepository;
+    AccountRepository accountRepository;
     
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
@@ -59,16 +59,16 @@ public class TicketController {
         return ticketRepository.findById(id);
     }
 
-    @DeleteMapping(path = "/tickets/{id}")
-    String deleteTicket(@PathVariable int id){
-
-        // Check if there is an object depending on User and then remove the dependency
-        User user = userRepository.findByTicket_Id(id);
-        user.setTicket(null);
-        userRepository.save(user);
-
-        // delete the ticket if the changes have not been reflected by the above statement
-        ticketRepository.deleteById(id);
-        return success;
-    }
+//    @DeleteMapping(path = "/tickets/{id}")
+//    String deleteTicket(@PathVariable int id){
+//
+//        // Check if there is an object depending on User and then remove the dependency
+//        Account account = accountRepository.findByTicket_Id(id);
+//        account.setTicket(null);
+//        accountRepository.save(account);
+//
+//        // delete the ticket if the changes have not been reflected by the above statement
+//        ticketRepository.deleteById(id);
+//        return success;
+//    }
 }

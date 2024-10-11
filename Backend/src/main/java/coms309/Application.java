@@ -1,9 +1,9 @@
 package coms309;
 
+import coms309.Accounts.Account;
 import coms309.Tickets.Ticket;
 import coms309.Tickets.TicketRepository;
-import coms309.Users.User;
-import coms309.Users.UserRepository;
+import coms309.Accounts.AccountRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,26 +25,29 @@ class Application {
     // Create 3 users with their machines
     /**
      *
-     * @param userRepository repository for the User entity
+     * @param accountRepository repository for the User entity
      * @param ticketRepository repository for the Ticket entity
      * Creates a commandLine runner to enter dummy data into the database
      * As mentioned in User.java just associating the Ticket object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(UserRepository userRepository, TicketRepository ticketRepository) {
+    CommandLineRunner initUser(AccountRepository accountRepository, TicketRepository ticketRepository) {
         return args -> {
-            User user1 = new User("Anoop", "anoop@iastate.edu");
-            User user2 = new User("Nick", "nick@iastate.edu");
-            User user3 = new User("Justin", "justin@iastate.edu");
-            Ticket ticket1 = new Ticket("Football", "Sep 23","G7", 8);
-            Ticket ticket2 = new Ticket("Volleyball", "Sep 24","A2", 3);
-            Ticket ticket3 = new Ticket("Basketball", "Oct 15","A11",1);
-            user1.setTicket(ticket1);
-            user2.setTicket(ticket2);
-            user3.setTicket(ticket3);
-            userRepository.save(user1);
-            userRepository.save(user2);
-            userRepository.save(user3);
+            Account account1 = new Account("Anoop", "pass", "anoop@iastate.edu");
+
+//            User user2 = new User("Nick", "nick@iastate.edu");
+//            User user3 = new User("Justin", "justin@iastate.edu");
+            Ticket ticket1 = new Ticket( "G7", "8", 24.99 , true);
+            Ticket ticket2 = new Ticket( "G6", "9", 25.99 , true);
+//            Ticket ticket2 = new Ticket("Volleyball", "Sep 24", 15.99, "A2", 3);
+//            Ticket ticket3 = new Ticket("Basketball", "Oct 15", 34.99, "A11",1);
+            account1.addTicket(ticket1);
+            account1.addTicket(ticket2);
+//            user2.setTicket(ticket2);
+//            user3.setTicket(ticket3);
+            accountRepository.save(account1);
+//            userRepository.save(user2);
+//            userRepository.save(user3);
 
 
         };
