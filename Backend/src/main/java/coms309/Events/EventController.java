@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 public class EventController {
     @Autowired
-    coms309.Accounts.AccountRepository AccountRepository;
+    AccountRepository AccountRepository;
 
     @Autowired
     TicketRepository TicketRepository;
@@ -30,24 +30,11 @@ public class EventController {
     private String failure = "{\"message\":\"failure\"}";
 
 
-
-
     @GetMapping(path = "/events")
     List<Event> getAllEvents(){ return EventRepository.findAll();}
 
 
-
-
-
-    @GetMapping(path = "/event/{id}")
-    Event getEventById(@PathVariable int id){
-        return EventRepository.findById(id);
-    }
-
-
-
-
-    @PostMapping(path = "/new/event")
+    @PostMapping(path = "/events")
     String createEvent(@RequestBody Event event){
         if (event == null)
             return failure;
@@ -55,8 +42,12 @@ public class EventController {
         return success;
     }
 
+    @GetMapping(path = "/event/{id}")
+    Event getEventById(@PathVariable int id){
+        return EventRepository.findById(id);
+    }
 
-    @PutMapping("/event/{id}")
+    @PutMapping("/events/{id}")
     Event updateEvent(@PathVariable int id, @RequestBody Event request){
         Event event = EventRepository.findById(id);
 
@@ -70,9 +61,6 @@ public class EventController {
         EventRepository.save(request);
         return EventRepository.findById(id);
     }
-
-
-
 
     @DeleteMapping(path = "/events/{id}")
     String deleteEvent(@PathVariable int id){

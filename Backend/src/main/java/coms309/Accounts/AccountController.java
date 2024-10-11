@@ -26,23 +26,24 @@ public class AccountController {
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
-    @GetMapping(path = "/users")
-    List<Account> getAllUsers(){
+    @GetMapping(path = "/accounts")
+    List<Account> getAllAccounts(){
         return AccountRepository.findAll();
     }
 
-    @GetMapping(path = "/user/{id}")
+    @PostMapping(path = "/accounts")
+    String createUsers(@RequestBody Account account){
+        if (account == null)
+            return failure;
+        AccountRepository.save(account);
+        return success;
+    }
+
+    @GetMapping(path = "/account/{id}")
     Account getUserById(@PathVariable int id){
         return AccountRepository.findById(id);
     }
 
-    @PostMapping(path = "/users")
-    String createUsers(@RequestBody Account Account){
-        if (Account == null)
-            return failure;
-        AccountRepository.save(Account);
-        return success;
-    }
 
     @PutMapping("/user/{id}")
     Account updateUser(@PathVariable int id, @RequestBody Account request){
@@ -77,8 +78,6 @@ public class AccountController {
         return success;
     }
 
-
-
     @GetMapping("/user/{id}/tickets")
     List<Ticket> getUserTickets(@PathVariable int id){
         Account account = AccountRepository.findById(id);
@@ -96,7 +95,7 @@ public class AccountController {
         else { return false; }
     }
 
-    @PostMapping ("/user/forgot/password")
+    @PostMapping ("/user/forgot_password")
     public void forgotPassword(@RequestParam String email, @RequestParam String pass) {
         Account user = AccountRepository.findByEmail(email);
         if (user == null) {
@@ -106,7 +105,7 @@ public class AccountController {
         AccountRepository.save(user);
     }
 
-    @PutMapping ("/user/change/password")
+    @PutMapping ("/user/change_password")
     public void changePassword(@RequestParam String email, @RequestParam String pass, @RequestParam String newPass) {
         Account user = AccountRepository.findByEmail(email);
         if (user == null) {

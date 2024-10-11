@@ -32,11 +32,6 @@ public class TicketController {
         return ticketRepository.findAll();
     }
 
-    @GetMapping(path = "/tickets/{id}")
-    Ticket getTicketById(@PathVariable int id){
-        return ticketRepository.findById(id);
-    }
-
     @PostMapping(path = "/tickets")
     String createTicket(@RequestBody Ticket Ticket){
         if (Ticket == null)
@@ -45,6 +40,12 @@ public class TicketController {
         return success;
     }
 
+    @GetMapping(path = "/tickets/{id}")
+    Ticket getTicketById(@PathVariable int id){
+        return ticketRepository.findById(id);
+    }
+
+
     @PutMapping(path = "/tickets/{id}")
     Ticket updateTicket(@PathVariable int id, @RequestBody Ticket request){
         Ticket ticket = ticketRepository.findById(id);
@@ -52,6 +53,14 @@ public class TicketController {
             return null;
         ticketRepository.save(request);
         return ticketRepository.findById(id);
+    }
+
+    @DeleteMapping(path = "/tickets/{id}")
+    String deleteTicket(@PathVariable int id){
+        Ticket ticket = ticketRepository.findById(id);
+        if(ticket == null) { return failure; }
+        ticketRepository.delete(ticket);
+        return success;
     }
 
 //    @DeleteMapping(path = "/tickets/{id}")
@@ -67,24 +76,13 @@ public class TicketController {
 //        return success;
 //    }
 
-
-    @DeleteMapping(path = "/tickets/{id}")
-    String deleteTicket(@PathVariable int id){
-        Ticket ticket = ticketRepository.findById(id);
-        if(ticket == null) { return failure; }
-        ticketRepository.delete(ticket);
-        return success;
-    }
-
-
-
-    @PutMapping("/ticket/assign")
+    @PutMapping("/tickets/assign")
     void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
         Account account = accountRepository.findById(accountId);
         Ticket ticket = ticketRepository.findById(ticketId);
         account.addTicket(ticket);
         ticket.setAccount(account);
-        ticketRepository.save(ticket);
+//        ticketRepository.save(ticket);
         accountRepository.save(account);
 
     }

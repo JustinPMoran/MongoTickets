@@ -39,8 +39,8 @@ public class Account {
      * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
      * @JoinColumn defines the ownership of the foreign key i.e. the User table will have a field called ticket_id
      */
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tickets_id")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
 
 
