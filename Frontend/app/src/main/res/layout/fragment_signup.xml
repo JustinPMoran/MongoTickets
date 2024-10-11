@@ -102,17 +102,6 @@
         android:layout_marginBottom="25dp"
         app:backgroundTint="@null" />
 
-    <Button
-        android:id="@+id/button20"
-        android:layout_width="250dp"
-        android:layout_height="30dp"
-        android:background="@drawable/text_background_white_outline"
-        android:padding="8dp"
-        android:text="already have an account? LOGIN!"
-        android:textSize="10sp"
-        android:layout_gravity="center_horizontal"
-        app:backgroundTint="@null" />
-
 
 
 </LinearLayout>

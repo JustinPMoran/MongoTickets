@@ -20,7 +20,7 @@ class SignupFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
         // Find the sign-up button
-        val signUpButton: Button = view.findViewById(R.id.button20)
+        val signUpButton: Button = view.findViewById(R.id.button)
 
         // Set click listener for the sign-up button
         signUpButton.setOnClickListener {
