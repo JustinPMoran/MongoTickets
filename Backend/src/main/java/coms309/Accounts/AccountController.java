@@ -39,6 +39,12 @@ public class AccountController {
         return success;
     }
 
+    @DeleteMapping(path = "/accounts")
+    String deleteUsers(){
+        AccountRepository.deleteAll();
+        return success;
+    }
+
     @GetMapping(path = "/accounts/{id}")
     Account getUserById(@PathVariable int id){
         return AccountRepository.findById(id);

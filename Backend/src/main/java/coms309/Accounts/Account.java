@@ -1,5 +1,6 @@
 package coms309.Accounts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import coms309.Tickets.Ticket;
@@ -42,6 +43,15 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 //    @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
+
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(
+            name = "friendships",
+            joinColumns = @JoinColumn(name = "account_id_1"),
+            inverseJoinColumns = @JoinColumn(name = "account_id_2")
+    )
+    private List<Account> friends;
 
 
 
@@ -139,5 +149,13 @@ public class Account {
     }
     public void addTicket(Ticket ticket){
         this.tickets.add(ticket);
+    }
+
+    public List<Account> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<Account> friends) {
+        this.friends = friends;
     }
 }

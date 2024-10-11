@@ -45,7 +45,7 @@ class Application {
             account1.addTicket(ticket2);
 //            user2.setTicket(ticket2);
 //            user3.setTicket(ticket3);
-            accountRepository.save(account1);
+//            accountRepository.save(account1);
 //            userRepository.save(user2);
 //            userRepository.save(user3);
 
