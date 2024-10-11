@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_signup"
-        android:name="com.example.dashboard.ui.login.LoginFragment"
+        android:name="com.example.dashboard.ui.login.SignupFragment"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signup_to_login"

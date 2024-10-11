@@ -18,22 +18,27 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-        // Find the sign-up button
-        val signUpButton: Button = view.findViewById(R.id.button2)
+        // Find the signup button
+        val signupButton: Button = view.findViewById(R.id.button2)
 
-        // Set click listener for the sign-up button
-        signUpButton.setOnClickListener {
-            // Create an instance of SignupFragment
-            val signUpFragment = SignupFragment()
-
-            // Replace the current fragment with SignupFragment
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.nav_signup, signUpFragment)
-                addToBackStack(null)
-                commit()
-            }
+        // Set click listener for the signup button
+        signupButton.setOnClickListener {
+            // Navigate to SignupFragment
+            navigateToSignup()
         }
 
         return view
+    }
+
+    private fun navigateToSignup() {
+        // Create an instance of SignupFragment
+        val signupFragment = SignupFragment()
+
+        // Replace the current fragment with SignupFragment
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.nav_home, signupFragment) // Use the correct container ID
+            addToBackStack(null) // Add to back stack if you want to allow back navigation
+            commit()
+        }
     }
 }
