@@ -2,19 +2,19 @@ package com.example.dashbaord
 
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.dashbaord.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -26,24 +26,40 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+//        binding.appBarMain.fab.setOnClickListener { makeHttpRequest() }
+
+        val drawer = binding.drawerLayout
+        val navigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
-            ), drawerLayout
+
+        appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
         )
+            .setOpenableLayout(drawer)
+            .build()
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navigationView.setupWithNavController(navController)
+
+//        val url = "coms-3090-074.class.las.iastate.edu:8080/tickets"
+
+//        button = findViewById<string>(buttonTESTINGpenisbuttonTESTINGpenis)
     }
+
+//    private fun makeHttpRequest() {
+//        val url = "coms-3090-074.class.las.iastate.edu:8080/tickets" // Replace with your API endpoint
+//
+//        val jsonObjectRequest = JsonObjectRequest(
+//            Request.Method.GET, url, null,
+//            { response -> // Handle the successful response
+//                Toast.makeText(this@MainActivity, "Response: $response", Toast.LENGTH_LONG).show()
+//            },
+//            { error -> // Handle the error
+//                Toast.makeText(this@MainActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
+//            })
+//
+//        // Add the request to the RequestQueue
+//        Volley.newRequestQueue(this).add(jsonObjectRequest)
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

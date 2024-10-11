@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/alata</item>
+        <item>@font/alatsi</item>
+        <item>@font/anek_tamil_thin</item>
+        <item>@font/archivo_black</item>
+        <item>@font/asap_medium</item>
+        <item>@font/asap_thin</item>
+    </array>
+</resources>

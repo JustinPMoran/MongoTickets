@@ -161,6 +161,9 @@
             android:src="@drawable/concert"
             android:contentDescription="Event Image" />
 
+
+
+
         <View
             android:id="@+id/tint_overlay"
             android:layout_width="match_parent"
@@ -178,6 +181,7 @@
             android:padding="8dp"
             android:gravity="left"
             android:layout_gravity="top" />
+
     </FrameLayout>
 
     <TextView
@@ -194,6 +198,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/buttonTESTING"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="141dp"
+        android:text="PRESS THIS"
+        tools:layout_editor_absoluteY="458dp"
+        tools:ignore="MissingConstraints" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -212,7 +225,14 @@
 
     </FrameLayout>
 
-
+    <TextView
+        android:id="@+id/tvTESTING"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vdhiv hiv hre hresn jins"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-5dp"
+        tools:layout_editor_absoluteY="474dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
