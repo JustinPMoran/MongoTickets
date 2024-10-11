@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.dashboard.R
 
 class LoginFragment : Fragment() {
@@ -23,22 +24,10 @@ class LoginFragment : Fragment() {
 
         // Set click listener for the signup button
         signupButton.setOnClickListener {
-            // Navigate to SignupFragment
-            navigateToSignup()
+            // Navigate to SignupFragment using Navigation Component
+            findNavController().navigate(R.id.action_nav_login_to_nav_signup)
         }
 
         return view
-    }
-
-    private fun navigateToSignup() {
-        // Create an instance of SignupFragment
-        val signupFragment = SignupFragment()
-
-        // Replace the current fragment with SignupFragment
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.nav_home, signupFragment) // Use the correct container ID
-            addToBackStack(null) // Add to back stack if you want to allow back navigation
-            commit()
-        }
     }
 }

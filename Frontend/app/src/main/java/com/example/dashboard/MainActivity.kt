@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         // Hide toolbar and navigation drawer on login/signup fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.nav_signup || destination.id == R.id.nav_home) {
+            if (destination.id == R.id.nav_signup || destination.id == R.id.nav_login) {
                 supportActionBar?.hide()
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             } else {
