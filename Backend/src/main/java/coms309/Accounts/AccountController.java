@@ -4,13 +4,7 @@ import java.util.List;
 
 import coms309.Tickets.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import coms309.Tickets.TicketRepository;
 
@@ -27,7 +21,7 @@ public class AccountController {
     AccountRepository AccountRepository;
 
     @Autowired
-    TicketRepository ticketRepository;
+    TicketRepository TicketRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
@@ -82,4 +76,27 @@ public class AccountController {
         AccountRepository.deleteById(id);
         return success;
     }
+
+
+
+    @GetMapping("/user/{id}/tickets")
+    List<Ticket> getUserTickets(@PathVariable int id){
+        Account account = AccountRepository.findById(id);
+        if (account == null) {throw new RuntimeException("User not found");}
+        return account.getTickets();
+    }
+
+
+
+    @PostMapping("/user/login")
+    public boolean loginByEmail(@RequestParam String email, @RequestParam String pass) {
+        Account acc = AccountRepository.findByEmail(email);
+        if (acc == null) { throw new RuntimeException("User not found"); }
+        if (acc.getPassword().equals(pass)) {return true;}
+        else { return false; }
+    }
+
+
+
+
 }

@@ -14,5 +14,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     void deleteById(int id);
 
+    Account findByEmail(String email);
+
 //    Account findByTicket_Id(int id);
 }
