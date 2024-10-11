@@ -131,11 +131,10 @@ public class AccountController {
     }
 
     @PostMapping("/accounts/login")
-    public boolean loginByEmail(@RequestParam String email, @RequestParam String pass) {
+    public boolean loginByEmail(@RequestParam String email, @RequestParam String password) {
         Account acc = AccountRepository.findByEmail(email);
-        if (acc == null) { throw new RuntimeException("User not found"); }
-        if (acc.getPassword().equals(pass)) {return true;}
-        else { return false; }
+        if (acc == null) {return false; }
+        return acc.getPassword().equals(password);
     }
 
 
