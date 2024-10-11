@@ -3,22 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_signup">
+    app:startDestination="@+id/nav_login">
 
+    <action
+        android:id="@+id/action_nav_signup_to_nav_login"
+        app:destination="@id/nav_login" />
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.dashboard.ui.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_signup"
+            app:destination="@id/nav_signup" />
+    </fragment>
     <fragment
         android:id="@+id/nav_signup"
         android:name="com.example.dashboard.ui.login.SignupFragment"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signup_to_login"
-            app:destination="@id/nav_home" />
-    </fragment>
+        tools:layout="@layout/fragment_signup"/>
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.dashboard.ui.login.SignupFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/nav_gall_home"
@@ -37,7 +41,6 @@
         android:name="com.example.dashboard.ui.events.EventsFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_events">
-        <!-- Action to navigate from EventsFragment to EventDetailsFragment -->
         <action
             android:id="@+id/action_eventsFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />

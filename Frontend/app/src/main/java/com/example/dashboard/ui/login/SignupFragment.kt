@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.dashboard.R
 
 class SignupFragment : Fragment() {
@@ -16,22 +17,15 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
+        val view = inflater.inflate(R.layout.fragment_signup, container, false)
 
         // Find the sign-up button
-        val signUpButton: Button = view.findViewById(R.id.button2)
+        val signUpButton: Button = view.findViewById(R.id.button20)
 
         // Set click listener for the sign-up button
         signUpButton.setOnClickListener {
-            // Create an instance of SignupFragment
-            val signUpFragment = SignupFragment()
-
-            // Replace the current fragment with SignupFragment
-            parentFragmentManager.beginTransaction().apply {
-                replace(R.id.nav_signup, signUpFragment)
-                addToBackStack(null)
-                commit()
-            }
+            // Navigate back to LoginFragment
+            findNavController().navigate(R.id.action_nav_signup_to_nav_login)
         }
 
         return view
