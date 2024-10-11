@@ -6,14 +6,20 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_gallery_home"
         android:name="com.example.dashboard.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.dashboard.ui.login.LoginFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
         android:id="@+id/nav_signup"
-        android:name="com.example.dashbaord.ui.SignupFragment"
+        android:name="com.example.dashboard.ui.login.SignupFragment"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signup_to_login"

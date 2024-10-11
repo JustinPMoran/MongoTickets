@@ -1,4 +1,4 @@
-package com.example.dashbaord.ui
+package com.example.dashboard.ui.login
 
 import android.annotation.SuppressLint
 import android.os.Bundle
