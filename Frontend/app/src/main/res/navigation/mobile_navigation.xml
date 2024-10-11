@@ -18,7 +18,7 @@
         android:id="@+id/nav_home"
         android:name="com.example.dashboard.ui.login.SignupFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_signup" />
+        tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/nav_gall_home"

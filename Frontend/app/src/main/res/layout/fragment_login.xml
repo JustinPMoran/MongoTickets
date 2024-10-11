@@ -100,4 +100,10 @@
         android:layout_gravity="center_horizontal"
         app:backgroundTint="@null" />
 
+    <FrameLayout
+        android:id="@+id/nav_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

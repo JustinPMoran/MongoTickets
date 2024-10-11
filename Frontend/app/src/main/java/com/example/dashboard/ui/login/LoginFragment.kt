@@ -22,17 +22,17 @@ class LoginFragment : Fragment() {
         val signUpButton: Button = view.findViewById(R.id.button2)
 
         // Set click listener for the sign-up button
-//        signUpButton.setOnClickListener {
-//            // Create an instance of SignupFragment
-//            val signUpFragment = SignupFragment()
-//
-//            // Replace the current fragment with SignupFragment
-//            parentFragmentManager.beginTransaction().apply {
-//                replace(R.id.fragment_container, signUpFragment)
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
+        signUpButton.setOnClickListener {
+            // Create an instance of SignupFragment
+            val signUpFragment = SignupFragment()
+
+            // Replace the current fragment with SignupFragment
+            parentFragmentManager.beginTransaction().apply {
+                replace(R.id.nav_signup, signUpFragment)
+                addToBackStack(null)
+                commit()
+            }
+        }
 
         return view
     }
