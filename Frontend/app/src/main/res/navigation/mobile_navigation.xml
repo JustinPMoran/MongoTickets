@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_signup"
-        android:name="com.example.dashboard.ui.login.SignupFragment"
+        android:name="com.example.dashboard.ui.login.LoginFragment"
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signup_to_login"
@@ -16,9 +16,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.dashboard.ui.login.LoginFragment"
+        android:name="com.example.dashboard.ui.login.SignupFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_signup" />
 
     <fragment
         android:id="@+id/nav_gall_home"
