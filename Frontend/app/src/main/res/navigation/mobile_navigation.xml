@@ -3,7 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_signup">
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.example.dashboard.ui.login.SignupFragment"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signup_to_login"
+            app:destination="@id/nav_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_home"
@@ -16,16 +25,6 @@
         android:name="com.example.dashboard.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
-
-    <fragment
-        android:id="@+id/nav_signup"
-        android:name="com.example.dashboard.ui.login.SignupFragment"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signup_to_login"
-            app:destination="@id/nav_home" />
-    </fragment>
-
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -49,5 +48,4 @@
         android:name="com.example.dashboard.ui.events.EventDetailsFragment"
         android:label="Event Details"
         tools:layout="@layout/fragment_event_details" />
-
 </navigation>

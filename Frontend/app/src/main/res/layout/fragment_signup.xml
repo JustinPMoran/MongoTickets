@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000" >
+    android:orientation="vertical"
+    android:background="#000000">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="185dp"
         android:layout_height="221dp"
-        app:srcCompat="@drawable/logo"
-        tools:layout_editor_absoluteX="106dp"
-        tools:layout_editor_absoluteY="-46dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView2"
@@ -24,19 +23,14 @@
         android:textColor="#65D107"
         android:textSize="30sp"
         android:textStyle="bold"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="51dp"
-        tools:layout_editor_absoluteY="114dp" />
+        android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="474dp"
-        android:layout_height="36dp"
-        android:text="_______________________________________________________________________________"
-        android:textColor="#779CFF24"
-        tools:layout_editor_absoluteX="-57dp"
-        tools:layout_editor_absoluteY="149dp"
-        tools:ignore="MissingConstraints" />
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#779CFF24"
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/textView4"
@@ -46,72 +40,58 @@
         android:text="SIGNUP"
         android:textColor="#FFFFFF"
         android:textSize="35sp"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="192dp"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editTextTextEmailAddress2"
-        android:layout_width="284dp"
-        android:layout_height="67dp"
-        android:background="@drawable/text_background"
-        android:ems="10"
-        android:fontFamily="@font/asap_medium"
-        android:hint="ENTER EMAIL"
-        android:inputType="textEmailAddress"
-        android:padding="10sp"
-        android:textColor="#2C5B03"
-        android:textColorHint="#2C5B03"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="345dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="284dp"
         android:layout_height="67dp"
         android:background="@drawable/text_background"
-        android:ems="10"
         android:fontFamily="@font/asap_medium"
         android:hint="ENTER USERNAME"
         android:inputType="textEmailAddress"
         android:padding="10sp"
         android:textColor="#2C5B03"
         android:textColorHint="#2C5B03"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="254dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress2"
+        android:layout_width="284dp"
+        android:layout_height="67dp"
+        android:background="@drawable/text_background"
+        android:fontFamily="@font/asap_medium"
+        android:hint="ENTER EMAIL"
+        android:inputType="textEmailAddress"
+        android:padding="10sp"
+        android:textColor="#2C5B03"
+        android:textColorHint="#2C5B03"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/editTextTextEmailAddress3"
         android:layout_width="284dp"
         android:layout_height="67dp"
         android:background="@drawable/text_background"
-        android:ems="10"
         android:fontFamily="@font/asap_medium"
         android:hint="ENTER PASSWORD"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:padding="10sp"
         android:textColor="#2C5B03"
         android:textColorHint="#2C5B03"
         android:textStyle="bold"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="439dp" />
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="277dp"
         android:layout_height="42dp"
         android:background="@drawable/text_background_white"
-        android:backgroundTint="#FFFFFF"
         android:fontFamily="@font/archivo_black"
         android:text="SIGNUP!"
         android:textColor="@color/black"
-        app:backgroundTint="@null"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="555dp" />
+        android:layout_gravity="center_horizontal"
+        app:backgroundTint="@null" />
 
     <Button
         android:id="@+id/button20"
@@ -121,9 +101,7 @@
         android:padding="1dp"
         android:text="already have an account? LOGIN!"
         android:textSize="10sp"
-        app:backgroundTint="@null"
-        tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="635dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_gravity="center_horizontal"
+        app:backgroundTint="@null" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
