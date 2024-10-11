@@ -118,15 +118,16 @@ public class AccountController {
     }
 
     @PostMapping ("/accounts/signup")
-    void signUp(@RequestBody Account account) {
+    String signUp(@RequestBody Account account) {
         String email = account.getEmail();
         String password = account.getPassword();
         String username = account.getUsername();
 
         if (email == null || password == null || username == null) {
-            throw new RuntimeException("Email and password are required");
+            return "Invalid Input";
         }
         AccountRepository.save(account);
+        return success;
     }
 
     @PostMapping("/accounts/login")
