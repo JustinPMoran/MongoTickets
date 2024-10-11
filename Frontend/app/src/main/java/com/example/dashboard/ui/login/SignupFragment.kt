@@ -8,11 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import api.ApiResponse
-import com.example.dashboard.R
+import androidx.navigation.fragment.findNavController
 import api.RetrofitClient
 import api.SignupRequest
-import api.UserApiService
+import com.example.dashboard.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,17 +42,18 @@ class SignupFragment : Fragment() {
                 // Make the signup request
                 val userApiService = RetrofitClient.getUserApiService()
                 val call = userApiService.signupUser(signupRequest)
-                call.enqueue(object : Callback<ApiResponse> {
-                    override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                        if (response.isSuccessful && response.body()?.success == true) {
+                call.enqueue(object : Callback<Unit> {
+                    override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                        if (response.isSuccessful) {
                             Toast.makeText(context, "Signup successful!", Toast.LENGTH_SHORT).show()
-                            // You can navigate to the login fragment or home here
+                            // Navigate to login fragment after successful signup
+                            findNavController().navigate(R.id.action_nav_signup_to_nav_login)
                         } else {
-                            Toast.makeText(context, "Signup failed: ${response.body()?.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Signup failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }
                     }
 
-                    override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<Unit>, t: Throwable) {
                         Toast.makeText(context, "Signup request failed: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })

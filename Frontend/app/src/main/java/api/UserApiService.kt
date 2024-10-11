@@ -13,5 +13,5 @@ interface UserApiService {
     fun loginUser(@Body loginRequest: LoginRequest): Call<ApiResponse>
 
     @POST("accounts/signup")
-    fun signupUser(@Body signupRequest: SignupRequest): Call<ApiResponse>
+    fun signupUser(@Body signupRequest: SignupRequest): Call<Unit>
 }
