@@ -42,7 +42,7 @@ public class EventController {
         return success;
     }
 
-    @GetMapping(path = "/event/{id}")
+    @GetMapping(path = "/events/{id}")
     Event getEventById(@PathVariable int id){
         return EventRepository.findById(id);
     }
