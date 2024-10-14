@@ -48,10 +48,14 @@ public class TicketController {
 
     @PutMapping(path = "/tickets/{id}")
     Ticket updateTicket(@PathVariable int id, @RequestBody Ticket request){
-        Ticket ticket = ticketRepository.findById(id);
-        if(ticket == null)
-            return null;
-        ticketRepository.save(request);
+        Ticket t = ticketRepository.findById(id);
+        if(t == null) {return null;}
+        t.setPrice(request.getPrice());
+        t.setRow(request.getRow());
+        t.setSection(request.getSection());
+        t.setIs_active(request.isIs_active());
+
+        ticketRepository.save(t);
         return ticketRepository.findById(id);
     }
 
