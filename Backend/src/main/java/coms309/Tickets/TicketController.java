@@ -40,6 +40,12 @@ public class TicketController {
         return success;
     }
 
+    @DeleteMapping(path = "/tickets")
+    String deleteUsers(){
+        ticketRepository.deleteAll();
+        return success;
+    }
+
     @GetMapping(path = "/tickets/{id}")
     Ticket getTicketById(@PathVariable int id){
         return ticketRepository.findById(id);
@@ -62,7 +68,7 @@ public class TicketController {
     @DeleteMapping(path = "/tickets/{id}")
     String deleteTicket(@PathVariable int id){
         Ticket ticket = ticketRepository.findById(id);
-        if(ticket == null) { return failure; }
+        if(ticket == null)  return failure;
         ticketRepository.delete(ticket);
         return success;
     }

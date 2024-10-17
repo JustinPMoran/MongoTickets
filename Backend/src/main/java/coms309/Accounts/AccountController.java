@@ -18,52 +18,50 @@ import coms309.Tickets.TicketRepository;
 public class AccountController {
 
     @Autowired
-    AccountRepository AccountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    TicketRepository TicketRepository;
+    TicketRepository ticketRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
     @GetMapping(path = "/accounts")
     List<Account> getAllAccounts(){
-        return AccountRepository.findAll();
+        return accountRepository.findAll();
     }
 
     @PostMapping(path = "/accounts")
     String createUsers(@RequestBody Account account){
         if (account == null)
             return failure;
-        AccountRepository.save(account);
+        accountRepository.save(account);
         return success;
     }
 
     @DeleteMapping(path = "/accounts")
     String deleteUsers(){
-        AccountRepository.deleteAll();
+        accountRepository.deleteAll();
         return success;
     }
 
     @GetMapping(path = "/accounts/{id}")
     Account getUserById(@PathVariable int id){
-        return AccountRepository.findById(id);
+        return accountRepository.findById(id);
     }
 
 
     @PutMapping("/accounts/{id}")
-    Account updateUser(@PathVariable int id, @RequestBody Account request){
-        Account Account = AccountRepository.findById(id);
+    String updateUser(@PathVariable int id, @RequestBody Account request){
+        Account account = accountRepository.findById(id);
 
-        if(Account == null) {
-            throw new RuntimeException("User id does not exist");
-        }
-        else if (Account.getId() != id){
-            throw new RuntimeException("path variable id does not match user request id");
-        }
+        if(account == null)
+            return failure;
+        else if (request.getId() != id)
+            return failure;
 
-        AccountRepository.save(request);
-        return AccountRepository.findById(id);
+        accountRepository.save(request);
+        return success;
     }
 
 //    @PutMapping("/Users/{userId}/tickets/{ticketId}")
@@ -80,47 +78,47 @@ public class AccountController {
 
     @DeleteMapping(path = "/accounts/{id}")
     String deleteUser(@PathVariable int id){
-        AccountRepository.deleteById(id);
+        accountRepository.deleteById(id);
         return success;
     }
 
     @GetMapping("/accounts/{id}/tickets")
     List<Ticket> getUserTickets(@PathVariable int id){
-        Account account = AccountRepository.findById(id);
+        Account account = accountRepository.findById(id);
         if (account == null) {throw new RuntimeException("User not found");}
         return account.getTickets();
     }
 
     @PostMapping ("/accounts/forgot_password")
     public void forgotPassword(@RequestParam String email, @RequestParam String pass) {
-        Account user = AccountRepository.findByEmail(email);
+        Account user = accountRepository.findByEmail(email);
         if (user == null) {
             throw new RuntimeException("User not found");
         }
         user.setPassword(pass);
-        AccountRepository.save(user);
+        accountRepository.save(user);
     }
 
     @PutMapping ("/accounts/change_password")
     public void changePassword(@RequestParam String email, @RequestParam String pass, @RequestParam String newPass) {
-        Account user = AccountRepository.findByEmail(email);
+        Account user = accountRepository.findByEmail(email);
         if (user == null) {
             throw new RuntimeException("User not found");
         }
         if (user.getPassword().equals(pass)) { // logged in
             user.setPassword(newPass);
         }
-        AccountRepository.save(user);
+        accountRepository.save(user);
     }
 
     @PutMapping("/accounts_change_username")
     void changeUsername(@RequestParam String email, @RequestParam String newUsername) {
-        Account account = AccountRepository.findByEmail(email);
+        Account account = accountRepository.findByEmail(email);
         if (account == null) {
             throw new RuntimeException("User not found");
         }
         account.setUsername(newUsername);
-        AccountRepository.save(account);
+        accountRepository.save(account);
     }
 
     @PostMapping ("/accounts/signup")
@@ -132,13 +130,13 @@ public class AccountController {
         if (email == null || password == null || username == null) {
             return "Invalid Input";
         }
-        AccountRepository.save(account);
+        accountRepository.save(account);
         return success;
     }
 
     @PostMapping("/accounts/login")
     String loginByEmail(@RequestParam String email, @RequestParam String password) {
-        Account acc = AccountRepository.findByEmail(email);
+        Account acc = accountRepository.findByEmail(email);
         if (acc == null) {return failure; }
         if (acc.getPassword().equals(password)) {
             return success;

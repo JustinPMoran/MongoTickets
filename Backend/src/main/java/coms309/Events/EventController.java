@@ -1,8 +1,6 @@
 package coms309.Events;
 
-import coms309.Accounts.Account;
 import coms309.Accounts.AccountRepository;
-import coms309.Tickets.Ticket;
 import coms309.Tickets.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,53 +16,56 @@ import java.util.List;
 @RestController
 public class EventController {
     @Autowired
-    AccountRepository AccountRepository;
+    AccountRepository accountRepository;
 
     @Autowired
-    TicketRepository TicketRepository;
+    TicketRepository ticketRepository;
 
     @Autowired
-    EventRepository EventRepository;
+    EventRepository eventRepository;
 
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
 
 
     @GetMapping(path = "/events")
-    List<Event> getAllEvents(){ return EventRepository.findAll();}
+    List<Event> getAllEvents(){ return eventRepository.findAll();}
 
 
     @PostMapping(path = "/events")
     String createEvent(@RequestBody Event event){
         if (event == null)
             return failure;
-        EventRepository.save(event);
+        eventRepository.save(event);
+        return success;
+    }
+
+    @DeleteMapping(path = "/events")
+    String deleteUsers(){
+        eventRepository.deleteAll();
         return success;
     }
 
     @GetMapping(path = "/events/{id}")
     Event getEventById(@PathVariable int id){
-        return EventRepository.findById(id);
+        return eventRepository.findById(id);
     }
 
     @PutMapping("/events/{id}")
-    Event updateEvent(@PathVariable int id, @RequestBody Event request){
-        Event event = EventRepository.findById(id);
+    String updateEvent(@PathVariable int id, @RequestBody Event request){
+        Event event = eventRepository.findById(id);
+        if(event == null)
+            return failure;
+        else if (request.getId() != id)
+            return failure;
 
-        if(event == null) {
-            throw new RuntimeException("Event id does not exist");
-        }
-        else if (event.getId() != id){
-            throw new RuntimeException("path variable id does not match user request id");
-        }
-
-        EventRepository.save(request);
-        return EventRepository.findById(id);
+        eventRepository.save(request);
+        return success;
     }
 
     @DeleteMapping(path = "/events/{id}")
     String deleteEvent(@PathVariable int id){
-        EventRepository.deleteById(id);
+        eventRepository.deleteById(id);
         return success;
     }
 
