@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import api.EventApiService
@@ -25,8 +27,12 @@ class EventDetailsFragment : Fragment() {
 
         val eventId = arguments?.getInt("eventId") ?: 0
 
+        val eventImage = root.findViewById<ImageView>(R.id.eventImage)
+        val eventNameText = root.findViewById<TextView>(R.id.eventNameText)
         val eventDetailsText = root.findViewById<TextView>(R.id.eventDetailsText)
+        val bookTicketsButton = root.findViewById<Button>(R.id.bookTicketsButton)
 
+        // Assuming we already have a Retrofit instance
         val retrofit = RetrofitClient.retrofitInstance
         val apiService = retrofit.create(EventApiService::class.java)
 
@@ -36,7 +42,11 @@ class EventDetailsFragment : Fragment() {
                 if (response.isSuccessful) {
                     val eventDetails = response.body()
                     eventDetails?.let {
-                        eventDetailsText.text = "Event Name: ${it.name}\nDate: ${it.date}\nLocation: ${it.location}\nDescription: ${it.description}"
+                        // Setting event details in UI
+                        eventNameText.text = it.name
+                        eventDetailsText.text = "Date: ${it.date}\nLocation: ${it.location}\nDescription: ${it.description}"
+                        // Load the image with a library like Glide or Picasso if needed.
+                        // e.g., Glide.with(this).load(it.imageUrl).into(eventImage)
                     }
                 } else {
                     eventDetailsText.text = "Failed to load event details. Error code: ${response.code()}"
@@ -47,6 +57,11 @@ class EventDetailsFragment : Fragment() {
                 eventDetailsText.text = "Failed to load event details. Error: ${t.message}"
             }
         })
+
+        bookTicketsButton.setOnClickListener {
+            // Handle the ticket booking action here
+            // For example, navigate to another fragment or show a dialog
+        }
 
         return root
     }
