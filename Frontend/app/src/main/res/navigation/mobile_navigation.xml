@@ -23,6 +23,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/ticketDetailsFragment"
+        android:name="com.example.dashboard.ui.tickets.TicketDetailsFragment"
+        android:label="Ticket Details"
+        tools:layout="@layout/fragment_ticket_details" />
+
+
+    <fragment
         android:id="@+id/nav_signup"
         android:name="com.example.dashboard.ui.login.SignupFragment"
         tools:layout="@layout/fragment_signup"/>
@@ -53,5 +60,10 @@
         android:id="@+id/eventDetailsFragment"
         android:name="com.example.dashboard.ui.events.EventDetailsFragment"
         android:label="Event Details"
-        tools:layout="@layout/fragment_event_details" />
+        tools:layout="@layout/fragment_event_details">
+    <action
+        android:id="@+id/action_eventDetailsFragment_to_ticketDetailsFragment"
+        app:destination="@id/ticketDetailsFragment" />
+    </fragment>
+
 </navigation>
