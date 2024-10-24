@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-</selector>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:type="radial"
+                android:gradientRadius="1000"
+                android:startColor="#2E8B57"
+                android:endColor="#006400"
+                android:centerX="0.5"
+                android:centerY="0.5">
+                <stop android:offset="0.3" android:color="#90EE90" />
+                <stop android:offset="0.7" android:color="#228B22" />
+            </gradient>
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/fullgreen"
+            android:tileMode="disabled"
+            android:gravity="center"
+            android:alpha="128" />
+    </item>
+</layer-list>

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#191E1F"
+    android:background="@drawable/login_bg"
     android:padding="16dp">
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="179dp"
-        android:layout_height="220dp"
+        android:layout_width="65dp"
+        android:layout_height="87dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="0dp"
         app:srcCompat="@drawable/logo" />
@@ -25,7 +25,7 @@
         android:textColor="#65D107"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginTop="-15dp"
+        android:layout_marginTop="8dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="8dp" />
 
