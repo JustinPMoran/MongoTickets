@@ -158,4 +158,12 @@ public class Account {
     public void setFriends(List<Account> friends) {
         this.friends = friends;
     }
+
+    public void addFriend(Account friend){
+        this.friends.add(friend);
+    }
+
+    public void removeFriend(Account friend){
+        this.friends.remove(friend);
+    }
 }

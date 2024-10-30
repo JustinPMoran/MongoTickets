@@ -31,4 +31,18 @@ public class FriendController {
         accountRepository.save(friend);
         return user;
     }
+
+    @DeleteMapping(path = "/remove_friendship/{id1}/{id2}")
+    public void removeFriend(@PathVariable int id1, @PathVariable int id2) {
+        Account user = accountRepository.findById(id1);
+        Account friend = accountRepository.findById(id2);
+
+        user.getFriends().remove(friend);
+        friend.getFriends().remove(user);
+        accountRepository.save(user);
+        accountRepository.save(friend);
+
+    }
+
+
 }
