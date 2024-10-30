@@ -1,0 +1,64 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#191E1F"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.friends.FriendsFragment">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#191E1F"
+    android:padding="16dp">
+
+    <!-- Search bar for finding friends -->
+    <EditText
+        android:id="@+id/search_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search friends"
+        android:padding="8dp"
+        android:background="@drawable/search_background"
+        android:layout_marginBottom="16dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#9E9E9E"/>
+
+    <!-- Add Friend Button -->
+    <Button
+        android:id="@+id/button_add_friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Friend"
+        android:layout_gravity="center"
+        android:backgroundTint="#177A47"
+        android:textColor="#ffffff"
+        android:padding="12dp"/>
+
+    <!-- Text input for friend's username (initially hidden) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/username_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_text_friend_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter friend's username"
+            android:textColor="#ffffff"
+            android:textColorHint="#9E9E9E"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- RecyclerView to display list of friends -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/friends_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        android:padding="8dp"/>
+</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

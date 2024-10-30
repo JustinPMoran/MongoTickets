@@ -9,6 +9,7 @@
         android:id="@+id/action_nav_signup_to_nav_login"
         app:destination="@id/nav_login" />
 
+
     <fragment
         android:id="@+id/nav_login"
         android:name="com.example.dashboard.ui.login.LoginFragment"
@@ -47,6 +48,15 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/nav_friends"
+        android:name="com.example.dashboard.ui.friends.FriendsFragment"
+        android:label="Friends"
+        tools:layout="@layout/fragment_friends">
+    </fragment>
+
+
+
+    <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.dashboard.ui.events.EventsFragment"
         android:label="@string/menu_slideshow"
@@ -65,5 +75,9 @@
         android:id="@+id/action_eventDetailsFragment_to_ticketDetailsFragment"
         app:destination="@id/ticketDetailsFragment" />
     </fragment>
+
+
+
+
 
 </navigation>
