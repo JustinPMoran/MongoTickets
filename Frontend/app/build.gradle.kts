@@ -41,7 +41,7 @@ android {
 
 dependencies {
 
-
+    implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.androidx.navigation.fragment.ktx.v282)

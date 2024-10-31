@@ -1,6 +1,7 @@
 package com.example.dashboard.ui.events
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,17 +25,19 @@ class EventDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_event_details, container, false)
-
-        val eventId = arguments?.getInt("eventId") ?: 0
+        val eventId = 8
         val eventDetailsText = root.findViewById<TextView>(R.id.eventDetailsText)
         val bookTicketsButton = root.findViewById<Button>(R.id.bookTicketsButton)
 
         val retrofit = RetrofitClient.retrofitInstance
         val apiService = retrofit.create(EventApiService::class.java)
 
+        // Start the API call
         val call = apiService.getEventDetails(eventId)
         call.enqueue(object : Callback<EventDetails> {
             override fun onResponse(call: Call<EventDetails>, response: Response<EventDetails>) {
+                Log.d("EventDetailsFragment", "Response received in ${response.raw().receivedResponseAtMillis - response.raw().sentRequestAtMillis} ms")
+
                 if (response.isSuccessful) {
                     val eventDetails = response.body()
                     eventDetails?.let {
@@ -48,12 +51,16 @@ class EventDetailsFragment : Fragment() {
                         }
                     }
                 } else {
-                    eventDetailsText.text = "Failed to load event details. Error code: ${response.code()}"
+                    val errorMessage = "Failed to load event details. Error code: ${response.code()}"
+                    eventDetailsText.text = errorMessage
+                    Log.e("EventDetailsFragment", errorMessage)
                 }
             }
 
             override fun onFailure(call: Call<EventDetails>, t: Throwable) {
-                eventDetailsText.text = "Failed to load event details. Error: ${t.message}"
+                val errorMessage = "Failed to load event details. Error: ${t.message}"
+                eventDetailsText.text = errorMessage
+                Log.e("EventDetailsFragment", errorMessage, t)
             }
         })
 
