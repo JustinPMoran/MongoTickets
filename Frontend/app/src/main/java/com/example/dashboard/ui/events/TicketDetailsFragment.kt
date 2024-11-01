@@ -1,4 +1,4 @@
-package com.example.dashboard.ui.tickets
+package com.example.dashboard.ui.events
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -31,7 +31,7 @@ class TicketDetailsFragment : Fragment() {
         val increaseQuantityButton = root.findViewById<Button>(R.id.increaseQuantityButton)
         val decreaseQuantityButton = root.findViewById<Button>(R.id.decreaseQuantityButton)
 
-        val eventId = arguments?.getInt("eventId") ?: 0
+        val eventId = 8
 
         // Set initial ticket quantity
         var ticketQuantity = 1

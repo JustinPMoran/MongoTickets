@@ -12,10 +12,10 @@ data class SignupRequest(val username: String, val email: String, val password: 
 data class ApiResponse(val message: String, val success: Boolean)
 
 interface UserApiService {
-    @GET("accounts/login")
+    @POST("accounts/login")
     fun loginUser(
         @Query("email") email: String,
-        @Query("pass") password: String
+        @Query("password") password: String
     ): Call<ResponseBody>
 
     @POST("accounts/signup")

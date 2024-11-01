@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.dashboard.R
 import api.RetrofitClient
-import api.LoginRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import okhttp3.ResponseBody
 
 class LoginFragment : Fragment() {
 
@@ -29,7 +29,6 @@ class LoginFragment : Fragment() {
         val passwordInput: EditText = view.findViewById(R.id.editTextTextEmailAddress3)
         val loginButton: Button = view.findViewById(R.id.button)
         val signupButton: Button = view.findViewById(R.id.button2)
-        val galleryHomeButton: Button = view.findViewById(R.id.button)
 
         signupButton.setOnClickListener {
             findNavController().navigate(R.id.action_nav_login_to_nav_signup)
@@ -44,49 +43,42 @@ class LoginFragment : Fragment() {
             }
         }
 
-        galleryHomeButton.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_login_to_nav_gall_home)
-        }
-
         return view
     }
 
     private fun validateInput(email: String, password: String): Boolean {
-        // Email validation is commented out
-        // if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-        //     Toast.makeText(context, "Please enter a valid email address", Toast.LENGTH_SHORT).show()
-        //     return false
-        // }
         if (password.isEmpty() || password.length < 1) {
-            Toast.makeText(context, "Password must be at least 1 character long", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Password must be at least 1 character long",
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         }
         return true
     }
 
     private fun performLogin(email: String, password: String) {
-        val loginRequest = LoginRequest(email, password)
         val userApiService = RetrofitClient.getUserApiService()
         val call = userApiService.loginUser(email, password)
 
-        call.enqueue(object : Callback<Unit> {
-            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_nav_login_to_nav_gall_home)
                 } else {
-                    Toast.makeText(context, "Login failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Login failed: ${response.message()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
-            override fun onFailure(call: Call<Unit>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Toast.makeText(context, "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }
-}
-
-private fun <T> Call<T>.enqueue(callback: Callback<Unit>) {
-    // This function seems to be empty in the original code
-    // You might want to implement it or remove it if not needed
 }
