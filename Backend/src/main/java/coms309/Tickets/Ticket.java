@@ -34,6 +34,8 @@ public class Ticket {
     @JsonIgnore
     private Account account;
 
+
+
     @OneToOne
 //    @JsonIgnore
     private Event event;
@@ -98,5 +100,13 @@ public class Ticket {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

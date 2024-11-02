@@ -22,6 +22,8 @@ public class Event {
     private String description;
     private String max_capacity;
 
+
+
     public Event(String name, String date, String location, String description, String max_capacity) {
         this.name = name;
         this.date = date;
