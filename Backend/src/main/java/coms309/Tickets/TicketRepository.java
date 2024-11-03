@@ -15,3 +15,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Transactional
     void deleteById(int id);
 }
+
+
+
+//
