@@ -1,6 +1,7 @@
 package coms309.Accounts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import coms309.Chats.Chat;
 import jakarta.persistence.*;
 
 import coms309.Tickets.Ticket;
@@ -40,6 +41,7 @@ public class Account {
      * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
      * @JoinColumn defines the ownership of the foreign key i.e. the User table will have a field called ticket_id
      */
+    // MappedBy account means that the Ticket table has an account_id field that manages the relationship. This relationship is owned by the Ticket
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 //    @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
@@ -52,6 +54,9 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "account_id_2")
     )
     private List<Account> friends;
+
+    @ManyToMany(mappedBy = "members")
+    private List<Chat> chats;
 
 
 
