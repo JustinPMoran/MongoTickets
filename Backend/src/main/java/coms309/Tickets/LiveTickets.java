@@ -1,94 +1,104 @@
 package coms309.Tickets;
 
 import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 import coms309.Accounts.AccountRepository;
 import coms309.Events.EventRepository;
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnError;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
+import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @ServerEndpoint("/ticket/price/socket/{eventId}")
 @Component
 public class LiveTickets {
-    private static AccountRepository accountRepository;
-    private static TicketRepository ticketRepository;
-    private static EventRepository eventRepository;
 
-    private static Logger logger = LoggerFactory.getLogger(LiveTickets.class);
+    private final AccountRepository accountRepository;
+    private final TicketRepository ticketRepository;
+    private final EventRepository eventRepository;
 
-    private static Map<String, Session> sessions = new Hashtable<>();
+    private static final Logger logger = LoggerFactory.getLogger(LiveTickets.class);
+    private static final Map<String, Session> sessions = new ConcurrentHashMap<>();
 
-    public void setAccountRepository(AccountRepository repo) {
-        accountRepository = repo;
-    }
-
-    public void setTicketRepository(TicketRepository repo) {
-        ticketRepository = repo;
-    }
-
-    public void setEventRepository(EventRepository repo) {
-        eventRepository = repo;
+    @Autowired
+    public LiveTickets(AccountRepository accountRepository, TicketRepository ticketRepository, EventRepository eventRepository) {
+        this.accountRepository = accountRepository;
+        this.ticketRepository = ticketRepository;
+        this.eventRepository = eventRepository;
     }
 
     @OnOpen
     public void onOpen(Session session, @PathParam("eventId") int eventId) {
-        sessions.put(eventId, session);
-        logger.info("New WebSocket connection opened for event: " + eventId);
+        sessions.put(String.valueOf(eventId), session);
+        logger.info("New WebSocket connection opened for event: {}", eventId);
         sendAverageTicketPrice(eventId);
     }
 
     @OnClose
     public void onClose(Session session, @PathParam("eventId") String eventId) {
         sessions.remove(eventId);
-        logger.info("WebSocket connection closed for event: " + eventId);
+        logger.info("WebSocket connection closed for event: {}", eventId);
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        logger.error("WebSocket error: " + error.getMessage());
+        logger.error("WebSocket error: ", error);
+        try {
+            session.close();
+        } catch (IOException e) {
+            logger.error("Error closing session", e);
+        }
     }
 
     @OnMessage
     public void onMessage(String message, Session session, @PathParam("eventId") int eventId) {
-        logger.info("Received message from event " + eventId + ": " + message);
-        // You can add logic here to handle incoming messages if needed
-    }
-
-    public static void notifyPriceChange(int eventId) {
+        logger.info("Received message from event {}: {}", eventId, message);
         sendAverageTicketPrice(eventId);
     }
 
-    private static void sendAverageTicketPrice(int eventId) {
-        Session session = sessions.get(eventId);
+    public void notifyPriceChange(int eventId) {
+        sendAverageTicketPrice(eventId);
+    }
+
+    private void sendAverageTicketPrice(int eventId) {
+        Session session = sessions.get(String.valueOf(eventId));
         if (session != null && session.isOpen()) {
             try {
                 double averagePrice = calculateAverageTicketPrice(eventId);
                 session.getBasicRemote().sendText(String.format("%.2f", averagePrice));
             } catch (IOException e) {
-                logger.error("Error sending average ticket price: " + e.getMessage());
+                logger.error("Error sending average ticket price: ", e);
             }
         }
     }
 
-    private static double calculateAverageTicketPrice(int eventId) {
-        List<Ticket> tickets = ticketRepository;
+    private double calculateAverageTicketPrice(int eventId) {
+        try {
+            List<Ticket> allTicketInEvent = ticketRepository.findAll();
+            for (int i = 0 ; i < allTicketInEvent.size() ; i++) {
+                Ticket t = allTicketInEvent.get(i);
+                if (t.getEvent().getId() != eventId) {
+                    allTicketInEvent.remove(i);
+                }
+            }
 
-        if (tickets.isEmpty()) {
+            if (allTicketInEvent.isEmpty()) {
+                return 0.0;
+            }
+            return allTicketInEvent.stream()
+                    .mapToDouble(Ticket::getPrice)
+                    .average()
+                    .orElse(0.0);
+        } catch (Exception e) {
+            logger.error("Error calculating average ticket price: ", e);
             return 0.0;
         }
-        double totalPrice = tickets.stream().mapToDouble(Ticket::getPrice).sum();
-        return totalPrice / tickets.size();
     }
 }
