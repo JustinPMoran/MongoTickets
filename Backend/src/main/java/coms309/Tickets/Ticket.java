@@ -38,9 +38,6 @@ public class Ticket {
     @JsonIgnore
     private Account account;
 
-
-
-
     @ManyToOne
     @JsonIgnore
     private Event event;

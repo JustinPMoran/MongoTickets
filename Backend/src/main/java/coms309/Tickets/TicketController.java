@@ -44,7 +44,8 @@ public class TicketController {
             return failure;
         ticket.setEvent(eventRepository.findById(id));
         event.addTicket(ticket);
-        ticketRepository.save(ticket);
+
+//        ticketRepository.save(ticket);
         eventRepository.save(event);
         return success;
     }
