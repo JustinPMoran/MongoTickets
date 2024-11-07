@@ -56,6 +56,7 @@ public class Account {
     private List<Account> friends;
 
     @ManyToMany(mappedBy = "members")
+    @JsonIgnore
     private List<Chat> chats;
 
 
@@ -162,5 +163,12 @@ public class Account {
 
     public void setFriends(List<Account> friends) {
         this.friends = friends;
+    }
+    public List<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(List<Chat> chats) {
+        this.chats = chats;
     }
 }
