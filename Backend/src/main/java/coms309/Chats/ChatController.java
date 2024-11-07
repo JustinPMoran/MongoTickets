@@ -1,6 +1,7 @@
 package coms309.Chats;
 
 import com.sun.net.httpserver.Authenticator;
+import coms309.Accounts.Account;
 import coms309.Accounts.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,14 +46,18 @@ public class ChatController {
     String createChat(){
         chatRepository.save(new Chat());
 
-        return success;
+
+        return success + " Chat ID: " + chatRepository.findTopByOrderByIdDesc().getId();
     }
 
-    @PutMapping(path="/chats/add_member")
-    String addMember(){
-        Chat chat = chatRepository.findById(1);
-        chat.addMember(accountRepository.findById(4));
-
+    @PutMapping(path="/chats/add_member/{chat_id}/{account_id}")
+    String addMember(@PathVariable int chat_id, @PathVariable int account_id){
+        Chat chat = chatRepository.findById(chat_id);
+        Account acc = accountRepository.findById(account_id);
+        if(chat == null) {return failure;}
+        if(acc == null) {return failure;}
+        chat.addMember(acc);
+        acc.addChat(chat);
         chatRepository.save(chat);
 
         return success;

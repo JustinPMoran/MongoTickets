@@ -171,4 +171,8 @@ public class Account {
     public void setChats(List<Chat> chats) {
         this.chats = chats;
     }
+
+    public void addChat(Chat chat) {
+        this.chats.add(chat);
+    }
 }

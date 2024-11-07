@@ -9,4 +9,6 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
     @Transactional
     void deleteById(int id);
+
+    Chat findTopByOrderByIdDesc();
 }
