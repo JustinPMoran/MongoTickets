@@ -4,6 +4,7 @@ import java.util.List;
 
 import coms309.Accounts.Account;
 import coms309.Accounts.AccountController;
+import coms309.Events.Event;
 import coms309.Events.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +39,13 @@ public class TicketController {
 
     @PostMapping(path = "/tickets/{id}")
     String createTicket(@RequestBody Ticket ticket, @PathVariable int id){
+        Event event = eventRepository.findById(id);
         if (ticket == null)
             return failure;
         ticket.setEvent(eventRepository.findById(id));
+        event.addTicket(ticket);
         ticketRepository.save(ticket);
+        eventRepository.save(event);
         return success;
     }
 
@@ -86,8 +90,18 @@ public class TicketController {
         Ticket ticket = ticketRepository.findById(ticketId);
         account.addTicket(ticket);
         ticket.setAccount(account);
-//        ticketRepository.save(ticket);
         accountRepository.save(account);
+
+    }
+
+    @PutMapping("/ticket/assign_to_event/{eventId}/{ticketId}")
+    void assignEvent(@RequestParam int eventId, @RequestParam int ticketId){
+        Ticket ticket = ticketRepository.findById(ticketId);
+        Event event = eventRepository.findById(eventId);
+        event.addTicket(ticket);
+        eventRepository.save(event);
+        ticket.setEvent(event);
+        ticketRepository.save(ticket);
 
     }
 }

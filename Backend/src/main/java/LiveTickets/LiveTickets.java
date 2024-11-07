@@ -1,4 +1,4 @@
-package coms309.Tickets;
+package LiveTickets;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Map;
 
 import coms309.Accounts.AccountRepository;
 import coms309.Events.EventRepository;
+import coms309.Tickets.Ticket;
+import coms309.Tickets.TicketRepository;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
@@ -85,7 +87,7 @@ public class LiveTickets {
             for (int i = 0 ; i < allTicketInEvent.size() ; i++) {
                 Ticket t = allTicketInEvent.get(i);
                 if (t.getEvent().getId() != eventId) {
-                    allTicketInEvent.remove(i);
+                    allTicketInEvent.remove(t);
                 }
             }
 

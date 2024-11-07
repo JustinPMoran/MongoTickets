@@ -1,6 +1,7 @@
 package coms309;
 
 import coms309.Accounts.Account;
+import coms309.Events.Event;
 import coms309.Tickets.Ticket;
 import coms309.Tickets.TicketRepository;
 import coms309.Accounts.AccountRepository;
@@ -8,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 /**
  *
@@ -35,19 +38,10 @@ class Application {
         return args -> {
             Account account1 = new Account("Anoop", "pass", "anoop@iastate.edu");
 
-//            User user2 = new User("Nick", "nick@iastate.edu");
-//            User user3 = new User("Justin", "justin@iastate.edu");
             Ticket ticket1 = new Ticket( "G7", "8", 24.99 , true);
             Ticket ticket2 = new Ticket( "G6", "9", 25.99 , true);
-//            Ticket ticket2 = new Ticket("Volleyball", "Sep 24", 15.99, "A2", 3);
-//            Ticket ticket3 = new Ticket("Basketball", "Oct 15", 34.99, "A11",1);
             account1.addTicket(ticket1);
             account1.addTicket(ticket2);
-//            user2.setTicket(ticket2);
-//            user3.setTicket(ticket3);
-//            accountRepository.save(account1);
-//            userRepository.save(user2);
-//            userRepository.save(user3);
 
 
         };

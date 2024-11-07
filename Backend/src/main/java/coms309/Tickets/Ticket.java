@@ -40,7 +40,9 @@ public class Ticket {
 
 
 
-    @OneToOne
+
+    @ManyToOne
+    @JsonIgnore
     private Event event;
 
 
