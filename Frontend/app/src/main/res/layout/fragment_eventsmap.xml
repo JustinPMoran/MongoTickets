@@ -9,7 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bruh No Cap!!!!!!!!!!!!!!!!!"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="94dp"
-        tools:layout_editor_absoluteY="278dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteY="71dp" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="315dp"
+        android:layout_height="486dp"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="155dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
