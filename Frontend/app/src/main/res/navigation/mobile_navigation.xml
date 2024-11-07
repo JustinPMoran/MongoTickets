@@ -5,10 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_login">
 
-    <action
-        android:id="@+id/action_nav_signup_to_nav_login"
-        app:destination="@id/nav_login" />
-
 
     <fragment
         android:id="@+id/nav_login"
@@ -28,6 +24,12 @@
         android:name="com.example.dashboard.ui.events.TicketDetailsFragment"
         android:label="Ticket Details"
         tools:layout="@layout/fragment_ticket_details" />
+
+    <fragment
+        android:id="@+id/nav_eventsmap"
+        android:name="com.example.dashboard.ui.eventsmap.EventsMapFragment"
+        android:label="Events Map"
+        tools:layout="@layout/fragment_eventsmap"/>
 
 
     <fragment
