@@ -23,5 +23,10 @@
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_friends"
             android:title="@string/Friends" />
+        <item
+            android:id="@+id/nav_eventsmap"
+            android:icon="@drawable/mapicon"
+            android:title="Events Map"
+            tools:ignore="HardcodedText" />
     </group>
 </menu>
