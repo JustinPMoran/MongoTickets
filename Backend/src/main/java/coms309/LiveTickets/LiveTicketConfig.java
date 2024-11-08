@@ -21,10 +21,10 @@ public class LiveTicketConfig {
     @Autowired
     private LiveRepository liveRepository;
 
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+//    @Bean(name = "liveTicketServerEndpointExporter")
+//    public ServerEndpointExporter serverEndpointExporter() {
+//        return new ServerEndpointExporter();
+//    }
 
     @PostConstruct
     public void configureWebSocket() {
