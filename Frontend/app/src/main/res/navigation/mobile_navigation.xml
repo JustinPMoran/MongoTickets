@@ -31,6 +31,17 @@
         android:label="Events Map"
         tools:layout="@layout/fragment_eventsmap"/>
 
+    <fragment
+        android:id="@+id/nav_myprofile"
+        android:name="com.example.dashboard.ui.myprofile.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_myprofile" />
+
+    <!--    <fragment-->
+<!--        android:id="@+id/nav_myprofile"-->
+<!--        android:name="com.example.dashboard.ui.myprofile.MyProfileFragment"-->
+<!--        android:label="My Profile"-->
+<!--        tools:layout="@layout/fragment_myprofile"/>-->
 
     <fragment
         android:id="@+id/nav_signup"
@@ -49,19 +60,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.dashboard.ui.dashboard.DashboardFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
         android:id="@+id/nav_friends"
         android:name="com.example.dashboard.ui.friends.FriendsFragment"
         android:label="Friends"
         tools:layout="@layout/fragment_friends">
     </fragment>
-
-
 
     <fragment
         android:id="@+id/nav_slideshow"

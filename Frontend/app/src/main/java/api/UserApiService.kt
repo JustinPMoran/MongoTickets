@@ -1,11 +1,13 @@
 package api
 
+import api.UserSession.UserDetails
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+
 
 data class LoginRequest(val email: String, val password: String)
 data class SignupRequest(val username: String, val email: String, val password: String)
