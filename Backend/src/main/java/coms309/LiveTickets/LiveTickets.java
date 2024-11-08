@@ -11,13 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller // Needed to register this with Spring Boot
 @ServerEndpoint("/ticket/price/socket/{eventId}") // WebSocket endpoint URL
@@ -34,26 +31,17 @@ public class LiveTickets {
     // Track the last known average price for each event to detect changes
     private static final Map<Integer, Double> lastKnownAveragePrice = new HashMap<>();
 
-    // Static setter methods to inject dependencies into the WebSocket
     @Autowired
-    public void setTicketRepository(TicketRepository ticketRepository) {
+    public static void setRepositories(TicketRepository ticketRepository, EventRepository eventRepository, LiveRepository liveRepository) {
         LiveTickets.ticketRepository = ticketRepository;
-    }
-
-    @Autowired
-    public void setEventRepository(EventRepository eventRepository) {
         LiveTickets.eventRepository = eventRepository;
-    }
-
-    @Autowired
-    public void setLiveRepository(LiveRepository liveRepository) {
         LiveTickets.liveRepository = liveRepository;
     }
+
 
     @OnOpen
     public void onOpen(Session session, @PathParam("eventId") int eventId) throws IOException {
         eventSessions.computeIfAbsent(eventId, k -> new HashSet<>()).add(session);
-        logger.info("WebSocket connection opened for event: {}", eventId);
         sendAverageTicketPrice(eventId, session);
     }
 
@@ -79,38 +67,22 @@ public class LiveTickets {
         }
     }
 
-    // Invoked when a message is received
     @OnMessage
-    public void onMessage(String message, @PathParam("eventId") int eventId) {
-        logger.info("Received message for event {}: {}", eventId, message);
-        sendAverageTicketPrice(eventId, null);
+    public void onMessage(String message, @PathParam("eventId") int eventId, Session session) {
+        sendAverageTicketPrice(eventId, session);
     }
 
-    // Send average ticket price to either a specific session or all sessions for the given eventId
-    private void sendAverageTicketPrice(int eventId, Session specificSession) {
+    private static void sendAverageTicketPrice(int eventId, Session specificSession) {
         Set<Session> sessions = eventSessions.get(eventId);
         if (sessions != null) {
             try {
                 double newAveragePrice = calculateAverageTicketPrice(eventId);
-                Double lastPrice = lastKnownAveragePrice.get(eventId);
-
-                // If there's a change in the average price, save a record
-                if (lastPrice == null || lastPrice != newAveragePrice) {
-                    if (lastPrice != null) {
-                        Price priceRecord = new Price(eventId, lastPrice, newAveragePrice);
-                        liveRepository.save(priceRecord);
-                    }
-                    lastKnownAveragePrice.put(eventId, newAveragePrice);
-                }
-
-                String priceMessage = String.format("Average Price: %.2f", newAveragePrice);
-
                 if (specificSession != null && specificSession.isOpen()) {
-                    specificSession.getAsyncRemote().sendText(priceMessage);
+                    specificSession.getAsyncRemote().sendText(String.valueOf(newAveragePrice));
                 } else {
                     for (Session session : sessions) {
                         if (session.isOpen()) {
-                            session.getAsyncRemote().sendText(priceMessage);
+                            session.getAsyncRemote().sendText(String.valueOf(newAveragePrice));
                         }
                     }
                 }
@@ -121,37 +93,60 @@ public class LiveTickets {
         }
     }
 
-    // Calculate the average price of tickets for an event
-    private double calculateAverageTicketPrice(int eventId) {
+    private static double calculateAverageTicketPrice(int eventId) {
+        try {
 
-//        try {
-//            List<Ticket> allTickets = ticketRepository.findAll();
-//            allTickets.removeIf(ticket -> ticket.getEvent().getId() != eventId);
-//
-//            if (allTickets.isEmpty()) {
-//                return 0.0;
-//            }
-//            return allTickets.stream()
-//                    .mapToDouble(Ticket::getPrice)
-//                    .average()
-//                    .orElse(0.0);
-//        } catch (Exception e) {
-//            logger.error("Error calculating average ticket price: ", e);
-//            return 0.0;
-//        }
-        double totalPrice = 0;
+            Event event = eventRepository.findById(eventId);
+            if (event == null) {
+                return -1.0;
+            }
+            List<Ticket> tickets = ticketRepository.findAll();
+            List<Ticket> ticks = new ArrayList<>();
 
-        Event event = eventRepository.findById(eventId);
-        List<Ticket> tickets = event.getTickets();
-        if (tickets.isEmpty()) {
-            return 0.0;
+            System.out.println("Ticketsize:" + tickets.size());
+            for (Ticket ticket : tickets) {
+                ticks.add(ticket);
+                if (ticket.getEvent() != null && ticket.getEvent().getId() != eventId) {
+                    ticks.remove(ticket);
+                }
+
+
+            }
+
+            double totalPrice = 0.0;
+            if (ticks.isEmpty()) {
+                return 0.0;
+            }
+            for (Ticket ticket : ticks) {
+                totalPrice += ticket.getPrice();
+            }
+            return totalPrice / ticks.size();
+
+        } catch (Exception e) {
+            logger.error("Error calculating average ticket price: ", e);
+            return -1.0;
         }
-
-        for (Ticket ticket : tickets) {
-            double price = ticket.getPrice();
-            totalPrice += price;
-        }
-        return (double) totalPrice / tickets.size();
-
     }
+
+
+    public static void broadcast(String message, int eventId) {
+        Set<Session> sessions = eventSessions.get(eventId);
+        System.out.println(eventId);
+        if (sessions == null) {
+            return;
+        }
+        for (Session session : sessions ) {
+
+            try {
+
+                if (session != null && session.isOpen()) {
+                    sendAverageTicketPrice(eventId, session);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

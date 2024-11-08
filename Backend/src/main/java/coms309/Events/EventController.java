@@ -95,6 +95,11 @@ public class EventController {
 
 
 
+    @GetMapping("/Evvvv/{id}")
+    List<Ticket> getEvvvv(@PathVariable int id){
+        return eventRepository.findById(id).getTickets();
+    }
+
 
 
 

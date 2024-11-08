@@ -6,6 +6,7 @@ import coms309.Accounts.Account;
 import coms309.Accounts.AccountController;
 import coms309.Events.Event;
 import coms309.Events.EventRepository;
+import coms309.LiveTickets.LiveTickets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,22 +32,29 @@ public class TicketController {
     
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
+    @Autowired
+    private LiveTickets liveTickets;
 
     @GetMapping(path = "/tickets")
     List<Ticket> getAllTickets(){
         return ticketRepository.findAll();
     }
 
-    @PostMapping(path = "/tickets/{id}")
-    String createTicket(@RequestBody Ticket ticket, @PathVariable int id){
-        Event event = eventRepository.findById(id);
+    @PostMapping(path = "/tickets/{eventId}")
+    String createTicket(@RequestBody Ticket ticket, @PathVariable int eventId){
+        Event event = eventRepository.findById(eventId);
         if (ticket == null)
             return failure;
-        ticket.setEvent(eventRepository.findById(id));
+        ticket.setEvent(eventRepository.findById(eventId));
         event.addTicket(ticket);
 
-//        ticketRepository.save(ticket);
+//
+
+
+
         eventRepository.save(event);
+        LiveTickets.broadcast("", eventId);
+
         return success;
     }
 
