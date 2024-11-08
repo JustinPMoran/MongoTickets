@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("androidx.navigation.safeargs.kotlin") version "2.8.3" apply true
+    id("androidx.navigation.safeargs.kotlin") version "2.8.3"
 }
 
 android {
@@ -36,11 +36,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.volley)
     implementation(libs.play.services.maps)
+    implementation("com.google.maps.android:android-maps-utils:3.8.2")
+    implementation("com.google.maps.android:maps-utils-ktx:5.1.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
