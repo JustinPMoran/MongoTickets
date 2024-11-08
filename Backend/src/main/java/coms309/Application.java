@@ -2,9 +2,11 @@ package coms309;
 
 import coms309.Accounts.Account;
 import coms309.Events.Event;
+import coms309.Events.EventRepository;
 import coms309.Tickets.Ticket;
 import coms309.Tickets.TicketRepository;
 import coms309.Accounts.AccountRepository;
+import coms309.LiveTickets.LiveRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,7 +36,7 @@ class Application {
      * As mentioned in User.java just associating the Ticket object with the User will save it into the database because of the CascadeType
      */
     @Bean
-    CommandLineRunner initUser(AccountRepository accountRepository, TicketRepository ticketRepository) {
+    CommandLineRunner initUser(AccountRepository accountRepository, TicketRepository ticketRepository, LiveRepository liveRepository) {
         return args -> {
             Account account1 = new Account("Anoop", "pass", "anoop@iastate.edu");
 
