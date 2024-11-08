@@ -31,7 +31,7 @@ class TicketDetailsFragment : Fragment() {
         val increaseQuantityButton = root.findViewById<Button>(R.id.increaseQuantityButton)
         val decreaseQuantityButton = root.findViewById<Button>(R.id.decreaseQuantityButton)
 
-        val eventId = 8
+        val eventId = 1
 
         // Set initial ticket quantity
         var ticketQuantity = 1
