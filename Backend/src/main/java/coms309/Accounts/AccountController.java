@@ -76,6 +76,7 @@ public class AccountController {
 //        return success;
 //    }
 
+    // Fix delete with friends
     @DeleteMapping(path = "/accounts/{id}")
     String deleteUser(@PathVariable int id){
         Account acc = accountRepository.findById(id);
