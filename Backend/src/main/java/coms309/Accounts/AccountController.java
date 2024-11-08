@@ -85,6 +85,11 @@ public class AccountController {
         return success;
     }
 
+    @GetMapping(path = "/accounts/email")
+    Account getAccountByEmail(@RequestParam String email){
+        return accountRepository.findByEmail(email);
+    }
+
     @GetMapping("/accounts/{id}/tickets")
     List<Ticket> getUserTickets(@PathVariable int id){
         Account account = accountRepository.findById(id);
