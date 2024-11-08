@@ -76,10 +76,19 @@ public class AccountController {
 //        return success;
 //    }
 
+    // Fix delete with friends
     @DeleteMapping(path = "/accounts/{id}")
     String deleteUser(@PathVariable int id){
-        accountRepository.deleteById(id);
+        Account acc = accountRepository.findById(id);
+        acc.getFriends().clear();
+        accountRepository.save(acc);
+        accountRepository.delete(acc);
         return success;
+    }
+
+    @GetMapping(path = "/accounts/email")
+    Account getAccountByEmail(@RequestParam String email){
+        return accountRepository.findByEmail(email);
     }
 
     @GetMapping("/accounts/{id}/tickets")
@@ -134,14 +143,14 @@ public class AccountController {
         return success;
     }
 
-    @GetMapping("/accounts/login")
-    String loginByEmail(@RequestParam String email, @RequestParam String password) {
+    @PostMapping("/accounts/login")
+    int loginByEmail(@RequestParam String email, @RequestParam String password) {
         Account acc = accountRepository.findByEmail(email);
-        if (acc == null) {return failure; }
+        if (acc == null) {return 0; }
         if (acc.getPassword().equals(password)) {
-            return success;
+            return acc.getId();
         }
-        return failure;
+        return 0;
     }
 
 

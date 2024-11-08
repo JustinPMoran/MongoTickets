@@ -15,6 +15,7 @@ import com.example.dashboard.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.system.measureTimeMillis
 
 class SignupFragment : Fragment() {
 
@@ -39,14 +40,15 @@ class SignupFragment : Fragment() {
             if (username.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
                 val signupRequest = SignupRequest(username, email, password)
 
+                // Measure response time for debugging and performance tracking
+                val startTime = System.currentTimeMillis()
+
                 // Make the signup request
-                val userApiService = RetrofitClient.getUserApiService()
-                val call = userApiService.signupUser(signupRequest)
-                call.enqueue(object : Callback<Unit> {
+                RetrofitClient.getUserApiService().signupUser(signupRequest).enqueue(object : Callback<Unit> {
                     override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+                        val responseTime = System.currentTimeMillis() - startTime
                         if (response.isSuccessful) {
-                            Toast.makeText(context, "Signup successful!", Toast.LENGTH_SHORT).show()
-                            // Navigate to login fragment after successful signup
+                            Toast.makeText(context, "Signup successful! (Response Time: ${responseTime}ms)", Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_nav_signup_to_nav_login)
                         } else {
                             Toast.makeText(context, "Signup failed: ${response.message()}", Toast.LENGTH_SHORT).show()

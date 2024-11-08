@@ -5,9 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_login">
 
-    <action
-        android:id="@+id/action_nav_signup_to_nav_login"
-        app:destination="@id/nav_login" />
 
     <fragment
         android:id="@+id/nav_login"
@@ -23,11 +20,36 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_signup"
-        android:name="com.example.dashboard.ui.login.SignupFragment"
-        tools:layout="@layout/fragment_signup"/>
+        android:id="@+id/ticketDetailsFragment"
+        android:name="com.example.dashboard.ui.events.TicketDetailsFragment"
+        android:label="Ticket Details"
+        tools:layout="@layout/fragment_ticket_details" />
 
     <fragment
+        android:id="@+id/nav_groupchat"
+        android:name="com.example.dashboard.ui.groupchat.GroupChatFragment"
+        android:label="Group Chat"
+        tools:layout="@layout/fragment_groupchat" />
+
+
+    <fragment
+        android:id="@+id/nav_eventsmap"
+        android:name="com.example.dashboard.ui.eventsmap.EventsMapFragment"
+        android:label="Events Map"
+        tools:layout="@layout/fragment_eventsmap"/>
+
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.example.dashboard.ui.login.SignupFragment"
+        tools:layout="@layout/fragment_signup">
+    <action
+        android:id="@+id/action_nav_signup_to_nav_login"
+        app:destination="@id/nav_login" />
+    </fragment>
+
+
+<fragment
         android:id="@+id/nav_gall_home"
         android:name="com.example.dashboard.ui.home.HomeFragment"
         android:label="@string/menu_home"
@@ -38,6 +60,15 @@
         android:name="com.example.dashboard.ui.dashboard.DashboardFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/nav_friends"
+        android:name="com.example.dashboard.ui.friends.FriendsFragment"
+        android:label="Friends"
+        tools:layout="@layout/fragment_friends">
+    </fragment>
+
+
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -53,5 +84,14 @@
         android:id="@+id/eventDetailsFragment"
         android:name="com.example.dashboard.ui.events.EventDetailsFragment"
         android:label="Event Details"
-        tools:layout="@layout/fragment_event_details" />
+        tools:layout="@layout/fragment_event_details">
+    <action
+        android:id="@+id/action_eventDetailsFragment_to_ticketDetailsFragment"
+        app:destination="@id/ticketDetailsFragment" />
+    </fragment>
+
+
+
+
+
 </navigation>

@@ -6,6 +6,5 @@ data class EventDetails(
     val date: String,
     val location: String,
     val description: String,
-    val imageUrl: String,
     // Other properties as needed
 )
