@@ -31,7 +31,7 @@ public class Ticket {
     private boolean is_active;
 
     /*
-     * @OneToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
+     * @ManyToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either User/Ticket objects (Ticket->User->Ticket->...)
      */
     @ManyToOne
@@ -103,8 +103,12 @@ public class Ticket {
     public void setAccount(Account account) {
         this.account = account;
     }
+    public Event getEvent() {
+        return event;
+    }
 
-    public Event getEvent() {return event;}
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 
-    public void setEvent(Event event) {this.event = event;}
 }

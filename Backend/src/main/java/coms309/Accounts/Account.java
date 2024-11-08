@@ -1,6 +1,8 @@
 package coms309.Accounts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import coms309.Chats.Chat;
+import coms309.Friends.Friendship;
 import jakarta.persistence.*;
 
 import coms309.Tickets.Ticket;
@@ -25,8 +27,10 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String join_date;
     private boolean is_active;
@@ -40,9 +44,12 @@ public class Account {
      * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
      * @JoinColumn defines the ownership of the foreign key i.e. the User table will have a field called ticket_id
      */
+    // MappedBy account means that the Ticket table has an account_id field that manages the relationship. This relationship is owned by the Ticket
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 //    @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
+
+
 
     @ManyToMany
     @JsonIgnore
@@ -52,6 +59,18 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "account_id_2")
     )
     private List<Account> friends;
+
+    @OneToMany(mappedBy = "account1")
+    @JsonIgnore
+    private List<Friendship> outgoingFriendships;
+
+    @OneToMany(mappedBy = "account2")
+    @JsonIgnore
+    private List<Friendship> incomingFriendships;
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    private List<Chat> chats;
 
 
 
@@ -158,12 +177,40 @@ public class Account {
     public void setFriends(List<Account> friends) {
         this.friends = friends;
     }
-
-    public void addFriend(Account friend){
-        this.friends.add(friend);
+    public List<Friendship> getOutgoingFriendships() {
+        return outgoingFriendships;
     }
 
-    public void removeFriend(Account friend){
-        this.friends.remove(friend);
+    public void setOutgoingFriendships(List<Friendship> outgoingFriendships) {
+        this.outgoingFriendships = outgoingFriendships;
+    }
+
+    public void addOutgoingFriendship(Friendship friendship){
+        this.outgoingFriendships.add(friendship);
+    }
+
+    public List<Friendship> getIncomingFriendships() {
+        return incomingFriendships;
+    }
+
+    public void setIncomingFriendships(List<Friendship> incomingFriendships) {
+        this.incomingFriendships = incomingFriendships;
+    }
+
+    public void addIncomingFriendship(Friendship friendship){
+        this.incomingFriendships.add(friendship);
+    }
+
+
+    public List<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(List<Chat> chats) {
+        this.chats = chats;
+    }
+
+    public void addChat(Chat chat) {
+        this.chats.add(chat);
     }
 }

@@ -10,10 +10,11 @@
             android:icon="@drawable/baseline_home_24"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_myprofile"
             android:color="#FFFFFF"
             android:icon="@drawable/baseline_dashboard_24"
-            android:title="@string/menu_gallery" />
+            android:title="My Profile"
+            tools:ignore="HardcodedText"/>
         <item
             android:id="@+id/nav_slideshow"
             android:color="#FFFFFF"
