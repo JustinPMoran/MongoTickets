@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friendship Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            margin-bottom: 20px;
+        }
+
+        .friend-list,
+        .request-list {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Friendship Management</h1>
+
+    <!-- View Friends Section -->
+    <div class="container">
+        <h2>Your Friends</h2>
+        <label for="accountId">Enter Account Email: </label>
+        
+        <input type="text" id="username" class="form-control" placeholder="Username" />
+        <!-- <input type="number" id="accountId" placeholder="Account ID"> -->
+        <button onclick="getFriends()">View Friends</button>
+
+        <ul id="friendsList" class="friend-list"></ul>
+    </div>
+
+    <!-- Send Friend Request Section -->
+    <div class="container">
+        <h2>Send Friend Request</h2>
+        <label for="senderId">Sender Account ID: </label>
+        <input type="number" id="senderId" placeholder="Sender Account ID">
+        <label for="receiverId">Receiver Account ID: </label>
+        <input type="number" id="receiverId" placeholder="Receiver Account ID">
+        <button onclick="sendFriendRequest()">Send Request</button>
+        <p id="sendRequestStatus"></p>
+    </div>
+
+    <!-- Accept Friend Request Section -->
+    <div class="container">
+        <h2>Accept Friend Request</h2>
+        <label for="acceptSenderId">Sender Account ID: </label>
+        <input type="number" id="acceptSenderId" placeholder="Sender Account ID">
+        <label for="acceptReceiverId">Receiver Account ID: </label>
+        <input type="number" id="acceptReceiverId" placeholder="Receiver Account ID">
+        <button onclick="acceptFriendRequest()">Accept Request</button>
+        <p id="acceptRequestStatus"></p>
+    </div>
+
+    <!-- Reject Friend Request Section -->
+    <div class="container">
+        <h2>Reject Friend Request</h2>
+        <label for="rejectSenderId">Sender Account ID: </label>
+        <input type="number" id="rejectSenderId" placeholder="Sender Account ID">
+        <label for="rejectReceiverId">Receiver Account ID: </label>
+        <input type="number" id="rejectReceiverId" placeholder="Receiver Account ID">
+        <button onclick="rejectFriendRequest()">Reject Request</button>
+        <p id="rejectRequestStatus"></p>
+    </div>
+
+    <!-- Remove Friend Section -->
+    <div class="container">
+        <h2>Remove Friend</h2>
+        <label for="removeAccountId1">Account ID 1: </label>
+        <input type="number" id="removeAccountId1" placeholder="Account ID 1">
+        <label for="removeAccountId2">Account ID 2: </label>
+        <input type="number" id="removeAccountId2" placeholder="Account ID 2">
+        <button onclick="removeFriend()">Remove Friend</button>
+        <p id="removeFriendStatus"></p>
+    </div>
+
+    <script>
+
+        async function getAccountId() {
+            let email = document.getElementById("username").value;
+            const response = await fetch(`http://localhost:8080/accounts/email?email=${email}`)
+
+            let account = await response.json();
+
+            var account_id = account.id;
+            console.log(account_id);
+            return account_id;
+        }
+
+
+        async function getFriends() {
+            // const accountId = document.getElementById("accountId").value;
+            const accountId = await getAccountId();
+            console.log(accountId);
+
+            // const res = await fetch(`http://localhost:8080/get_friendships/${accountId}`);
+            // const friends = await res.json();
+            // console.log(friends);
+
+            fetch(`http://localhost:8080/get_friendships/${accountId}`)
+                .then(response => response.json())
+                .then(friends => {
+                    console.log(friends);
+                    const friendsList = document.getElementById("friendsList");
+                    friendsList.innerHTML = '';
+                    friends.forEach(friend => {
+                        const listItem = document.createElement("li");
+                        listItem.textContent = `Friend ID: ${friend.id}, Name: ${friend.username}`;
+                        friendsList.appendChild(listItem);
+                    });
+                })
+                .catch(error => alert('Error fetching friends: ' + error));
+        }
+
+        // Function to send a friend request
+        function sendFriendRequest() {
+            const senderId = document.getElementById("senderId").value;
+            const receiverId = document.getElementById("receiverId").value;
+            fetch(`http://localhost:8080/friendship/send-request?senderId=${senderId}&receiverId=${receiverId}`, {
+                method: 'POST'
+            })
+                .then(response => response.text())
+                .then(message => {
+                    document.getElementById("sendRequestStatus").textContent = message;
+                })
+                .catch(error => alert('Error sending friend request: ' + error));
+        }
+
+        // Function to accept a friend request
+        function acceptFriendRequest() {
+            const senderId = document.getElementById("acceptSenderId").value;
+            const receiverId = document.getElementById("acceptReceiverId").value;
+            fetch(`http://localhost:8080/friendship/accept-request?senderId=${senderId}&receiverId=${receiverId}`, {
+                method: 'POST'
+            })
+                .then(response => response.text())
+                .then(message => {
+                    document.getElementById("acceptRequestStatus").textContent = message;
+                })
+                .catch(error => alert('Error accepting friend request: ' + error));
+        }
+
+        // Function to reject a friend request
+        function rejectFriendRequest() {
+            const senderId = document.getElementById("rejectSenderId").value;
+            const receiverId = document.getElementById("rejectReceiverId").value;
+            fetch(`http://localhost:8080/friendship/reject-request?senderId=${senderId}&receiverId=${receiverId}`, {
+                method: 'POST'
+            })
+                .then(response => response.text())
+                .then(message => {
+                    document.getElementById("rejectRequestStatus").textContent = message;
+                })
+                .catch(error => alert('Error rejecting friend request: ' + error));
+        }
+
+        // Function to remove a friend
+        function removeFriend() {
+            const accountId1 = document.getElementById("removeAccountId1").value;
+            const accountId2 = document.getElementById("removeAccountId2").value;
+            fetch(`http://localhost:8080/friendship/remove?accountId1=${accountId1}&accountId2=${accountId2}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.text())
+                .then(message => {
+                    document.getElementById("removeFriendStatus").textContent = message;
+                })
+                .catch(error => alert('Error removing friend: ' + error));
+        }
+    </script>
+
+</body>
+
+</html>

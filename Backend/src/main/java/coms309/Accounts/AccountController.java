@@ -2,6 +2,7 @@ package coms309.Accounts;
 
 import java.util.List;
 
+import coms309.Chats.Chat;
 import coms309.Tickets.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import coms309.Tickets.TicketRepository;
  */ 
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class AccountController {
 
     @Autowired
@@ -97,6 +99,14 @@ public class AccountController {
         if (account == null) {throw new RuntimeException("User not found");}
         return account.getTickets();
     }
+
+    @GetMapping("/accounts/{id}/chats")
+    List<Chat> getUserChats(@PathVariable int id){
+        Account account = accountRepository.findById(id);
+        if (account == null) {throw new RuntimeException("User not found");}
+        return account.getChats();
+    }
+
 
     @PostMapping ("/accounts/forgot_password")
     public void forgotPassword(@RequestParam String email, @RequestParam String pass) {

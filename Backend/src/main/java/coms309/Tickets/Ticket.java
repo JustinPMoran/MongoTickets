@@ -27,14 +27,16 @@ public class Ticket {
     private double price;
     private boolean is_active;
     /*
-     * @OneToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
+     * @ManyToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either User/Ticket objects (Ticket->User->Ticket->...)
      */
     @ManyToOne
     @JsonIgnore
     private Account account;
 
-    @OneToOne
+
+
+    @ManyToOne
 //    @JsonIgnore
     private Event event;
 
@@ -99,4 +101,12 @@ public class Ticket {
     public void setAccount(Account account) {
         this.account = account;
     }
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
 }

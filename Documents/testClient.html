@@ -1,0 +1,270 @@
+<html>
+
+<head>
+  <title>Chat</title>
+  <style>
+    /* Style for the message log */
+    #log {
+      background-color: #f1f1f1;
+      /* Light gray background */
+      padding: 10px;
+      border-radius: 10px;
+      overflow-y: auto;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Style for individual messages */
+    .message {
+      max-width: 70%;
+      /* Limit message width */
+      padding: 10px 15px;
+      border-radius: 20px;
+      margin-bottom: 5px;
+      display: inline-block;
+      word-wrap: break-word;
+    }
+
+    /* Sent message (right-aligned) */
+    .message.sent {
+      background-color: #007aff;
+      /* iOS blue for sent messages */
+      color: white;
+      align-self: flex-end;
+      border-top-right-radius: 20px;
+      /* Round top-right corner */
+      border-bottom-right-radius: 20px;
+      /* Round bottom-right corner */
+      border-top-left-radius: 20px;
+      /* Flat top-left corner */
+      border-bottom-left-radius: 20px;
+      /* Flat bottom-left corner */
+    }
+
+    /* Received message (left-aligned) */
+    .message.received {
+      background-color: #e5e5ea;
+      /* Light gray for received messages */
+      color: black;
+      align-self: flex-start;
+      border-top-right-radius: 20px;
+      /* Round top-right corner */
+      border-bottom-right-radius: 20px;
+      /* Round bottom-right corner */
+      border-top-left-radius: 20px;
+      /* Flat top-left corner */
+      border-bottom-left-radius: 20px;
+      /* Flat bottom-left corner */
+    }
+
+    /* Message input and send button styles */
+    #message-area {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    #message-area input[type="text"] {
+      flex-grow: 1;
+      border-radius: 20px;
+    }
+
+    #message-area button {
+      border-radius: 20px;
+      margin-left: 10px;
+    }
+  </style>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div id="chat-container" class="d-flex border shadow-sm" style="width: 800px;">
+      <!-- Sidebar for group chats -->
+      <div id="sidebar" class="border-right p-3" style="width: 250px;">
+        <h4 class="mb-3">Group Chats</h4>
+        <div class="list-group" id="group-list">
+          <button class="list-group-item list-group-item-action">Group Chat 1</button>
+          <button class="list-group-item list-group-item-action">Group Chat 2</button>
+          <button class="list-group-item list-group-item-action">Group Chat 3</button>
+          <!-- Add more group chats as needed -->
+        </div>
+      </div>
+
+      <!-- Main chat area -->
+      <div class="flex-grow-1 p-3">
+        <div class="mb-3">
+          <input type="text" id="username" class="form-control" placeholder="Username" />
+          <button type="button" id="connectButton" class="btn btn-primary mt-2">Connect</button>
+        </div>
+        <div id="log" class="border p-2 mb-3" style="height: 250px; overflow-y: auto;"></div>
+        <div id="message-area" class="d-flex">
+          <input type="text" id="msg" class="form-control mr-2" placeholder="Message" />
+          <button type="button" class="btn btn-success" onclick="send();">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    var ws;
+
+    document.getElementById('connectButton').addEventListener('click', function () {
+      // let id = getAccount();
+      loadChats();
+    });
+
+    async function getAccount(){
+      let email = document.getElementById("username").value
+      var response = await fetch(`http://localhost:8080/accounts/email?email=${email}`);
+
+      let account = await response.json();
+
+      var account_id = account.id;
+      console.log(account_id);
+      return account_id;
+    }
+
+    async function loadChats() {
+      try {
+        let id = await getAccount();
+        // Replace with your actual API endpoint
+        const response = await fetch(`http://localhost:8080/accounts/${id}/chats`);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const chats = await response.json();
+        const groupList = document.getElementById('group-list');
+
+        // Clear any existing content in the list
+        groupList.innerHTML = '';
+
+        // console.log(chats.members);
+
+        // Populate the sidebar with chats
+        chats.forEach(chat => {
+          const chatItem = document.createElement('button');
+          chatItem.className = 'list-group-item list-group-item-action';
+          let name = chat.members.map(account => account.username).join(', ');
+
+          chatItem.onclick = function () {
+            connect(chat.id);
+          };
+
+          chatItem.textContent = name; // Assuming the chat object has a 'name' property
+          groupList.appendChild(chatItem);
+        });
+      } catch (error) {
+        console.error('Failed to load chats:', error);
+      }
+    }
+
+    async function loadHistory(chat_id, account_id) {
+      try {
+        // Replace with your actual API endpoint
+        const response = await fetch(`http://localhost:8080/chats/${chat_id}/lines`);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const history = await response.json();
+
+
+        var log = document.getElementById("log");
+        log.innerHTML = "";
+        if (history) {
+          history.forEach(function (line) {
+            if (line.line_text.trim()) { // Ignore empty lines
+
+
+              var messageDiv = document.createElement("div");
+              messageDiv.classList.add('message', line.sender_account.id == account_id ? 'sent' : 'received');
+
+              // messageDiv.className = "message received";
+              messageDiv.textContent = line.sender_account.username + ": " + line.line_text;
+              log.appendChild(messageDiv);
+            }
+          });
+        }
+        log.scrollTop = log.scrollHeight;
+      } catch (error) {
+        console.error('Failed to load history:', error);
+      }
+    }
+
+
+    // document.getElementById("username").addEventListener("input", function () {
+    //   var account_id = this.value; // 'this' refers to the input element
+    //   loadChats(account_id);
+    // });
+
+
+    async function connect(chat_id) {
+
+      // let email = document.getElementById("username").value
+      // var account = await fetch(`http://localhost:8080/accounts/email?email=${email}`);
+      var account_id = await getAccount();
+      var url = `ws://localhost:8080/chat/${chat_id}/${account_id}`;
+
+      await loadHistory(chat_id, account_id);
+
+      ws = new WebSocket(url);
+
+      ws.onmessage = function (event) {
+        console.log(event.data);
+
+        // Display received message
+        var log = document.getElementById("log");
+        if (event.data) {
+          event.data.split("\n").forEach(function (message) {
+            if (message.trim()) { // Ignore empty lines
+              // log.innerHTML += message + "\n";
+
+              var messageDiv = document.createElement("div");
+              messageDiv.className = "message received";
+              messageDiv.textContent = message;
+              log.appendChild(messageDiv);
+            }
+          });
+        }
+
+        log.scrollTop = log.scrollHeight;
+      };
+
+      ws.onopen = function (event) {
+        var log = document.getElementById("log");
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "message";
+        messageDiv.textContent = "Connected to " + event.currentTarget.url;
+        log.appendChild(messageDiv);
+
+        log.scrollTop = log.scrollHeight;
+      };
+    }
+
+    function send() {
+      var content = document.getElementById("msg").value;
+      if (content && ws) {
+        // Display sent message
+        var log = document.getElementById("log");
+        var messageDiv = document.createElement("div");
+        messageDiv.className = "message sent";
+        messageDiv.textContent = content;
+        log.appendChild(messageDiv);
+
+        // Send the message over WebSocket
+        ws.send(content);
+        document.getElementById("msg").value = ""; // Clear input
+        log.scrollTop = log.scrollHeight; // Scroll to the bottom
+      }
+    }
+  </script>
+</body>
+
+</html>
