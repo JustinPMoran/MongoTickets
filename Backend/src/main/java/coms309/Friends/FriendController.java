@@ -18,7 +18,7 @@ public class FriendController {
     public List<Account> getFriends(@PathVariable int id) {
         Account user = accountRepository.findById(id);
 
-zd        return user.getFriends();
+        return user.getFriends();
     }
     @PutMapping(path = "/create_friendship/{id1}/{id2}")
     public Account addFriend(@PathVariable int id1, @PathVariable int id2) {
