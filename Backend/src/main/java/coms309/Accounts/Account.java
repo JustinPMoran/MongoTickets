@@ -2,6 +2,7 @@ package coms309.Accounts;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import coms309.Chats.Chat;
+import coms309.Friends.Friendship;
 import jakarta.persistence.*;
 
 import coms309.Tickets.Ticket;
@@ -46,6 +47,8 @@ public class Account {
 //    @JoinColumn(name = "tickets_id")
     private List<Ticket> tickets;
 
+
+
     @ManyToMany
     @JsonIgnore
     @JoinTable(
@@ -54,6 +57,14 @@ public class Account {
             inverseJoinColumns = @JoinColumn(name = "account_id_2")
     )
     private List<Account> friends;
+
+    @OneToMany(mappedBy = "account1")
+    @JsonIgnore
+    private List<Friendship> outgoingFriendships;
+
+    @OneToMany(mappedBy = "account2")
+    @JsonIgnore
+    private List<Friendship> incomingFriendships;
 
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
@@ -164,6 +175,31 @@ public class Account {
     public void setFriends(List<Account> friends) {
         this.friends = friends;
     }
+    public List<Friendship> getOutgoingFriendships() {
+        return outgoingFriendships;
+    }
+
+    public void setOutgoingFriendships(List<Friendship> outgoingFriendships) {
+        this.outgoingFriendships = outgoingFriendships;
+    }
+
+    public void addOutgoingFriendship(Friendship friendship){
+        this.outgoingFriendships.add(friendship);
+    }
+
+    public List<Friendship> getIncomingFriendships() {
+        return incomingFriendships;
+    }
+
+    public void setIncomingFriendships(List<Friendship> incomingFriendships) {
+        this.incomingFriendships = incomingFriendships;
+    }
+
+    public void addIncomingFriendship(Friendship friendship){
+        this.incomingFriendships.add(friendship);
+    }
+
+
     public List<Chat> getChats() {
         return chats;
     }
