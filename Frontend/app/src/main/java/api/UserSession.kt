@@ -1,5 +1,5 @@
 package api
-
+class UserSession {
 object UserSession {
     private var userDetails: UserDetails? = null
 
@@ -24,4 +24,5 @@ object UserSession {
     }
 
     data class UserDetails(val email: String, val username: String)
+}
 }
