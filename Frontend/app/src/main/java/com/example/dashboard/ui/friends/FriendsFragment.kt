@@ -1,6 +1,7 @@
 package com.example.dashboard.ui.friends
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,8 +31,8 @@ class FriendsFragment : Fragment() {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Setup RecyclerView
-        friendsAdapter = FriendsAdapter(friendsList) { friend -> removeFriend(friend) }
+        // Initialize the adapter before fetching friends
+        friendsAdapter = FriendsAdapter(friendsList, onLongClick = { friend -> removeFriend(friend) }, context = requireContext())
         binding.friendsList.layoutManager = LinearLayoutManager(context)
         binding.friendsList.adapter = friendsAdapter
 
@@ -69,7 +70,7 @@ class FriendsFragment : Fragment() {
                 if (response.isSuccessful) {
                     friendsList.clear()
                     response.body()?.let { friendsList.addAll(it) }
-                    friendsAdapter.notifyDataSetChanged()
+                    friendsAdapter.notifyDataSetChanged() // Ensure adapter is initialized here
                 } else {
                     Toast.makeText(context, "Failed to load friends", Toast.LENGTH_SHORT).show()
                 }
@@ -85,12 +86,10 @@ class FriendsFragment : Fragment() {
         val id = friendId.toIntOrNull() ?: return Toast.makeText(context, "Invalid ID", Toast.LENGTH_SHORT).show()
         val userId = getUserId() // Get the current user ID
 
-        // Call the createFriendship endpoint to add the friend on the server
         val call = RetrofitClient.getUserApiService().createFriendship(userId, id)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    // Fetch the friend's details from the server to display in the list
                     val friendDetailsCall = RetrofitClient.getUserApiService().getFriendDetails(id)
                     friendDetailsCall.enqueue(object : Callback<Friend> {
                         override fun onResponse(call: Call<Friend>, response: Response<Friend>) {
@@ -123,7 +122,6 @@ class FriendsFragment : Fragment() {
         })
     }
 
-
     private fun removeFriend(friend: Friend) {
         val userId = getUserId() // Get current user ID
         val call = RetrofitClient.getUserApiService().removeFriendship(userId, friend.id)
@@ -150,7 +148,6 @@ class FriendsFragment : Fragment() {
     }
 
     private fun getUserId(): Int {
-        return 18; // Replace with actual user ID
+        return 5  // Replace with actual user ID
     }
 }
-
