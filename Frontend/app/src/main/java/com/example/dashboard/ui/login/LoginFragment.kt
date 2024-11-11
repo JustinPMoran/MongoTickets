@@ -74,7 +74,7 @@ class LoginFragment : Fragment() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     // Save the user's email in UserSession
-                    UserSession.setUserEmail(email)
+                    UserSession.UserSession.setUserEmail(email)
                     Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_nav_login_to_nav_gall_home)
                 } else {

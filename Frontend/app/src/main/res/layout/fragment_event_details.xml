@@ -62,6 +62,16 @@
                 android:text="Book Tickets"
                 android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/average_ticket_price_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-56dp"
+                android:layout_marginLeft="180dp"
+                android:backgroundTint="#008000"
+                android:text="Average Price: $58.33"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

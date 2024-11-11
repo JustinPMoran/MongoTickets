@@ -6,10 +6,13 @@ import coms309.Chats.ChatRepository;
 import coms309.Tickets.Ticket;
 import coms309.Tickets.TicketRepository;
 import coms309.Accounts.AccountRepository;
+import coms309.LiveTickets.LiveRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 /**
  *
@@ -37,8 +40,6 @@ class Application {
         return args -> {
             Account account1 = new Account("Anoop", "pass", "anoop@iastate.edu");
 
-//            User user2 = new User("Nick", "nick@iastate.edu");
-//            User user3 = new User("Justin", "justin@iastate.edu");
             Ticket ticket1 = new Ticket( "G7", "8", 24.99 , true);
             Ticket ticket2 = new Ticket( "G6", "9", 25.99 , true);
 //            Ticket ticket2 = new Ticket("Volleyball", "Sep 24", 15.99, "A2", 3);

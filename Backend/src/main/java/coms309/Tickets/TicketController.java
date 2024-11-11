@@ -4,6 +4,9 @@ import java.util.List;
 
 import coms309.Accounts.Account;
 import coms309.Accounts.AccountController;
+import coms309.Events.Event;
+import coms309.Events.EventRepository;
+import coms309.LiveTickets.LiveTickets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,20 +26,35 @@ public class TicketController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    EventRepository eventRepository;
     
     private String success = "{\"message\":\"success\"}";
     private String failure = "{\"message\":\"failure\"}";
+    @Autowired
+    private LiveTickets liveTickets;
 
     @GetMapping(path = "/tickets")
     List<Ticket> getAllTickets(){
         return ticketRepository.findAll();
     }
 
-    @PostMapping(path = "/tickets")
-    String createTicket(@RequestBody Ticket Ticket){
-        if (Ticket == null)
+    @PostMapping(path = "/tickets/{eventId}")
+    String createTicket(@RequestBody Ticket ticket, @PathVariable int eventId){
+        Event event = eventRepository.findById(eventId);
+        if (ticket == null)
             return failure;
-        ticketRepository.save(Ticket);
+        ticket.setEvent(eventRepository.findById(eventId));
+        event.addTicket(ticket);
+
+//
+
+
+
+        eventRepository.save(event);
+        LiveTickets.broadcast("", eventId);
+
         return success;
     }
 
@@ -73,18 +91,7 @@ public class TicketController {
         return success;
     }
 
-//    @DeleteMapping(path = "/tickets/{id}")
-//    String deleteTicket(@PathVariable int id){
-//
-//        // Check if there is an object depending on User and then remove the dependency
-//        Account account = accountRepository.findByTicket_Id(id);
-//        account.setTicket(null);
-//        accountRepository.save(account);
-//
-//        // delete the ticket if the changes have not been reflected by the above statement
-//        ticketRepository.deleteById(id);
-//        return success;
-//    }
+
 
     @PutMapping("/tickets/assign")
     void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
@@ -92,8 +99,18 @@ public class TicketController {
         Ticket ticket = ticketRepository.findById(ticketId);
         account.addTicket(ticket);
         ticket.setAccount(account);
-//        ticketRepository.save(ticket);
         accountRepository.save(account);
+
+    }
+
+    @PutMapping("/ticket/assign_to_event/{eventId}/{ticketId}")
+    void assignEvent(@RequestParam int eventId, @RequestParam int ticketId){
+        Ticket ticket = ticketRepository.findById(ticketId);
+        Event event = eventRepository.findById(eventId);
+        event.addTicket(ticket);
+        eventRepository.save(event);
+        ticket.setEvent(event);
+        ticketRepository.save(ticket);
 
     }
 }

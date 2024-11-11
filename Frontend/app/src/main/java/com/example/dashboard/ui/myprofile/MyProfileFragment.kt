@@ -29,7 +29,7 @@ class MyProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Retrieve the email from UserSession
-        val userEmail = UserSession.getUserEmail() ?: "No email available"
+        val userEmail = UserSession.UserSession.getUserEmail() ?: "No email available"
 
         // Display the email in both TextViews
         displayEmail(userEmail)

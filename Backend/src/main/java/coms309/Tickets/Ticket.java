@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Pablo Leguizamo
@@ -26,6 +29,7 @@ public class Ticket {
     private String section;
     private double price;
     private boolean is_active;
+
     /*
      * @ManyToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
      * @JsonIgnore is to assure that there is no infinite loop while returning either User/Ticket objects (Ticket->User->Ticket->...)
@@ -34,10 +38,8 @@ public class Ticket {
     @JsonIgnore
     private Account account;
 
-
-
     @ManyToOne
-//    @JsonIgnore
+    @JsonIgnore
     private Event event;
 
 

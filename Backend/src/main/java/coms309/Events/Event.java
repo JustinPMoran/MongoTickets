@@ -1,9 +1,11 @@
 package coms309.Events;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import coms309.Tickets.Ticket;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -21,6 +23,16 @@ public class Event {
     private String location;
     private String description;
     private String max_capacity;
+
+
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Ticket> tickets = new ArrayList<>();
+
+
+
+
 
     public Event(String name, String date, String location, String description, String max_capacity) {
         this.name = name;
@@ -85,4 +97,20 @@ public class Event {
     public void setMax_capacity(String max_capacity) {
         this.max_capacity = max_capacity;
     }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void addTicket(Ticket ticket) {
+        if (!this.tickets.contains(ticket)) {
+            this.tickets.add(ticket);
+            ticket.setEvent(this);
+        }
+    }
+
 }

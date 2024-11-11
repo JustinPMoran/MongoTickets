@@ -1,5 +1,6 @@
 package api
 
+import api.UserSession.UserSession.UserDetails
 import ChatLine
 import okhttp3.ResponseBody
 import retrofit2.Call
