@@ -2,22 +2,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="#191E1F"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/chatMessages"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:scrollbars="vertical"
-        android:background="#EEEEEE"
-        android:padding="8dp"
-        android:textColor="@android:color/black" />
+        android:id="@+id/chatTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chat"
+        android:textSize="18sp"
+        android:textColor="@color/teal_200"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="8dp"/>
+
+    <!-- Scrollable container for chat messages -->
+    <ScrollView
+        android:layout_width="373dp"
+        android:layout_height="530dp"
+        android:background="#191E1F"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/chatMessagesContainer"
+            android:layout_width="370dp"
+            android:layout_height="700dp"
+            android:orientation="vertical" />
+    </ScrollView>
 
     <EditText
         android:id="@+id/chatInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Type a message..."
+        android:textColor="@color/teal_200"
+        android:textColorHint="@color/teal_200"
         android:padding="8dp" />
 
     <Button

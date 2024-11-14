@@ -1,7 +1,9 @@
 package api
 
-import api.UserSession.UserSession.UserDetails
-import ChatLine
+import dataClasses.ChatCreationResponse
+import dataClasses.ChatLine
+import dataClasses.Friend
+import dataClasses.GroupChat
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -43,6 +45,8 @@ interface UserApiService {
     @POST("chats")
     fun createChat(): Call<ResponseBody>
 
+    @GET("accounts/{userId}/chats")
+    fun getGroupChats(@Path("userId") userId: Int): Call<List<GroupChat>>
 
     @PUT("/chats/add_member/{chat_id}/{account_id}")
     fun addMemberToChat(

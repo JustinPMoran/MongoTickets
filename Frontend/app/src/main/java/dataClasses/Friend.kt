@@ -1,4 +1,4 @@
-package api
+package dataClasses
 
 data class Friend(
     val id: Int,

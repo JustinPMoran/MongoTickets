@@ -43,15 +43,15 @@
                 android:text="Email: johndoe@example.com" />
         </LinearLayout>
 
-        <!-- Chat Button (Right Side) -->
+        <!-- Remove Friend Button (Right Side) -->
         <Button
-            android:id="@+id/chatButton"
+            android:id="@+id/removeFriendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chat"
+            android:text="Remove"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:backgroundTint="#177A47"
+            android:backgroundTint="#FF0000"
             android:textColor="#ffffff" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package api
 
+import dataClasses.EventDetails
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

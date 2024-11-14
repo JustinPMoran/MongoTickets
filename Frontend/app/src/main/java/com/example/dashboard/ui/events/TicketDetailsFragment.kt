@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import api.RetrofitClient
 import api.EventApiService
-import api.EventDetails
+import dataClasses.EventDetails
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

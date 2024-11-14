@@ -21,6 +21,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SentMessageTextStyle">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item> <!-- or any other font family you like -->
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
     <style name="Theme.dashboard.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.dashboard.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

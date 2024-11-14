@@ -1,16 +1,14 @@
 package com.example.dashboard.ui.friends
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import api.Friend
+import dataClasses.Friend
 import com.example.dashboard.databinding.FragmentFriendsBinding
-import com.example.dashboard.ui.friends.adapters.FriendsAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,15 +29,17 @@ class FriendsFragment : Fragment() {
         _binding = FragmentFriendsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Initialize the adapter before fetching friends
-        friendsAdapter = FriendsAdapter(friendsList, onLongClick = { friend -> removeFriend(friend) }, context = requireContext())
+        friendsAdapter = FriendsAdapter(
+            friendsList,
+            onRemoveClick = { friend -> removeFriend(friend) },
+            context = requireContext()
+        )
+
         binding.friendsList.layoutManager = LinearLayoutManager(context)
         binding.friendsList.adapter = friendsAdapter
 
-        // Fetch friends on load
         fetchFriends()
 
-        // Toggle username input field
         binding.buttonAddFriend.setOnClickListener {
             binding.usernameInputLayout.visibility = if (binding.usernameInputLayout.visibility == View.GONE) {
                 View.VISIBLE
@@ -48,7 +48,6 @@ class FriendsFragment : Fragment() {
             }
         }
 
-        // Add friend on Enter
         binding.editTextFriendUsername.setOnEditorActionListener { _, _, _ ->
             val friendId = binding.editTextFriendUsername.text.toString().trim()
             if (friendId.isNotEmpty()) {
@@ -70,7 +69,7 @@ class FriendsFragment : Fragment() {
                 if (response.isSuccessful) {
                     friendsList.clear()
                     response.body()?.let { friendsList.addAll(it) }
-                    friendsAdapter.notifyDataSetChanged() // Ensure adapter is initialized here
+                    friendsAdapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(context, "Failed to load friends", Toast.LENGTH_SHORT).show()
                 }
@@ -84,7 +83,12 @@ class FriendsFragment : Fragment() {
 
     private fun addFriend(friendId: String) {
         val id = friendId.toIntOrNull() ?: return Toast.makeText(context, "Invalid ID", Toast.LENGTH_SHORT).show()
-        val userId = getUserId() // Get the current user ID
+        val userId = getUserId()
+
+        if (friendsList.any { it.id == id }) {
+            Toast.makeText(context, "Friend with ID $id is already in the list.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val call = RetrofitClient.getUserApiService().createFriendship(userId, id)
         call.enqueue(object : Callback<Void> {
@@ -94,14 +98,8 @@ class FriendsFragment : Fragment() {
                     friendDetailsCall.enqueue(object : Callback<Friend> {
                         override fun onResponse(call: Call<Friend>, response: Response<Friend>) {
                             if (response.isSuccessful) {
-                                response.body()?.let {
-                                    if (!friendsList.any { friend -> friend.id == it.id }) {
-                                        friendsAdapter.addFriend(it)
-                                        Toast.makeText(context, "Friend added successfully!", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Toast.makeText(context, "Friend already in the list", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+                                response.body()?.let { friendsAdapter.addFriend(it) }
+                                Toast.makeText(context, "Friend added successfully!", Toast.LENGTH_SHORT).show()
                             } else {
                                 Toast.makeText(context, "Failed to load friend details", Toast.LENGTH_SHORT).show()
                             }
@@ -123,13 +121,12 @@ class FriendsFragment : Fragment() {
     }
 
     private fun removeFriend(friend: Friend) {
-        val userId = getUserId() // Get current user ID
+        val userId = getUserId()
         val call = RetrofitClient.getUserApiService().removeFriendship(userId, friend.id)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    friendsList.remove(friend)
-                    friendsAdapter.notifyDataSetChanged()
+                    friendsAdapter.removeFriend(friend)
                     Toast.makeText(context, "Friend removed", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(context, "Failed to remove friend", Toast.LENGTH_SHORT).show()
@@ -148,6 +145,6 @@ class FriendsFragment : Fragment() {
     }
 
     private fun getUserId(): Int {
-        return 5  // Replace with actual user ID
+        return 5 // Replace with actual user ID
     }
 }

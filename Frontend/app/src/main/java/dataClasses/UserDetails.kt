@@ -1,4 +1,4 @@
-package api
+package dataClasses
 
     data class UserDetails(
         val username: String,

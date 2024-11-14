@@ -29,7 +29,8 @@
         android:id="@+id/nav_groupchat"
         android:name="com.example.dashboard.ui.groupchat.GroupChatFragment"
         android:label="Group Chat"
-        tools:layout="@layout/fragment_groupchat" />
+        tools:layout="@layout/fragment_group_chat" />
+
 
 
     <fragment
