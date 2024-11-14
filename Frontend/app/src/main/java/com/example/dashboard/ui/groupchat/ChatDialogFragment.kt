@@ -28,6 +28,7 @@ class ChatDialogFragment(private val chatId: Int, private val userId: Int) : Dia
     private var webSocket: WebSocket? = null
     private lateinit var chatMessagesContainer: LinearLayout
     private lateinit var chatInput: EditText
+    private lateinit var closeButton: Button
     private lateinit var sendButton: Button
 
     override fun onCreateView(
@@ -37,6 +38,7 @@ class ChatDialogFragment(private val chatId: Int, private val userId: Int) : Dia
         val view = inflater.inflate(R.layout.dialog_chat, container, false)
         chatMessagesContainer = view.findViewById(R.id.chatMessagesContainer)
         chatInput = view.findViewById(R.id.chatInput)
+        closeButton = view.findViewById(R.id.closeButton)
         sendButton = view.findViewById(R.id.sendButton)
 
         fetchChatHistory()
@@ -48,6 +50,9 @@ class ChatDialogFragment(private val chatId: Int, private val userId: Int) : Dia
                 addMessageToContainer("You", message, true)
                 chatInput.text.clear()
             }
+        }
+        closeButton.setOnClickListener {
+            dismiss() // Close the dialog
         }
 
         initializeWebSocket()
@@ -116,7 +121,7 @@ class ChatDialogFragment(private val chatId: Int, private val userId: Int) : Dia
     private fun addMessageToContainer(sender: String, message: String, isSent: Boolean) {
         val messageTextView = TextView(requireContext()).apply {
             text = "$sender: $message"
-            setPadding(16, 8, 16, 8)
+            setPadding(10, 8, 76, 8)
             layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
