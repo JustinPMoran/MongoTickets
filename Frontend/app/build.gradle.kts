@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin") version "2.8.3"
+    id("org.jetbrains.dokka")
 }
+
 
 android {
     namespace = "com.example.dashboard"
@@ -40,6 +42,11 @@ android {
         buildConfig = true
     }
 }
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+}
+
 
 dependencies {
     implementation(libs.okhttp3.logging.interceptor)

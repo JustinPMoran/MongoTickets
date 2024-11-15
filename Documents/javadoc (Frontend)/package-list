@@ -1,0 +1,21 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:api/UserSession.UserSession.UserDetails///PointingToDeclaration/api/UserSession.UserSession.UserDetails.html
+$dokka.location:api/UserSession.UserSession///PointingToDeclaration/api/UserSession.UserSession.html
+$dokka.location:com.example.dashboard.ui.events_liveticketprice/EventsLiveTicketPriceFragment.TicketPriceWebSocketListener///PointingToDeclaration/com/example/dashboard/ui/events_liveticketprice/EventsLiveTicketPriceFragment.TicketPriceWebSocketListener.html
+$dokka.location:com.example.dashboard.ui.events_liveticketprice/TicketPriceAdapter.TicketPriceViewHolder///PointingToDeclaration/com/example/dashboard/ui/events_liveticketprice/TicketPriceAdapter.TicketPriceViewHolder.html
+$dokka.location:com.example.dashboard.ui.friends/FriendsAdapter.FriendViewHolder///PointingToDeclaration/com/example/dashboard/ui/friends/FriendsAdapter.FriendViewHolder.html
+$dokka.location:com.example.dashboard.ui.groupchat/ChatDialogFragment.Companion///PointingToDeclaration/com/example/dashboard/ui/groupchat/ChatDialogFragment.Companion.html
+$dokka.location:com.example.dashboard.ui.groupchat/GroupChatAdapter.GroupChatViewHolder///PointingToDeclaration/com/example/dashboard/ui/groupchat/GroupChatAdapter.GroupChatViewHolder.html
+api
+com.example.dashboard
+com.example.dashboard.ui.events
+com.example.dashboard.ui.events_liveticketprice
+com.example.dashboard.ui.eventsmap
+com.example.dashboard.ui.friends
+com.example.dashboard.ui.groupchat
+com.example.dashboard.ui.home
+com.example.dashboard.ui.login
+com.example.dashboard.ui.myprofile
+dataClasses
+
