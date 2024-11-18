@@ -91,7 +91,7 @@
 
         async function getAccountId() {
             let email = document.getElementById("username").value;
-            const response = await fetch(`http://localhost:8080/accounts/email?email=${email}`)
+            const response = await fetch(`http://coms-3090-074.class.las.iastate.edu:8080/accounts/email?email=${email}`)
 
             let account = await response.json();
 
@@ -110,7 +110,7 @@
             // const friends = await res.json();
             // console.log(friends);
 
-            fetch(`http://localhost:8080/get_friendships/${accountId}`)
+            fetch(`http://coms-3090-074.class.las.iastate.edu:8080/get_friendships/${accountId}`)
                 .then(response => response.json())
                 .then(friends => {
                     console.log(friends);
@@ -129,7 +129,7 @@
         function sendFriendRequest() {
             const senderId = document.getElementById("senderId").value;
             const receiverId = document.getElementById("receiverId").value;
-            fetch(`http://localhost:8080/friendship/send-request?senderId=${senderId}&receiverId=${receiverId}`, {
+            fetch(`http://coms-3090-074.class.las.iastate.edu:8080/friendship/send-request?senderId=${senderId}&receiverId=${receiverId}`, {
                 method: 'POST'
             })
                 .then(response => response.text())
@@ -143,7 +143,7 @@
         function acceptFriendRequest() {
             const senderId = document.getElementById("acceptSenderId").value;
             const receiverId = document.getElementById("acceptReceiverId").value;
-            fetch(`http://localhost:8080/friendship/accept-request?senderId=${senderId}&receiverId=${receiverId}`, {
+            fetch(`http://coms-3090-074.class.las.iastate.edu:8080/friendship/accept-request?senderId=${senderId}&receiverId=${receiverId}`, {
                 method: 'POST'
             })
                 .then(response => response.text())
@@ -157,7 +157,7 @@
         function rejectFriendRequest() {
             const senderId = document.getElementById("rejectSenderId").value;
             const receiverId = document.getElementById("rejectReceiverId").value;
-            fetch(`http://localhost:8080/friendship/reject-request?senderId=${senderId}&receiverId=${receiverId}`, {
+            fetch(`http://coms-3090-074.class.las.iastate.edu:8080/friendship/reject-request?senderId=${senderId}&receiverId=${receiverId}`, {
                 method: 'POST'
             })
                 .then(response => response.text())
@@ -171,7 +171,7 @@
         function removeFriend() {
             const accountId1 = document.getElementById("removeAccountId1").value;
             const accountId2 = document.getElementById("removeAccountId2").value;
-            fetch(`http://localhost:8080/friendship/remove?accountId1=${accountId1}&accountId2=${accountId2}`, {
+            fetch(`http://coms-3090-074.class.las.iastate.edu:8080/friendship/remove?accountId1=${accountId1}&accountId2=${accountId2}`, {
                 method: 'DELETE'
             })
                 .then(response => response.text())
