@@ -11,7 +11,7 @@ maven-build:
     - springboot_tag    # change to your runner's tag
   script:               # what to execute for this job
     - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-    - mvn clean package       # maven package
+    - mvn package       # maven package
     - ls -l target/
   artifacts:            # where to output the packaged jar file, change 'Backend' to to where you have the pom.xml
     paths:
