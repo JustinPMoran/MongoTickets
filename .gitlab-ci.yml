@@ -65,7 +65,7 @@ android-build:
   script:
     - cd Frontend
     - ./gradlew build
-  artifacts:              # Save the build artifacts for the next job
+  artifacts:
     paths:
       - Frontend/build/*
   only:
@@ -92,6 +92,7 @@ android-test:
       - Frontend/**/*
       - .gitlab-ci.yml
       - .gitignore
+
   needs:
     - job: android-build
 
