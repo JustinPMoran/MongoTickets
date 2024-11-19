@@ -62,6 +62,7 @@ public class FriendshipController {
     public String sendFriendRequest(@Parameter(description = "id of sender account") @RequestParam int senderId, @Parameter(description = "id of receiver account") @RequestParam int receiverId) {
         Account sender;
         Account receiver;
+        Account change;
         try {
             sender = accountRepository.findById(senderId);
             receiver = accountRepository.findById(receiverId);
