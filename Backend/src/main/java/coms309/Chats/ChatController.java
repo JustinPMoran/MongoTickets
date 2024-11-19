@@ -4,6 +4,7 @@ import com.sun.net.httpserver.Authenticator;
 import coms309.Accounts.Account;
 import coms309.Accounts.AccountRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -51,7 +52,7 @@ public class ChatController {
                     content = @Content)
     })
     @GetMapping(path = "/chats/{chat_id}/lines")
-    List<ChatLine> getChatLines(@PathVariable int chat_id){
+    List<ChatLine> getChatLines(@Parameter(description = "id of chat to be searched") @PathVariable int chat_id){
         Chat chat = chatRepository.findById(chat_id);
         System.out.println(chat.getLines());
         return chat.getLines();
@@ -66,7 +67,7 @@ public class ChatController {
                     content = @Content)
     })
     @GetMapping(path = "/chats/{chat_id}")
-    Chat getChatbyID(@PathVariable int chat_id){
+    Chat getChatbyID(@Parameter(description = "id of chat to be searched")  @PathVariable int chat_id){
         return chatRepository.findById(chat_id);
     }
 
@@ -95,7 +96,7 @@ public class ChatController {
                     content = @Content)
     })
     @PutMapping(path="/chats/add_member/{chat_id}/{account_id}")
-    String addMember(@PathVariable int chat_id, @PathVariable int account_id){
+    String addMember(@Parameter(description = "id of chat to be searched")  @PathVariable int chat_id, @Parameter(description = "id of member to be added")  @PathVariable int account_id){
         Chat chat = chatRepository.findById(chat_id);
         Account acc = accountRepository.findById(account_id);
         if(chat == null) {return failure;}
