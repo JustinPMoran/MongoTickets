@@ -91,6 +91,7 @@ android-test:
     changes:
       - Frontend/**/*
       - .gitlab-ci.yml
+      - .gitignore
   needs:
     - job: android-build
 
