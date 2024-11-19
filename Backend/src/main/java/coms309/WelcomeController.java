@@ -14,6 +14,6 @@ class WelcomeController {
 
     @GetMapping("/")
     public String welcome() {
-        return "Hello and welcome to V1 of the backend";
+        return "Hello and welcome to V2 of the backend";
     }
 }
