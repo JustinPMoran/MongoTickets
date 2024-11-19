@@ -80,6 +80,11 @@ android-test:
   only:
     refs:
       - prerak_CICD
+    changes:
+        - Frontend/**/*
+        - gitlab-ci.yml
   needs:
     - job: android-build
+
+
 
