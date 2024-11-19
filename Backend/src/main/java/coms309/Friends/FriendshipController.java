@@ -3,6 +3,7 @@ package coms309.Friends;
 import coms309.Accounts.Account;
 import coms309.Accounts.AccountRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +31,7 @@ public class FriendshipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(path = "/get_friendships/{id}")
-    public List<Account> getFriends(@PathVariable int id) {
+    public List<Account> getFriends(@Parameter(description = "id of account with friendships") @PathVariable int id) {
         Account user;
         try {
             user = accountRepository.findById(id);
@@ -58,7 +59,7 @@ public class FriendshipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/friendship/send-request")
-    public String sendFriendRequest(@RequestParam int senderId, @RequestParam int receiverId) {
+    public String sendFriendRequest(@Parameter(description = "id of sender account") @RequestParam int senderId, @Parameter(description = "id of receiver account") @RequestParam int receiverId) {
         Account sender;
         Account receiver;
         try {
@@ -94,7 +95,7 @@ public class FriendshipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/friendship/accept-request")
-    public String acceptFriendRequest(@RequestParam int senderId, @RequestParam int receiverId) {
+    public String acceptFriendRequest(@Parameter(description = "id of sender account") @RequestParam int senderId, @Parameter(description = "id of receiver account") @RequestParam int receiverId) {
         Friendship friendship;
         try {
             friendship = friendshipRepository.findByAccount1IdAndAccount2Id(senderId, receiverId);
@@ -118,7 +119,7 @@ public class FriendshipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/friendship/reject-request")
-    public String rejectFriendRequest(@RequestParam int senderId, @RequestParam int receiverId) {
+    public String rejectFriendRequest(@Parameter(description = "id of sender account") @RequestParam int senderId, @Parameter(description = "id of receiver account") @RequestParam int receiverId) {
         Friendship friendship;
         try {
             friendship = friendshipRepository.findByAccount1IdAndAccount2Id(senderId, receiverId);
@@ -142,7 +143,7 @@ public class FriendshipController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @DeleteMapping("/friendship/remove")
-    public String removeFriend(@RequestParam int accountId1, @RequestParam int accountId2) {
+    public String removeFriend(@Parameter(description = "id of 1st account") @RequestParam int accountId1,@Parameter(description = "id of 2nd account") @RequestParam int accountId2) {
         Friendship friendship;
         try {
             friendship = friendshipRepository.findByAccount1IdAndAccount2Id(accountId1, accountId2);
