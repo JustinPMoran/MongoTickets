@@ -41,10 +41,10 @@ auto-deploy:
   dependencies:
     - maven-build  # Ensures the artifact is available
   script:               # script to run the deployment service you created
-    - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-    - sudo mv target/*.jar /target/web-demo.jar
-    - sudo systemctl stop system-web-demo
-    - sudo systemctl start system-web-demo
+#    - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+#    - sudo mv target/*.jar /target/web-demo.jar
+#    - sudo systemctl stop system-web-demo
+#    - sudo systemctl start system-web-demo
   only:
     refs:
       - main            # only to trigger the pipeline when changes are pushed to 'main'
