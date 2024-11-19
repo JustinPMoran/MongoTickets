@@ -1,5 +1,6 @@
 package api
 
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,13 +27,19 @@ object RetrofitClient {
         .readTimeout(10, TimeUnit.SECONDS)
         .build()
 
+    val gson = GsonBuilder()
+        .setLenient()
+        .create()
+
     val retrofitInstance: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
+
+
 
     fun getUserApiService(): UserApiService {
         return retrofitInstance.create(UserApiService::class.java)

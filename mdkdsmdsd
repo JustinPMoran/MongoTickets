@@ -1,0 +1,42 @@
+[33mcommit fb4835107302b387671483519125f6e0d9227465[m
+Merge: 2920936 e879a0c
+Author: Prerak <prerak@iastate.edu>
+Date:   Tue Sep 24 17:35:58 2024 -0500
+
+    WIP on prerak: 2920936 dashboard
+
+[1mdiff --cc Experiments/PrerakExperiments/HelloWorld/build.gradle[m
+[1mindex 0607337,0607337..0dcdf46[m
+[1m--- a/Experiments/PrerakExperiments/HelloWorld/build.gradle[m
+[1m+++ b/Experiments/PrerakExperiments/HelloWorld/build.gradle[m
+[36m@@@ -1,4 -1,4 +1,4 @@@[m
+  // Top-level build file where you can add configuration options common to all sub-projects/modules.[m
+  plugins {[m
+[31m--id 'com.android.application' version '8.0.0' apply false[m
+[32m++id 'com.android.application' version '8.5.2' apply false[m
+  }[m
+[1mdiff --cc Experiments/PrerakExperiments/HelloWorld/gradle/wrapper/gradle-wrapper.properties[m
+[1mindex 5b5a3a1,5b5a3a1..125a240[m
+[1m--- a/Experiments/PrerakExperiments/HelloWorld/gradle/wrapper/gradle-wrapper.properties[m
+[1m+++ b/Experiments/PrerakExperiments/HelloWorld/gradle/wrapper/gradle-wrapper.properties[m
+[36m@@@ -1,6 -1,6 +1,6 @@@[m
+  #Thu Sep 28 12:08:05 CDT 2023[m
+  distributionBase=GRADLE_USER_HOME[m
+  distributionPath=wrapper/dists[m
+[31m--distributionUrl=https\://services.gradle.org/distributions/gradle-8.0-bin.zip[m
+[32m++distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-bin.zip[m
+  zipStoreBase=GRADLE_USER_HOME[m
+  zipStorePath=wrapper/dists[m
+[1mdiff --cc Frontend/app/src/main/res/drawable/navbackground.xml[m
+[1mindex 53cfdf3,53cfdf3..4f0a5c6[m
+[1m--- a/Frontend/app/src/main/res/drawable/navbackground.xml[m
+[1m+++ b/Frontend/app/src/main/res/drawable/navbackground.xml[m
+[36m@@@ -6,7 -6,7 +6,7 @@@[m
+          android:startColor="#383638"[m
+          android:endColor="#313333"[m
+          android:centerX="0.5"[m
+[31m--        android:centerY="0.6">[m
+[32m++        android:centerY="0.5">[m
+          <stop android:offset="0.3" android:color="#FFC3A0" />[m
+          <stop android:offset="0.7" android:color="#00BFFF" />[m
+      </gradient>[m

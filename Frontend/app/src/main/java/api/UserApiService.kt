@@ -1,6 +1,9 @@
 package api
 
-import api.UserSession.UserSession.UserDetails
+import dataClasses.ChatCreationResponse
+import dataClasses.ChatLine
+import dataClasses.Friend
+import dataClasses.GroupChat
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -38,4 +41,21 @@ interface UserApiService {
     // Corrected definition of getFriendDetails
     @GET("accounts/{friendId}")
     fun getFriendDetails(@Path("friendId") friendId: Int): Call<Friend>
+
+    @POST("chats")
+    fun createChat(): Call<ResponseBody>
+
+    @GET("accounts/{userId}/chats")
+    fun getGroupChats(@Path("userId") userId: Int): Call<List<GroupChat>>
+
+    @PUT("/chats/add_member/{chat_id}/{account_id}")
+    fun addMemberToChat(
+        @Path("chat_id") chatId: Int,
+        @Path("account_id") accountId: Int
+    ): Call<ChatCreationResponse>
+
+    @GET("/chats/{chat_id}/lines")
+    fun getChatLines(
+        @Path("chat_id") chatId: Int
+    ): Call<List<ChatLine>>
 }

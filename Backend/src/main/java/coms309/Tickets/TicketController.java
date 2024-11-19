@@ -7,6 +7,10 @@ import coms309.Accounts.AccountController;
 import coms309.Events.Event;
 import coms309.Events.EventRepository;
 import coms309.LiveTickets.LiveTickets;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,11 +39,28 @@ public class TicketController {
     @Autowired
     private LiveTickets liveTickets;
 
+
+
+
+    @Operation(summary = "Find all tickets")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found All Tickets",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error finding Tickets",
+                    content = @Content) })
     @GetMapping(path = "/tickets")
     List<Ticket> getAllTickets(){
         return ticketRepository.findAll();
     }
 
+
+
+    @Operation(summary = "Create a Ticket")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Created new Ticket",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error creating ticket",
+                    content = @Content) })
     @PostMapping(path = "/tickets/{eventId}")
     String createTicket(@RequestBody Ticket ticket, @PathVariable int eventId){
         Event event = eventRepository.findById(eventId);
@@ -47,29 +68,46 @@ public class TicketController {
             return failure;
         ticket.setEvent(eventRepository.findById(eventId));
         event.addTicket(ticket);
-
-//
-
-
-
         eventRepository.save(event);
         LiveTickets.broadcast("", eventId);
-
         return success;
     }
 
+
+
+    @Operation(summary = "Delete All Tickets")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleted All Tickets",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error Deleting All Tickets",
+                    content = @Content) })
     @DeleteMapping(path = "/tickets")
-    String deleteUsers(){
+    String deleteAllTickets(){
         ticketRepository.deleteAll();
         return success;
     }
 
+
+
+    @Operation(summary = "Find ticket by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found Ticket",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error finding Ticket",
+                    content = @Content) })
     @GetMapping(path = "/tickets/{id}")
     Ticket getTicketById(@PathVariable int id){
         return ticketRepository.findById(id);
     }
 
 
+
+    @Operation(summary = "Update A ticket by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated Ticket",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error Updating Ticket",
+                    content = @Content) })
     @PutMapping(path = "/tickets/{id}")
     Ticket updateTicket(@PathVariable int id, @RequestBody Ticket request){
         Ticket t = ticketRepository.findById(id);
@@ -83,6 +121,15 @@ public class TicketController {
         return ticketRepository.findById(id);
     }
 
+
+
+
+    @Operation(summary = "Delete a Ticket by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deleted ticket",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error Deleting Ticket",
+                    content = @Content) })
     @DeleteMapping(path = "/tickets/{id}")
     String deleteTicket(@PathVariable int id){
         Ticket ticket = ticketRepository.findById(id);
@@ -92,7 +139,12 @@ public class TicketController {
     }
 
 
-
+    @Operation(summary = "Assign a Ticket to a Account")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Assigned Ticket",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error Assigning ticket",
+                    content = @Content) })
     @PutMapping("/tickets/assign")
     void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
         Account account = accountRepository.findById(accountId);
@@ -103,6 +155,12 @@ public class TicketController {
 
     }
 
+    @Operation(summary = "Assign Ticket to an Event")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Assigned ticket to an Event",
+                    content = { @Content(mediaType = "application/json") }),
+            @ApiResponse(responseCode = "404", description = "Error Assigning Ticket to an Event",
+                    content = @Content) })
     @PutMapping("/ticket/assign_to_event/{eventId}/{ticketId}")
     void assignEvent(@RequestParam int eventId, @RequestParam int ticketId){
         Ticket ticket = ticketRepository.findById(ticketId);
