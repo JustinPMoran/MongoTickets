@@ -55,6 +55,7 @@ public class AnoopSystemTest {
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("id"));
+        System.out.println(response.getBody().asString());
     }
 
     @Test
@@ -93,6 +94,7 @@ public class AnoopSystemTest {
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("success"));
+        System.out.println(response.getBody().asString());
     }
 
     @Test
@@ -108,7 +110,7 @@ public class AnoopSystemTest {
     }
 
 ////////////////////////////////////////////////TEST TICKETS////////////////////////////////////////////////////////////
-    int ticketId = 42;
+    int ticketId = 43;
 
 
     @Test
@@ -165,6 +167,7 @@ public class AnoopSystemTest {
 
         assertEquals(200, response.getStatusCode());
         assertTrue(response.getBody().asString().contains("id"));
+        System.out.println(response.getBody().asString());
     }
 
     @Test
