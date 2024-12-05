@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > FriendController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Friends</a>
+</div>
+
+<h1>Coverage Summary for Class: FriendController (coms309.Friends)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FriendController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    6.2%
+  </span>
+  <span class="absValue">
+    (1/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Friends;
+&nbsp;
+&nbsp;import coms309.Accounts.Account;
+&nbsp;import coms309.Accounts.AccountRepository;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;http://127.0.0.1:5500&quot;)
+<b class="fc">&nbsp;public class FriendController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    private AccountRepository accountRepository;
+&nbsp;
+&nbsp;    @GetMapping(path = &quot;/get_friends/{id}&quot;)
+&nbsp;    public List&lt;Account&gt; getFriends(@PathVariable int id) {
+<b class="nc">&nbsp;        Account user = accountRepository.findById(id);</b>
+&nbsp;
+<b class="nc">&nbsp;        return user.getFriends();</b>
+&nbsp;    }
+&nbsp;    @PutMapping(path = &quot;/create_friendship/{id1}/{id2}&quot;)
+&nbsp;    public Account addFriend(@PathVariable int id1, @PathVariable int id2) {
+<b class="nc">&nbsp;        Account user = accountRepository.findById(id1);</b>
+<b class="nc">&nbsp;        Account friend = accountRepository.findById(id2);</b>
+&nbsp;
+<b class="nc">&nbsp;        user.getFriends().add(friend);</b>
+<b class="nc">&nbsp;        friend.getFriends().add(user);</b>
+&nbsp;
+<b class="nc">&nbsp;        accountRepository.save(user);</b>
+<b class="nc">&nbsp;        accountRepository.save(friend);</b>
+<b class="nc">&nbsp;        return user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(path = &quot;/remove_friendship/{id1}/{id2}&quot;)
+&nbsp;    public void removeFriend(@PathVariable int id1, @PathVariable int id2) {
+<b class="nc">&nbsp;        Account user = accountRepository.findById(id1);</b>
+<b class="nc">&nbsp;        Account friend = accountRepository.findById(id2);</b>
+&nbsp;
+<b class="nc">&nbsp;        user.getFriends().remove(friend);</b>
+<b class="nc">&nbsp;        friend.getFriends().remove(user);</b>
+<b class="nc">&nbsp;        accountRepository.save(user);</b>
+<b class="nc">&nbsp;        accountRepository.save(friend);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

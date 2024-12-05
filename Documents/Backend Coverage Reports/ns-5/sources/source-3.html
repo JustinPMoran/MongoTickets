@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > FriendshipController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Friends</a>
+</div>
+
+<h1>Coverage Summary for Class: FriendshipController (coms309.Friends)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FriendshipController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    72.7%
+  </span>
+  <span class="absValue">
+    (40/55)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Friends;
+&nbsp;
+&nbsp;import coms309.Accounts.Account;
+&nbsp;import coms309.Accounts.AccountRepository;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.Parameter;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;http://127.0.0.1:5500&quot;)
+<b class="fc">&nbsp;public class FriendshipController {</b>
+&nbsp;    @Autowired
+&nbsp;    private AccountRepository accountRepository;
+&nbsp;    @Autowired
+&nbsp;    private FriendshipRepository friendshipRepository;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get all friends of a user by their account ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved friends&quot;,
+&nbsp;                    content = @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class))),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Account not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+&nbsp;    })
+&nbsp;    @GetMapping(path = &quot;/get_friendships/{id}&quot;)
+&nbsp;    public List&lt;Account&gt; getFriends(@Parameter(description = &quot;id of account with friendships&quot;) @PathVariable int id) {
+&nbsp;        Account user;
+&nbsp;        try {
+<b class="fc">&nbsp;            user = accountRepository.findById(id);</b>
+<b class="fc">&nbsp;            if (user == null) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Account not found&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;Account retrieval failed: &quot; + e.getMessage());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;Friendship&gt; outgoingFriends = friendshipRepository.findByAccount1AndStatus(user, &quot;friends&quot;);</b>
+<b class="fc">&nbsp;        List&lt;Friendship&gt; incomingFriends = friendshipRepository.findByAccount2AndStatus(user, &quot;friends&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;Account&gt; allFriends = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        outgoingFriends.forEach(f -&gt; allFriends.add(f.getAccount2()));</b>
+<b class="fc">&nbsp;        incomingFriends.forEach(f -&gt; allFriends.add(f.getAccount1()));</b>
+&nbsp;
+<b class="fc">&nbsp;        return allFriends;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Send a friend request from one user to another&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Friend request sent successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid account IDs or request already exists&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/friendship/send-request&quot;)
+&nbsp;    public String sendFriendRequest(@Parameter(description = &quot;id of sender account&quot;) @RequestParam int senderId, @Parameter(description = &quot;id of receiver account&quot;) @RequestParam int receiverId) {
+&nbsp;        Account sender;
+&nbsp;        Account receiver;
+&nbsp;        try {
+<b class="fc">&nbsp;            sender = accountRepository.findById(senderId);</b>
+<b class="fc">&nbsp;            receiver = accountRepository.findById(receiverId);</b>
+<b class="fc">&nbsp;            if (sender == null || receiver == null) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Sender or Receiver not found&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            return &quot;Account retrieval failed: &quot; + e.getMessage();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Check for existing friendship or pending request
+<b class="fc">&nbsp;        boolean existingFriendship = friendshipRepository.existsByAccount1IdAndAccount2Id(senderId, receiverId)</b>
+<b class="fc">&nbsp;                || friendshipRepository.existsByAccount1IdAndAccount2Id(receiverId, senderId);</b>
+<b class="fc">&nbsp;        if (existingFriendship) {</b>
+<b class="fc">&nbsp;            return &quot;Friend request already exists or users are already friends.&quot;;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Friendship friendship = new Friendship();</b>
+<b class="fc">&nbsp;        friendship.setAccount1(sender);</b>
+<b class="fc">&nbsp;        friendship.setAccount2(receiver);</b>
+<b class="fc">&nbsp;        friendship.setStatus(&quot;pending&quot;);</b>
+<b class="fc">&nbsp;        friendshipRepository.save(friendship);</b>
+&nbsp;
+<b class="fc">&nbsp;        return &quot;Friend request sent successfully.&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Accept a friend request&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Friend request accepted successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Friend request not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/friendship/accept-request&quot;)
+&nbsp;    public String acceptFriendRequest(@Parameter(description = &quot;id of sender account&quot;) @RequestParam int senderId, @Parameter(description = &quot;id of receiver account&quot;) @RequestParam int receiverId) {
+&nbsp;        Friendship friendship;
+&nbsp;        try {
+<b class="fc">&nbsp;            friendship = friendshipRepository.findByAccount1IdAndAccount2Id(senderId, receiverId);</b>
+<b class="fc">&nbsp;            if (friendship == null) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Friend request not found&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            return &quot;Friendship retrieval failed: &quot; + e.getMessage();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        friendship.setStatus(&quot;friends&quot;);</b>
+<b class="fc">&nbsp;        friendshipRepository.save(friendship);</b>
+&nbsp;
+<b class="fc">&nbsp;        return &quot;Friend request accepted.&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Reject a friend request&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Friend request rejected successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Friend request not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/friendship/reject-request&quot;)
+&nbsp;    public String rejectFriendRequest(@Parameter(description = &quot;id of sender account&quot;) @RequestParam int senderId, @Parameter(description = &quot;id of receiver account&quot;) @RequestParam int receiverId) {
+&nbsp;        Friendship friendship;
+&nbsp;        try {
+<b class="fc">&nbsp;            friendship = friendshipRepository.findByAccount1IdAndAccount2Id(senderId, receiverId);</b>
+<b class="fc">&nbsp;            if (friendship == null) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Friend request not found&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            return &quot;Friendship retrieval failed: &quot; + e.getMessage();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        friendshipRepository.delete(friendship);</b>
+&nbsp;
+<b class="fc">&nbsp;        return &quot;Friend request rejected.&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Remove a friend connection between two users&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Friend removed successfully&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Friendship not found&quot;),
+&nbsp;            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+&nbsp;    })
+&nbsp;    @DeleteMapping(&quot;/friendship/remove&quot;)
+&nbsp;    public String removeFriend(@Parameter(description = &quot;id of 1st account&quot;) @RequestParam int accountId1,@Parameter(description = &quot;id of 2nd account&quot;) @RequestParam int accountId2) {
+&nbsp;        Friendship friendship;
+&nbsp;        try {
+<b class="fc">&nbsp;            friendship = friendshipRepository.findByAccount1IdAndAccount2Id(accountId1, accountId2);</b>
+<b class="fc">&nbsp;            if (friendship == null) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(&quot;Friendship not found&quot;);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            return &quot;Friendship retrieval failed: &quot; + e.getMessage();</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        friendshipRepository.delete(friendship);</b>
+&nbsp;
+<b class="fc">&nbsp;        return &quot;Friend removed successfully.&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

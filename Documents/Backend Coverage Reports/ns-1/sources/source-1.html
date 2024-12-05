@@ -1,0 +1,190 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Application</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309</a>
+</div>
+
+<h1>Coverage Summary for Class: Application (coms309)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Application</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Application$$SpringCGLIB$$0</td>
+  </tr>
+  <tr>
+    <td class="name">Application$$SpringCGLIB$$1</td>
+  </tr>
+  <tr>
+    <td class="name">Application$$SpringCGLIB$$2</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309;
+&nbsp;
+&nbsp;import coms309.Accounts.Account;
+&nbsp;import coms309.Chats.Chat;
+&nbsp;import coms309.Chats.ChatRepository;
+&nbsp;import coms309.Tickets.Ticket;
+&nbsp;import coms309.Tickets.TicketRepository;
+&nbsp;import coms309.Accounts.AccountRepository;
+&nbsp;import coms309.LiveTickets.LiveRepository;
+&nbsp;import org.springframework.boot.CommandLineRunner;
+&nbsp;import org.springframework.boot.SpringApplication;
+&nbsp;import org.springframework.boot.autoconfigure.SpringBootApplication;
+&nbsp;import org.springframework.context.annotation.Bean;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author Pablo Leguizamo
+&nbsp; *
+&nbsp; */
+&nbsp;
+&nbsp;@SpringBootApplication
+<b class="fc">&nbsp;class Application {</b>
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        SpringApplication.run(Application.class, args);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Create 3 users with their machines
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param accountRepository repository for the User entity
+&nbsp;     * @param ticketRepository repository for the Ticket entity
+&nbsp;     * Creates a commandLine runner to enter dummy data into the database
+&nbsp;     * As mentioned in User.java just associating the Ticket object with the User will save it into the database because of the CascadeType
+&nbsp;     */
+&nbsp;    @Bean
+&nbsp;    CommandLineRunner initUser(AccountRepository accountRepository, TicketRepository ticketRepository, ChatRepository chatRepository) {
+<b class="fc">&nbsp;        return args -&gt; {</b>
+<b class="fc">&nbsp;            Account account1 = new Account(&quot;Anoop&quot;, &quot;pass&quot;, &quot;anoop@iastate.edu&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            Ticket ticket1 = new Ticket( &quot;G7&quot;, &quot;8&quot;, 24.99 , true);</b>
+<b class="fc">&nbsp;            Ticket ticket2 = new Ticket( &quot;G6&quot;, &quot;9&quot;, 25.99 , true);</b>
+&nbsp;//            Ticket ticket2 = new Ticket(&quot;Volleyball&quot;, &quot;Sep 24&quot;, 15.99, &quot;A2&quot;, 3);
+&nbsp;//            Ticket ticket3 = new Ticket(&quot;Basketball&quot;, &quot;Oct 15&quot;, 34.99, &quot;A11&quot;,1);
+&nbsp;//            account1.addTicket(ticket1);
+&nbsp;//            account1.addTicket(ticket2);
+&nbsp;
+&nbsp;//            Chat chat = chatRepository.findById(1);
+&nbsp;
+&nbsp;//            chat.addMember(accountRepository.findById(5));
+&nbsp;//            chatRepository.save(chat);
+&nbsp;
+&nbsp;//            Chat chat = new Chat();
+&nbsp;
+&nbsp;//
+&nbsp;//            chat.addLine();
+&nbsp;//            user2.setTicket(ticket2);
+&nbsp;//            user3.setTicket(ticket3);
+&nbsp;//            accountRepository.save(account1);
+&nbsp;//            userRepository.save(user2);
+&nbsp;//            userRepository.save(user3);
+&nbsp;
+&nbsp;
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

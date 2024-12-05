@@ -1,0 +1,341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Account</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Accounts</a>
+</div>
+
+<h1>Coverage Summary for Class: Account (coms309.Accounts)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Account</td>
+<td class="coverageStat">
+  <span class="percent">
+    27.8%
+  </span>
+  <span class="absValue">
+    (10/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35%
+  </span>
+  <span class="absValue">
+    (14/40)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Account$HibernateInstantiator$B70W08DS</td>
+  </tr>
+  <tr>
+    <td class="name">Account$HibernateProxy$0ay6w2nz</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    27.8%
+  </span>
+  <span class="absValue">
+    (10/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    35%
+  </span>
+  <span class="absValue">
+    (14/40)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Accounts;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import coms309.Chats.Chat;
+&nbsp;import coms309.Friends.Friendship;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import coms309.Tickets.Ticket;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Pablo Leguizamo
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;@Entity
+&nbsp;//@Table(name = &quot;\&quot;user\&quot;&quot;)
+&nbsp;public class Account {
+&nbsp;
+&nbsp;     /* 
+&nbsp;     * The annotation @ID marks the field below as the primary key for the table created by springboot
+&nbsp;     * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
+&nbsp;     */
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private int id;
+&nbsp;    @Column(unique = true)
+&nbsp;    private String username;
+&nbsp;    private String password;
+&nbsp;    @Column(unique = true)
+&nbsp;    private String email;
+&nbsp;    private String join_date;
+&nbsp;    private boolean is_active;
+&nbsp;    private int store_rating;
+&nbsp;    private int store_review_count;
+&nbsp;    private int events_visited_count;
+&nbsp;
+&nbsp;    /*
+&nbsp;     * @OneToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
+&nbsp;     * cascade is responsible propagating all changes, even to children of the class Eg: changes made to Ticket within a User object will be reflected
+&nbsp;     * in the database (more info : https://www.baeldung.com/jpa-cascade-types)
+&nbsp;     * @JoinColumn defines the ownership of the foreign key i.e. the User table will have a field called ticket_id
+&nbsp;     */
+&nbsp;    // MappedBy account means that the Ticket table has an account_id field that manages the relationship. This relationship is owned by the Ticket
+&nbsp;    @OneToMany(mappedBy = &quot;account&quot;, cascade = CascadeType.ALL)
+&nbsp;//    @JoinColumn(name = &quot;tickets_id&quot;)
+&nbsp;    private List&lt;Ticket&gt; tickets;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @ManyToMany
+&nbsp;    @JsonIgnore
+&nbsp;    @JoinTable(
+&nbsp;            name = &quot;friendships&quot;,
+&nbsp;            joinColumns = @JoinColumn(name = &quot;account_id_1&quot;),
+&nbsp;            inverseJoinColumns = @JoinColumn(name = &quot;account_id_2&quot;)
+&nbsp;    )
+&nbsp;    private List&lt;Account&gt; friends;
+&nbsp;
+&nbsp;    @OneToMany(mappedBy = &quot;account1&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private List&lt;Friendship&gt; outgoingFriendships;
+&nbsp;
+&nbsp;    @OneToMany(mappedBy = &quot;account2&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private List&lt;Friendship&gt; incomingFriendships;
+&nbsp;
+&nbsp;    @ManyToMany(mappedBy = &quot;members&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private List&lt;Chat&gt; chats;
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public Account(String username, String password, String email) {</b>
+<b class="fc">&nbsp;        this.username = username;</b>
+<b class="fc">&nbsp;        this.password = password;</b>
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        this.tickets = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Account() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // =============================== Getters and Setters for each field ================================== //
+&nbsp;
+&nbsp;
+&nbsp;    public int getId() {
+<b class="fc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(int id) {
+<b class="fc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUsername() {
+<b class="fc">&nbsp;        return username;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUsername(String username) {
+<b class="fc">&nbsp;        this.username = username;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getPassword() {
+<b class="fc">&nbsp;        return password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPassword(String password) {
+<b class="fc">&nbsp;        this.password = password;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmail() {
+<b class="nc">&nbsp;        return email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEmail(String email) {
+<b class="fc">&nbsp;        this.email = email;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getJoin_date() {
+<b class="nc">&nbsp;        return join_date;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setJoin_date(String join_date) {
+<b class="nc">&nbsp;        this.join_date = join_date;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getStore_rating() {
+<b class="nc">&nbsp;        return store_rating;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStore_rating(int store_rating) {
+<b class="nc">&nbsp;        this.store_rating = store_rating;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getStore_review_count() {
+<b class="nc">&nbsp;        return store_review_count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStore_review_count(int store_review_count) {
+<b class="nc">&nbsp;        this.store_review_count = store_review_count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getEvents_visited_count() {
+<b class="nc">&nbsp;        return events_visited_count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEvents_visited_count(int events_visited_count) {
+<b class="nc">&nbsp;        this.events_visited_count = events_visited_count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isIs_active() {
+<b class="nc">&nbsp;        return is_active;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIs_active(boolean is_active) {
+<b class="nc">&nbsp;        this.is_active = is_active;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Ticket&gt; getTickets() {
+<b class="nc">&nbsp;        return tickets;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTickets(List&lt;Ticket&gt; tickets) {
+<b class="nc">&nbsp;        this.tickets = tickets;</b>
+&nbsp;    }
+&nbsp;    public void addTicket(Ticket ticket){
+<b class="nc">&nbsp;        this.tickets.add(ticket);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Account&gt; getFriends() {
+<b class="nc">&nbsp;        return friends;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setFriends(List&lt;Account&gt; friends) {
+<b class="nc">&nbsp;        this.friends = friends;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addFriend(Account friend){
+<b class="nc">&nbsp;        this.friends.add(friend);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void removeFriend(Account friend) {
+<b class="nc">&nbsp;        this.friends.remove(friend);</b>
+&nbsp;    }
+&nbsp;    public List&lt;Friendship&gt; getOutgoingFriendships() {
+<b class="nc">&nbsp;        return outgoingFriendships;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOutgoingFriendships(List&lt;Friendship&gt; outgoingFriendships) {
+<b class="nc">&nbsp;        this.outgoingFriendships = outgoingFriendships;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addOutgoingFriendship(Friendship friendship){
+<b class="nc">&nbsp;        this.outgoingFriendships.add(friendship);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Friendship&gt; getIncomingFriendships() {
+<b class="nc">&nbsp;        return incomingFriendships;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIncomingFriendships(List&lt;Friendship&gt; incomingFriendships) {
+<b class="nc">&nbsp;        this.incomingFriendships = incomingFriendships;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addIncomingFriendship(Friendship friendship){
+<b class="nc">&nbsp;        this.incomingFriendships.add(friendship);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public List&lt;Chat&gt; getChats() {
+<b class="nc">&nbsp;        return chats;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setChats(List&lt;Chat&gt; chats) {
+<b class="nc">&nbsp;        this.chats = chats;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addChat(Chat chat) {
+<b class="fc">&nbsp;        this.chats.add(chat);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>
