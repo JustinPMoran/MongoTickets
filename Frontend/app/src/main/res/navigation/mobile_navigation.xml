@@ -45,6 +45,12 @@
         android:label="My Profile"
         tools:layout="@layout/fragment_myprofile" />
 
+    <fragment
+        android:id="@+id/nav_purchase"
+        android:name="com.example.dashboard.ui.purchase.Purchase"
+        android:label="Purchase"
+        tools:layout="@layout/fragment_purchase" />
+
     <!--    <fragment-->
 <!--        android:id="@+id/nav_myprofile"-->
 <!--        android:name="com.example.dashboard.ui.myprofile.MyProfileFragment"-->
