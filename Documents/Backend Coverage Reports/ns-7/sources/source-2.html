@@ -1,0 +1,278 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TicketController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Tickets</a>
+</div>
+
+<h1>Coverage Summary for Class: TicketController (coms309.Tickets)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TicketController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    11.1%
+  </span>
+  <span class="absValue">
+    (1/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7.9%
+  </span>
+  <span class="absValue">
+    (3/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Tickets;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import coms309.Accounts.Account;
+&nbsp;import coms309.Accounts.AccountController;
+&nbsp;import coms309.Events.Event;
+&nbsp;import coms309.Events.EventRepository;
+&nbsp;import coms309.LiveTickets.LiveTickets;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import coms309.Accounts.AccountRepository;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Pablo Leguizamo
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;@RestController
+<b class="fc">&nbsp;public class TicketController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TicketRepository ticketRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    AccountRepository accountRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    EventRepository eventRepository;
+&nbsp;    
+<b class="fc">&nbsp;    private String success = &quot;{\&quot;message\&quot;:\&quot;success\&quot;}&quot;;</b>
+<b class="fc">&nbsp;    private String failure = &quot;{\&quot;message\&quot;:\&quot;failure\&quot;}&quot;;</b>
+&nbsp;    @Autowired
+&nbsp;    private LiveTickets liveTickets;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Find all tickets&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found All Tickets&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding Tickets&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(path = &quot;/tickets&quot;)
+&nbsp;    List&lt;Ticket&gt; getAllTickets(){
+<b class="nc">&nbsp;        return ticketRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create a Ticket&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Created new Ticket&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error creating ticket&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @PostMapping(path = &quot;/tickets/{eventId}&quot;)
+&nbsp;    String createTicket(@RequestBody Ticket ticket, @PathVariable int eventId){
+<b class="nc">&nbsp;        Event event = eventRepository.findById(eventId);</b>
+<b class="nc">&nbsp;        if (ticket == null)</b>
+<b class="nc">&nbsp;            return failure;</b>
+<b class="nc">&nbsp;        ticket.setEvent(eventRepository.findById(eventId));</b>
+<b class="nc">&nbsp;        event.addTicket(ticket);</b>
+<b class="nc">&nbsp;        eventRepository.save(event);</b>
+<b class="nc">&nbsp;        LiveTickets.broadcast(&quot;&quot;, eventId);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Delete All Tickets&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Deleted All Tickets&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error Deleting All Tickets&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @DeleteMapping(path = &quot;/tickets&quot;)
+&nbsp;    String deleteAllTickets(){
+<b class="nc">&nbsp;        ticketRepository.deleteAll();</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Find ticket by ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found Ticket&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding Ticket&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(path = &quot;/tickets/{id}&quot;)
+&nbsp;    Ticket getTicketById(@PathVariable int id){
+<b class="nc">&nbsp;        return ticketRepository.findById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Update A ticket by ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Updated Ticket&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error Updating Ticket&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @PutMapping(path = &quot;/tickets/{id}&quot;)
+&nbsp;    Ticket updateTicket(@PathVariable int id, @RequestBody Ticket request){
+<b class="nc">&nbsp;        Ticket t = ticketRepository.findById(id);</b>
+<b class="nc">&nbsp;        if(t == null) {return null;}</b>
+<b class="nc">&nbsp;        t.setPrice(request.getPrice());</b>
+<b class="nc">&nbsp;        t.setRow(request.getRow());</b>
+<b class="nc">&nbsp;        t.setSection(request.getSection());</b>
+<b class="nc">&nbsp;        t.setIs_active(request.isIs_active());</b>
+&nbsp;
+<b class="nc">&nbsp;        ticketRepository.save(t);</b>
+<b class="nc">&nbsp;        return ticketRepository.findById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Delete a Ticket by ID&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Deleted ticket&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error Deleting Ticket&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @DeleteMapping(path = &quot;/tickets/{id}&quot;)
+&nbsp;    String deleteTicket(@PathVariable int id){
+<b class="nc">&nbsp;        Ticket ticket = ticketRepository.findById(id);</b>
+<b class="nc">&nbsp;        if(ticket == null)  return failure;</b>
+<b class="nc">&nbsp;        ticketRepository.delete(ticket);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Assign a Ticket to a Account&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Assigned Ticket&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error Assigning ticket&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @PutMapping(&quot;/tickets/assign&quot;)
+&nbsp;    void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
+<b class="nc">&nbsp;        Account account = accountRepository.findById(accountId);</b>
+<b class="nc">&nbsp;        Ticket ticket = ticketRepository.findById(ticketId);</b>
+<b class="nc">&nbsp;        account.addTicket(ticket);</b>
+<b class="nc">&nbsp;        ticket.setAccount(account);</b>
+<b class="nc">&nbsp;        accountRepository.save(account);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Assign Ticket to an Event&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Assigned ticket to an Event&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error Assigning Ticket to an Event&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @PutMapping(&quot;/ticket/assign_to_event/{eventId}/{ticketId}&quot;)
+&nbsp;    void assignEvent(@RequestParam int eventId, @RequestParam int ticketId){
+<b class="nc">&nbsp;        Ticket ticket = ticketRepository.findById(ticketId);</b>
+<b class="nc">&nbsp;        Event event = eventRepository.findById(eventId);</b>
+<b class="nc">&nbsp;        event.addTicket(ticket);</b>
+<b class="nc">&nbsp;        eventRepository.save(event);</b>
+<b class="nc">&nbsp;        ticket.setEvent(event);</b>
+<b class="nc">&nbsp;        ticketRepository.save(ticket);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

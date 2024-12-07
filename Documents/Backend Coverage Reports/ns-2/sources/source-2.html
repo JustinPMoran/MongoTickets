@@ -1,0 +1,358 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AccountController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Accounts</a>
+</div>
+
+<h1>Coverage Summary for Class: AccountController (coms309.Accounts)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AccountController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (11/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.9%
+  </span>
+  <span class="absValue">
+    (33/58)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Accounts;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import coms309.Chats.Chat;
+&nbsp;import coms309.Tickets.Ticket;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.Parameter;
+&nbsp;import io.swagger.v3.oas.annotations.media.Content;
+&nbsp;import io.swagger.v3.oas.annotations.media.ExampleObject;
+&nbsp;import io.swagger.v3.oas.annotations.media.Schema;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponse;
+&nbsp;import io.swagger.v3.oas.annotations.responses.ApiResponses;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import coms309.Tickets.TicketRepository;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Pablo Leguizamo
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;@RestController
+&nbsp;@CrossOrigin(origins = &quot;http://127.0.0.1:5500&quot;)
+<b class="fc">&nbsp;public class AccountController {</b>
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    AccountRepository accountRepository;
+&nbsp;
+&nbsp;    @Autowired
+&nbsp;    TicketRepository ticketRepository;
+&nbsp;
+<b class="fc">&nbsp;    private final String success = &quot;{\&quot;message\&quot;:\&quot;success\&quot;}&quot;;</b>
+<b class="fc">&nbsp;    private final String failure = &quot;{\&quot;message\&quot;:\&quot;failure\&quot;}&quot;;</b>
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get all accounts&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found the accounts&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) }),
+&nbsp;            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Error finding accounts&quot;,
+&nbsp;                content = @Content) })
+&nbsp;    @GetMapping(path = &quot;/accounts&quot;)
+&nbsp;    List&lt;Account&gt; getAllAccounts(){
+<b class="fc">&nbsp;        return accountRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create a new account&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Posted the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) })
+&nbsp;    })
+&nbsp;    @PostMapping(path = &quot;/accounts&quot;)
+&nbsp;    String createUsers( @io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;            description = &quot;Account to create&quot;, required = true,
+&nbsp;            content = @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                    schema = @Schema(implementation = Account.class),
+&nbsp;                    examples = @ExampleObject(value = &quot;{ \&quot;username\&quot;: \&quot;pnleg\&quot;, \&quot;password\&quot;: \&quot;myPass\&quot;, \&quot;email\&quot;: \&quot;pnleg@iastate.edu\&quot; }&quot;)))
+&nbsp;                        @RequestBody Account account){
+<b class="fc">&nbsp;        if (account == null)</b>
+<b class="nc">&nbsp;            return failure;</b>
+<b class="fc">&nbsp;        accountRepository.save(account);</b>
+<b class="fc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Delete all accounts&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Deleted the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) })})
+&nbsp;    @DeleteMapping(path = &quot;/accounts&quot;)
+&nbsp;    String deleteUsers(){
+<b class="fc">&nbsp;        accountRepository.deleteAll();</b>
+<b class="fc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get account by id&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding account&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(path = &quot;/accounts/{id}&quot;)
+&nbsp;    Account getUserById(@Parameter(description = &quot;id of account to be searched&quot;) @PathVariable int id){
+<b class="fc">&nbsp;        return accountRepository.findById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Update account by id&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Updated account successfully&quot;,
+&nbsp;                    content = {@Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class),
+&nbsp;                            examples = @ExampleObject(value = success)) })
+&nbsp;    })
+&nbsp;    @PutMapping(&quot;/accounts/{id}&quot;)
+&nbsp;    String updateUser(@Parameter(description = &quot;id of account to be updated&quot;) @PathVariable int id, @RequestBody Account request){
+<b class="fc">&nbsp;        Account account = accountRepository.findById(id);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(account == null)</b>
+<b class="nc">&nbsp;            return failure;</b>
+<b class="fc">&nbsp;        else if (request.getId() != id)</b>
+<b class="nc">&nbsp;            return failure;</b>
+&nbsp;
+<b class="fc">&nbsp;        accountRepository.save(request);</b>
+<b class="fc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Fix delete with friends
+&nbsp;    @Operation(summary = &quot;Delete account by id&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Deleted the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding account&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @DeleteMapping(path = &quot;/accounts/{id}&quot;)
+&nbsp;    String deleteUser(@Parameter(description = &quot;id of account to be deleted&quot;) @PathVariable int id){
+<b class="nc">&nbsp;        Account acc = accountRepository.findById(id);</b>
+<b class="nc">&nbsp;        acc.getFriends().clear();</b>
+<b class="nc">&nbsp;        accountRepository.save(acc);</b>
+<b class="nc">&nbsp;        accountRepository.delete(acc);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get account by email&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding account&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(path = &quot;/accounts/email&quot;)
+&nbsp;    Account getAccountByEmail(@Parameter(description = &quot;Email of account to be deleted&quot;) @RequestParam String email){
+<b class="fc">&nbsp;        return accountRepository.findByEmail(email);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Get an account&#39;s tickets by account id&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found the tickets&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding tickets&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(&quot;/accounts/{id}/tickets&quot;)
+&nbsp;    List&lt;Ticket&gt; getUserTickets(@Parameter(description = &quot;Id of account owning the tickets&quot;) @PathVariable int id){
+<b class="nc">&nbsp;        Account account = accountRepository.findById(id);</b>
+<b class="nc">&nbsp;        if (account == null) {throw new RuntimeException(&quot;User not found&quot;);}</b>
+<b class="nc">&nbsp;        return account.getTickets();</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Get an account&#39;s chats by account id&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Found the chats&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) }),
+&nbsp;            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Error finding chats&quot;,
+&nbsp;                    content = @Content) })
+&nbsp;    @GetMapping(&quot;/accounts/{id}/chats&quot;)
+&nbsp;    List&lt;Chat&gt; getUserChats(@Parameter(description = &quot;Id of account that is a member of the chats&quot;) @PathVariable int id){
+<b class="nc">&nbsp;        Account account = accountRepository.findById(id);</b>
+<b class="nc">&nbsp;        if (account == null) {throw new RuntimeException(&quot;User not found&quot;);}</b>
+<b class="nc">&nbsp;        return account.getChats();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Reset an account&#39;s password&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Password reset&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) })})
+&nbsp;
+&nbsp;    @PostMapping (&quot;/accounts/forgot_password&quot;)
+&nbsp;    public void forgotPassword(@Parameter(description = &quot;Email of account to reset&quot;) @RequestParam String email, @Parameter(description = &quot;New password for account&quot;) @RequestParam String pass) {
+<b class="fc">&nbsp;        Account user = accountRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;        if (user == null) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;User not found&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        user.setPassword(pass);</b>
+<b class="fc">&nbsp;        accountRepository.save(user);</b>
+&nbsp;    }
+&nbsp;    @Operation(summary = &quot;Change an account&#39;s password&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Password changed&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) })})
+&nbsp;
+&nbsp;    @PutMapping (&quot;/accounts/change_password&quot;)
+&nbsp;    public void changePassword(@Parameter(description = &quot;Email of account to change password&quot;) @RequestParam String email, @Parameter(description = &quot;Old / current password&quot;) @RequestParam String pass, @Parameter(description = &quot;New password for account&quot;) @RequestParam String newPass) {
+<b class="fc">&nbsp;        Account user = accountRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;        if (user == null) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;User not found&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (user.getPassword().equals(pass)) { // logged in</b>
+<b class="fc">&nbsp;            user.setPassword(newPass);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        accountRepository.save(user);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Change an account&#39;s username&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Username changed&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;) })})
+&nbsp;
+&nbsp;    @PutMapping(&quot;/accounts_change_username&quot;)
+&nbsp;    void changeUsername(@Parameter(description = &quot;Email of account to change username&quot;) @RequestParam String email, @Parameter(description = &quot;New username for user&quot;) @RequestParam String newUsername) {
+<b class="fc">&nbsp;        Account account = accountRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;        if (account == null) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(&quot;User not found&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        account.setUsername(newUsername);</b>
+<b class="fc">&nbsp;        accountRepository.save(account);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Create a new account&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Posted the account&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) })
+&nbsp;    })
+&nbsp;    @PostMapping (&quot;/accounts/signup&quot;)
+&nbsp;    String signUp(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+&nbsp;            description = &quot;Account to create&quot;, required = true,
+&nbsp;            content = @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                    schema = @Schema(implementation = Account.class),
+&nbsp;                    examples = @ExampleObject(value = &quot;{ \&quot;username\&quot;: \&quot;pnleg\&quot;, \&quot;password\&quot;: \&quot;myPass\&quot;, \&quot;email\&quot;: \&quot;pnleg@iastate.edu\&quot; }&quot;)))
+&nbsp;                  @RequestBody Account account) {
+<b class="nc">&nbsp;        String email = account.getEmail();</b>
+<b class="nc">&nbsp;        String password = account.getPassword();</b>
+<b class="nc">&nbsp;        String username = account.getUsername();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (email == null || password == null || username == null) {</b>
+<b class="nc">&nbsp;            return &quot;Invalid Input&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        accountRepository.save(account);</b>
+<b class="nc">&nbsp;        return success;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Operation(summary = &quot;Login account&quot;)
+&nbsp;    @ApiResponses(value = {
+&nbsp;            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Account logged in&quot;,
+&nbsp;                    content = { @Content(mediaType = &quot;application/json&quot;,
+&nbsp;                            schema = @Schema(implementation = Account.class)) })
+&nbsp;    })
+&nbsp;    @PostMapping(&quot;/accounts/login&quot;)
+&nbsp;    int loginByEmail(@Parameter(description = &quot;Email of account to login&quot;) @RequestParam String email, @Parameter(description = &quot;Password of account to login&quot;) @RequestParam String password) {
+<b class="fc">&nbsp;        Account acc = accountRepository.findByEmail(email);</b>
+<b class="fc">&nbsp;        if (acc == null) {return 0; }</b>
+<b class="fc">&nbsp;        if (acc.getPassword().equals(password)) {</b>
+<b class="fc">&nbsp;            return acc.getId();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Ticket</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Tickets</a>
+</div>
+
+<h1>Coverage Summary for Class: Ticket (coms309.Tickets)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Ticket</td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (2/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30%
+  </span>
+  <span class="absValue">
+    (6/20)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Ticket$HibernateInstantiator$lDV6w2cM</td>
+  </tr>
+  <tr>
+    <td class="name">Ticket$HibernateProxy$0d9s8wZ3</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    12.5%
+  </span>
+  <span class="absValue">
+    (2/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    30%
+  </span>
+  <span class="absValue">
+    (6/20)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Tickets;
+&nbsp;
+&nbsp;import coms309.Accounts.Account;
+&nbsp;import coms309.Events.Event;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; * @author Pablo Leguizamo
+&nbsp; */
+&nbsp;
+&nbsp;@Entity
+&nbsp;public class Ticket {
+&nbsp;
+&nbsp;    /*
+&nbsp;     * The annotation @ID marks the field below as the primary key for the table created by springboot
+&nbsp;     * The @GeneratedValue generates a value if not already present, The strategy in this case is to start from 1 and increment for each table
+&nbsp;     */
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    private int id;
+&nbsp;    @Column(name = &quot;`row`&quot;)
+&nbsp;    private String row;
+&nbsp;    private String section;
+&nbsp;    private double price;
+&nbsp;    private boolean is_active;
+&nbsp;
+&nbsp;    /*
+&nbsp;     * @ManyToOne creates a relation between the current entity/table(Ticket) with the entity/table defined below it(User)
+&nbsp;     * @JsonIgnore is to assure that there is no infinite loop while returning either User/Ticket objects (Ticket-&gt;User-&gt;Ticket-&gt;...)
+&nbsp;     */
+&nbsp;    @ManyToOne
+&nbsp;    @JsonIgnore
+&nbsp;    private Account account;
+&nbsp;
+&nbsp;    @ManyToOne
+&nbsp;    @JsonIgnore
+&nbsp;    private Event event;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public Ticket(String row, String section, double price, boolean is_active) {</b>
+<b class="fc">&nbsp;        this.row = row;</b>
+<b class="fc">&nbsp;        this.section = section;</b>
+<b class="fc">&nbsp;        this.price = price;</b>
+<b class="fc">&nbsp;        this.is_active = is_active;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Ticket() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // =============================== Getters and Setters for each field ================================== //
+&nbsp;
+&nbsp;
+&nbsp;    public int getId() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(int id) {
+<b class="nc">&nbsp;        this.id = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getRow() {
+<b class="nc">&nbsp;        return row;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRow(String row) {
+<b class="nc">&nbsp;        this.row = row;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getSection() {
+<b class="nc">&nbsp;        return section;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setSection(String section) {
+<b class="nc">&nbsp;        this.section = section;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public double getPrice() {
+<b class="nc">&nbsp;        return price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPrice(double price) {
+<b class="nc">&nbsp;        this.price = price;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isIs_active() {
+<b class="nc">&nbsp;        return is_active;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIs_active(boolean is_active) {
+<b class="nc">&nbsp;        this.is_active = is_active;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Account getAccount() {
+<b class="nc">&nbsp;        return account;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setAccount(Account account) {
+<b class="nc">&nbsp;        this.account = account;</b>
+&nbsp;    }
+&nbsp;    public Event getEvent() {
+<b class="nc">&nbsp;        return event;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEvent(Event event) {
+<b class="nc">&nbsp;        this.event = event;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>

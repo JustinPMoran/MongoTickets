@@ -1,0 +1,98 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AccountRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">coms309.Accounts</a>
+</div>
+
+<h1>Coverage Summary for Class: AccountRepository (coms309.Accounts)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">AccountRepository$MockitoMock$trz7S9o0</td>
+  </tr>
+  <tr>
+    <td class="name">AccountRepository$MockitoMock$trz7S9o0$auxiliary$oBYRXynS</td>
+  </tr>
+  <tr>
+    <td class="name">AccountRepository$MockitoMock$trz7S9o0$auxiliary$PUsxcDHn</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package coms309.Accounts;
+&nbsp;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;/**
+&nbsp; * 
+&nbsp; * @author Pablo Leguizamo
+&nbsp; * 
+&nbsp; */ 
+&nbsp;
+&nbsp;public interface AccountRepository extends JpaRepository&lt;Account, Long&gt; {
+&nbsp;    
+&nbsp;    Account findById(int id);
+&nbsp;    @Transactional
+&nbsp;    void deleteById(int id);
+&nbsp;
+&nbsp;    Account findByEmail(String email);
+&nbsp;
+&nbsp;//    Account findByTicket_Id(int id);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-04 23:35</div>
+</div>
+</body>
+</html>
