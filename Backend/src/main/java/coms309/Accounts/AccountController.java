@@ -248,6 +248,29 @@ public class AccountController {
         return 0;
     }
 
+@PostMapping("/add_to_cart")
+    String addToCart(@RequestParam int ticketID) {
+        Ticket ticket = ticketRepository.findById(ticketID);
+        if (ticket == null) {
+            return failure;
+        }
+        if (ticket.getAccount() == null) {
+            addToCart(ticketID);
+            return success;
+        }
+        else {
+            return failure;
+        }
+}
+
+@PostMapping("/remove_from_cart")
+    String removeFromCart(@RequestParam int ticketID) {
+        Ticket ticket = ticketRepository.findById(ticketID);
+        if (ticket == null) {
+            return failure;
+        }
+    return success;
+}
 
 
 

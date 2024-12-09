@@ -74,6 +74,11 @@ public class Account {
 
 
 
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Ticket> myCart;
+
+
     public Account(String username, String password, String email) {
         this.username = username;
         this.password = password;
@@ -166,6 +171,7 @@ public class Account {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
     public void addTicket(Ticket ticket){
         this.tickets.add(ticket);
     }
@@ -221,4 +227,12 @@ public class Account {
     public void addChat(Chat chat) {
         this.chats.add(chat);
     }
+
+
+    public List<Ticket> getMyCart() {return myCart;}
+
+    public void setMyCart(List<Ticket> myCart) {this.myCart = myCart;}
+    public void addMyCart(Ticket ticket){this.myCart.add(ticket);}
+    public void removeMyCart(Ticket ticket){this.myCart.remove(ticket);}
+
 }
