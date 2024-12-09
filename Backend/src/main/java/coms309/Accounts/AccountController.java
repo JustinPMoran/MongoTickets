@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.web.bind.annotation.*;
 
 import coms309.Tickets.TicketRepository;
@@ -249,13 +250,14 @@ public class AccountController {
     }
 
 @PostMapping("/add_to_cart")
-    String addToCart(@RequestParam int ticketID) {
+    String addToCart(@RequestParam int ticketID, @RequestParam int accountID) {
         Ticket ticket = ticketRepository.findById(ticketID);
         if (ticket == null) {
             return failure;
         }
         if (ticket.getAccount() == null) {
-            addToCart(ticketID);
+            Account account = accountRepository.findById(accountID);
+            account.addMyCart(ticketRepository.findById(ticketID));
             return success;
         }
         else {
@@ -264,14 +266,25 @@ public class AccountController {
 }
 
 @PostMapping("/remove_from_cart")
-    String removeFromCart(@RequestParam int ticketID) {
+    String removeFromCart(@RequestParam int ticketID, @RequestParam int accountID) {
         Ticket ticket = ticketRepository.findById(ticketID);
-        if (ticket == null) {
+        if (ticket == null || ticket.getAccount() != null) {
             return failure;
         }
+        Account account = accountRepository.findById(accountID);
+        account.removeMyCart(ticketRepository.findById(ticketID));
     return success;
 }
 
+@GetMapping
+    String getMyCart(@RequestParam int accountID) {
+        Account account = accountRepository.findById(accountID);
+        if (account == null) {
+            return failure;
+        }
+        account.getMyCart();
+        return success;
+}
 
 
 }
