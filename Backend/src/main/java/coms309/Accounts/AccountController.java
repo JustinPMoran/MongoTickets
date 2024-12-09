@@ -249,7 +249,7 @@ public class AccountController {
         return 0;
     }
 
-@PostMapping("/add_to_cart")
+@PutMapping("/add_to_cart")
     String addToCart(@RequestParam int ticketID, @RequestParam int accountID) {
         Ticket ticket = ticketRepository.findById(ticketID);
         if (ticket == null) {
@@ -258,14 +258,16 @@ public class AccountController {
         if (ticket.getAccount() == null) {
             Account account = accountRepository.findById(accountID);
             account.addMyCart(ticketRepository.findById(ticketID));
+            accountRepository.save(account);
             return success;
+
         }
         else {
             return failure;
         }
 }
 
-@PostMapping("/remove_from_cart")
+@PutMapping("/remove_from_cart")
     String removeFromCart(@RequestParam int ticketID, @RequestParam int accountID) {
         Ticket ticket = ticketRepository.findById(ticketID);
         if (ticket == null || ticket.getAccount() != null) {
@@ -273,17 +275,17 @@ public class AccountController {
         }
         Account account = accountRepository.findById(accountID);
         account.removeMyCart(ticketRepository.findById(ticketID));
+    accountRepository.save(account);
     return success;
 }
 
-@GetMapping
-    String getMyCart(@RequestParam int accountID) {
+@GetMapping("/get_cart")
+    List<Ticket> getMyCart(@RequestParam int accountID) {
         Account account = accountRepository.findById(accountID);
         if (account == null) {
-            return failure;
+            return null;
         }
-        account.getMyCart();
-        return success;
+        return account.getMyCart();
 }
 
 

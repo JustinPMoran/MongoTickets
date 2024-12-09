@@ -75,7 +75,7 @@ public class Account {
 
 
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Ticket> myCart;
 
 
