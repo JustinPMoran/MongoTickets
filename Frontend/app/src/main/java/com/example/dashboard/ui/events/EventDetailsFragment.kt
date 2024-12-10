@@ -25,7 +25,7 @@ class EventDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_event_details, container, false)
-        val eventId = 1
+        val eventId = 2
         val eventDetailsText = root.findViewById<TextView>(R.id.eventDetailsText)
         val bookTicketsButton = root.findViewById<Button>(R.id.bookTicketsButton)
 

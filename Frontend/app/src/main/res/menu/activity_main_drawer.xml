@@ -22,7 +22,7 @@
             android:title="@string/menu_slideshow" />
         <item
             android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_friends"
+            android:icon="@drawable/baseline_group_add"
             android:title="@string/Friends" />
         <item
             android:id="@+id/nav_eventsmap"
@@ -31,8 +31,13 @@
             tools:ignore="HardcodedText" />
         <item
             android:id="@+id/nav_groupchat"
-            android:icon="@drawable/baseline_groups_24"
+            android:icon="@drawable/baseline_chat_24"
             android:title="Group Chats"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/nav_cart"
+            android:icon="@drawable/baseline_shopping_cart_24"
+            android:title="Cart"
             tools:ignore="HardcodedText" />
     </group>
 </menu>

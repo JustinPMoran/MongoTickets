@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dashboard.R
+import dataClasses.CartManager.cartItems
 
 data class CartItem(val name: String, val price: Double, val quantity: Int)
 
@@ -18,17 +19,17 @@ class CartAdapter(private val items: List<CartItem>) :
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val item = items[position]
-        holder.name.text = item.name
-        holder.price.text = "$${item.price}"
-        holder.quantity.text = "Qty: ${item.quantity}"
+        val cartItem = cartItems[position]
+        holder.eventName.text = cartItem.eventName
+        holder.ticketCost.text = "Cost: $${cartItem.ticketCost}"
+        holder.ticketQuantity.text = "Qty: ${cartItem.ticketQuantity}"
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = cartItems.size
 
     inner class CartViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.cartItemName)
-        val price: TextView = view.findViewById(R.id.cartItemPrice)
-        val quantity: TextView = view.findViewById(R.id.cartItemQuantity)
+        val eventName: TextView = view.findViewById(R.id.cartItemName)
+        val ticketCost: TextView = view.findViewById(R.id.cartItemPrice)
+        val ticketQuantity: TextView = view.findViewById(R.id.cartItemQuantity)
     }
 }

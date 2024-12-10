@@ -14,6 +14,7 @@
         android:text="Cart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,11 +35,16 @@
     <!-- Checkout Button -->
     <Button
         android:id="@+id/checkoutButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Checkout"
+        android:layout_width="277dp"
+        android:layout_height="42dp"
+        android:background="@drawable/text_background_white"
+        android:fontFamily="@font/archivo_black"
+        android:text="CHECKOUT"
+        app:backgroundTint= "@null"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="25dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
