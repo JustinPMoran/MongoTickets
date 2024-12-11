@@ -2,6 +2,7 @@ package api
 
 import com.example.dashboard.ui.createevents.CreateEventDetails
 import dataClasses.EventDetails
+import dataClasses.Ticket
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,6 +15,9 @@ interface EventApiService {
 
     @GET("events")
     fun getAllEvents(): Call<List<EventDetails>>
+
+    @GET("tickets")
+    fun getTickets(): Call<List<Ticket>>
 
     @POST("events")
     fun createEvent(@Body eventDetails: CreateEventDetails): Call<EventDetails>

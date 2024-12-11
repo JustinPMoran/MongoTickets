@@ -29,7 +29,7 @@ class CheckoutFragment : Fragment() {
         var totalAmount = 0.0
         val summary = StringBuilder()
         cartItems.forEach {
-            summary.append("${it.eventName} (x${it.ticketQuantity}): $${it.ticketCost * it.ticketQuantity}\n")
+            summary.append("${it.ticketId} (x${it.ticketQuantity}): $${it.ticketCost * it.ticketQuantity}\n")
             totalAmount += it.ticketCost * it.ticketQuantity
         }
 

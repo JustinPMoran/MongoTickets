@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.dashboard.databinding.FragmentCartBinding
+import dataClasses.CartItem
 
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-    private lateinit var cartAdapter: CartAdapter // Assume you have a CartAdapter class
-    private val cartItems = mutableListOf<CartItem>() // Replace with your cart item model
+    private lateinit var cartAdapter: CartAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,31 +27,48 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize RecyclerView
-        cartAdapter = CartAdapter(cartItems)
+        cartAdapter = CartAdapter(CartManager.getCartItems().toMutableList()) { cartItem ->
+            removeFromCart(cartItem)
+        }
+
         binding.cartRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = cartAdapter
         }
 
-        // Load Cart Items (Dummy data here, replace with your data source)
+        // Load cart items
         loadCartItems()
+    }
 
-        // Checkout button click listener
-        binding.checkoutButton.setOnClickListener {
-            val action = CartFragmentDirections.actionCartFragmentToCheckoutFragment()
-            findNavController().navigate(action)
-            // Add your checkout logic here
+    private fun removeFromCart(cartItem: CartItem) {
+        val accountId = 5 // Replace with the actual user ID
+        CartManager.removeFromCart(cartItem.ticketId, accountId) { success ->
+            if (success) {
+                // Update the adapter and notify changes
+                val updatedItems = CartManager.getCartItems().toMutableList()
+                cartAdapter.items.clear()
+                cartAdapter.items.addAll(updatedItems)
+                cartAdapter.notifyDataSetChanged()
+                Toast.makeText(context, "Item removed from cart", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Failed to remove item", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun loadCartItems() {
-        cartItems.add(CartItem("Item 1", 10.99, 1))
-        cartItems.add(CartItem("Item 2", 15.49, 2))
-        cartItems.add(CartItem("Item 3", 5.99, 1))
-        cartAdapter.notifyDataSetChanged()
+        val accountId = 5 // Replace with the actual account ID
+        CartManager.fetchCart(accountId) { success ->
+            if (success) {
+                val updatedItems = CartManager.getCartItems()
+                cartAdapter.items.clear()
+                cartAdapter.items.addAll(updatedItems)
+                cartAdapter.notifyDataSetChanged() // Notify the adapter to refresh
+            } else {
+                Toast.makeText(context, "Failed to load cart", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

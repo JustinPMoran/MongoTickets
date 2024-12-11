@@ -1,9 +1,11 @@
 package api
 
+import dataClasses.CartItem
 import dataClasses.ChatCreationResponse
 import dataClasses.ChatLine
 import dataClasses.Friend
 import dataClasses.GroupChat
+import dataClasses.Ticket
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -58,4 +60,22 @@ interface UserApiService {
     fun getChatLines(
         @Path("chat_id") chatId: Int
     ): Call<List<ChatLine>>
+
+    @PUT("/add_to_cart")
+    fun addToCart(
+        @Query("ticketID") ticketID: Int,
+        @Query("accountID") accountID: Int
+    ): Call<ApiResponse>
+
+    @PUT("/remove_from_cart")
+    fun removeFromCart(
+        @Query("ticketID") ticketID: Int,
+        @Query("accountID") accountID: Int
+    ): Call<ApiResponse>
+
+    @GET("/get_cart")
+    fun getCart(
+        @Query("accountID") accountID: Int
+    ): Call<List<Ticket>>
+
 }
