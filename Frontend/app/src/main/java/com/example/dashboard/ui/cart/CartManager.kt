@@ -94,7 +94,35 @@ object CartManager {
             }
         })
     }
+    fun clearCart(accountId: Int, callback: (Boolean) -> Unit) {
+        val cartItemsToRemove = internalCartItems.toList() // Create a copy of the cart items
+        var successCount = 0
+        var failureCount = 0
 
+        if (cartItemsToRemove.isEmpty()) {
+            callback(true) // If the cart is already empty, return success
+            return
+        }
+
+        cartItemsToRemove.forEach { cartItem ->
+            removeFromCart(cartItem.ticketId, accountId) { success ->
+                synchronized(this) { // Synchronize to handle multithreading issues
+                    if (success) {
+                        internalCartItems.remove(cartItem) // Remove the item locally only if it succeeds
+                        successCount++
+                    } else {
+                        failureCount++
+                    }
+
+                    // Check if all items have been processed
+                    if (successCount + failureCount == cartItemsToRemove.size) {
+                        // If any removal failed, return failure
+                        callback(failureCount == 0)
+                    }
+                }
+            }
+        }
+    }
 
     fun getCartItems(): List<CartItem> = internalCartItems
 }

@@ -1,33 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#121212">
 
-    <TextView
-        android:id="@+id/itemsSummaryTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Items Summary"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/totalAmountTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total: $0.00"
-        android:textSize="18sp"
-        android:paddingBottom="16dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/itemsSummaryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Items Summary"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
 
-    <Button
-        android:id="@+id/placeOrderButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Place Order"
-        android:backgroundTint="@color/design_default_color_primary"
-        android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/totalAmountTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total: $0.00"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:paddingBottom="16dp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/fullNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@drawable/text_background_white_outline"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/cardNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:inputType="number"
+            android:maxLength="16"
+            android:padding="12dp"
+            android:background="@drawable/text_background_white_outline"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/cvvEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:inputType="numberPassword"
+            android:maxLength="3"
+            android:padding="12dp"
+            android:background="@drawable/text_background_white_outline"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/addressEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address"
+            android:inputType="textPostalAddress"
+            android:padding="12dp"
+            android:background="@drawable/text_background_white_outline"
+            android:textColor="#ffffff"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/phoneNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:padding="12dp"
+            android:background="@drawable/text_background_white_outline"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/placeOrderButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/text_background_white"
+            android:text="Place Order"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:padding="12dp"
+            app:backgroundTint="@null"
+            android:fontFamily="@font/archivo_black"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+</ScrollView>

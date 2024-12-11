@@ -78,4 +78,13 @@ interface UserApiService {
         @Query("accountID") accountID: Int
     ): Call<List<Ticket>>
 
+    @POST("/transactions")
+    fun createTransaction(
+        @Query("accountId") accountId: Int,
+        @Query("ticketId") ticketId: Int,
+        @Query("eventId") eventId: Int,
+        @Query("amountPaid") amountPaid: Double
+    ): Call<ApiResponse>
+
+
 }

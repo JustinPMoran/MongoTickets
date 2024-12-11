@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dashboard.R
 import com.example.dashboard.databinding.FragmentCartBinding
 import dataClasses.CartItem
 
@@ -15,6 +17,7 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
     private lateinit var cartAdapter: CartAdapter
+    private val checkoutButton by lazy { binding.checkoutButton }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +41,13 @@ class CartFragment : Fragment() {
 
         // Load cart items
         loadCartItems()
+        binding.checkoutButton.setOnClickListener {
+            if (CartManager.getCartItems().isNotEmpty()) {
+                findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
+            } else {
+                Toast.makeText(requireContext(), "Your cart is empty!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun removeFromCart(cartItem: CartItem) {
