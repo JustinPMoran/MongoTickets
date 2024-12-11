@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dashboard.databinding.FragmentCartBinding
@@ -13,7 +14,6 @@ class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var cartAdapter: CartAdapter // Assume you have a CartAdapter class
     private val cartItems = mutableListOf<CartItem>() // Replace with your cart item model
 
@@ -40,6 +40,8 @@ class CartFragment : Fragment() {
 
         // Checkout button click listener
         binding.checkoutButton.setOnClickListener {
+            val action = CartFragmentDirections.actionCartFragmentToCheckoutFragment()
+            findNavController().navigate(action)
             // Add your checkout logic here
         }
     }
@@ -50,6 +52,7 @@ class CartFragment : Fragment() {
         cartItems.add(CartItem("Item 3", 5.99, 1))
         cartAdapter.notifyDataSetChanged()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
