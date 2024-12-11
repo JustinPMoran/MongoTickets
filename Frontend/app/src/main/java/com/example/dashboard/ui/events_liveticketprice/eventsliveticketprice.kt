@@ -23,7 +23,7 @@ class EventsLiveTicketPrice : ViewModel() {
             .build()
 
         val request = Request.Builder()
-            .url("ws://coms-3090-074.class.las.iastate.edu:8080/ticket/price/socket/1")  // Use 10.0.2.2 for localhost when testing on Android emulator
+            .url("ws://coms-3090-074.class.las.iastate.edu:8080/ticket/price/socket/3")  // Use 10.0.2.2 for localhost when testing on Android emulator
             .build()
         //ws://10.0.2.2:8080/chat/$username
 

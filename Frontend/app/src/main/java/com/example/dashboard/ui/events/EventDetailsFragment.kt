@@ -5,107 +5,77 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dashboard.R
+import com.example.dashboard.databinding.FragmentEventDetailsBinding
 import api.EventApiService
 import api.RetrofitClient
 import dataClasses.EventDetails
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.dashboard.R
 
 class EventDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: EventsLiveTicketPrice
-    private lateinit var averageTicketPriceButton: Button
-    private lateinit var eventDetailsText: TextView
-    private lateinit var bookTicketsButton: Button
+    private var _binding: FragmentEventDetailsBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_event_details, container, false)
+    ): View {
+        _binding = FragmentEventDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        eventDetailsText = root.findViewById(R.id.eventDetailsText)
-        bookTicketsButton = root.findViewById(R.id.bookTicketsButton)
-        averageTicketPriceButton = root.findViewById(R.id.average_ticket_price_button)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Initialize ViewModel
-        viewModel = ViewModelProvider(this).get(EventsLiveTicketPrice::class.java)
-
-        // Observe live ticket price
-        viewModel.ticketPrice.observe(viewLifecycleOwner) { price ->
-            averageTicketPriceButton.text = "Average Ticket Price: $price"
-        }
-
-        // Connect to WebSocket for live ticket price updates
-        viewModel.connectToWebSocket("AndroidUser")  // You can replace "AndroidUser" with an actual username
-
-        // Load event details
+        setupRecyclerView()
         loadEventDetails()
 
-        return root
+        // Add click listener for sellTicketsButton
+        binding.sellTicketsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_eventDetailsFragment_to_nav_purchase)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        eventAdapter = EventAdapter()
+        binding.EventRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = eventAdapter
+        }
     }
 
     private fun loadEventDetails() {
-        val eventId = 1 // Replace with actual event ID if needed
-        val retrofit = RetrofitClient.retrofitInstance
-        val apiService = retrofit.create(EventApiService::class.java)
-
-        val call = apiService.getEventDetails(eventId)
-        call.enqueue(object : Callback<EventDetails> {
-            override fun onResponse(call: Call<EventDetails>, response: Response<EventDetails>) {
-                Log.d("EventDetailsFragment", "Response received in ${response.raw().receivedResponseAtMillis - response.raw().sentRequestAtMillis} ms")
-
+        val apiService = RetrofitClient.retrofitInstance.create(EventApiService::class.java)
+        apiService.getAllEvents().enqueue(object : Callback<List<EventDetails>> {
+            override fun onResponse(call: Call<List<EventDetails>>, response: Response<List<EventDetails>>) {
                 if (response.isSuccessful) {
-                    val eventDetails = response.body()
-                    eventDetails?.let {
-                        updateUI(it)
-                    }
+                    val events = response.body()?.filter { it.name.length >= 2 } ?: emptyList()
+                    eventAdapter.updateEvents(events)
                 } else {
-                    val errorMessage = "Failed to load event details. Error code: ${response.code()}"
-                    eventDetailsText.text = errorMessage
-                    Log.e("EventDetailsFragment", errorMessage)
+                    Log.e("EventDetailsFragment", "Error: ${response.code()}")
                 }
             }
 
-            override fun onFailure(call: Call<EventDetails>, t: Throwable) {
-                val errorMessage = "Failed to load event details. Error: ${t.message}"
-                eventDetailsText.text = errorMessage
-                Log.e("EventDetailsFragment", errorMessage, t)
+            override fun onFailure(call: Call<List<EventDetails>>, t: Throwable) {
+                Log.e("EventDetailsFragment", "Error: ${t.message}", t)
             }
         })
     }
 
-    private fun updateUI(eventDetails: EventDetails) {
-        eventDetailsText.text = """
-            Event Name: ${eventDetails.name}
-            Date: ${eventDetails.date}
-            Location: ${eventDetails.location}
-            Description: ${eventDetails.description}
-        """.trimIndent()
-
-        bookTicketsButton.setOnClickListener {
-            val bundle = Bundle().apply {
-                putString("eventId", eventDetails.id.toString())
-                putString("eventName", eventDetails.name)
-                putString("ticketPrice", viewModel.ticketPrice.value)
-            }
-            findNavController().navigate(R.id.action_eventDetailsFragment_to_ticketDetailsFragment, bundle)
-        }
-
-        // Request ticket price from WebSocket
-        viewModel.sendMessage("get_ticket_price")
+    private fun navigateToCreateEventsFragment() {
+        findNavController().navigate(R.id.action_nav_purchase_to_createEventsFragment)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.disconnectWebSocket()
+        _binding = null
     }
 }
