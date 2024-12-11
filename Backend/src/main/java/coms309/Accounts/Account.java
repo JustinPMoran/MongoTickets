@@ -34,6 +34,7 @@ public class Account {
     private String email;
     private String join_date;
     private boolean is_active;
+    private boolean is_admin;
     private int store_rating;
     private int store_review_count;
     private int events_visited_count;
@@ -162,6 +163,13 @@ public class Account {
 
     public void setIs_active(boolean is_active) {
         this.is_active = is_active;
+    }
+    public boolean isIs_admin() {
+        return is_admin;
+    }
+
+    public void setIs_admin(boolean is_admin) {
+        this.is_admin = is_admin;
     }
 
     public List<Ticket> getTickets() {
