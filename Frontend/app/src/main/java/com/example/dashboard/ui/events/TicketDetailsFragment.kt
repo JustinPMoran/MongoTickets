@@ -11,6 +11,8 @@ import api.RetrofitClient
 import api.EventApiService
 import dataClasses.EventDetails
 import retrofit2.Call
+import dataClasses.CartManager
+import dataClasses.CartItem
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.dashboard.R
@@ -30,8 +32,9 @@ class TicketDetailsFragment : Fragment() {
         val ticketQuantityText = root.findViewById<TextView>(R.id.ticketQuantityValue)
         val increaseQuantityButton = root.findViewById<Button>(R.id.increaseQuantityButton)
         val decreaseQuantityButton = root.findViewById<Button>(R.id.decreaseQuantityButton)
+        val addToCartButton = root.findViewById<Button>(R.id.addToCartButton)
 
-        val eventId = 1
+        val eventId = 2
 
         // Set initial ticket quantity
         var ticketQuantity = 1
@@ -73,6 +76,22 @@ class TicketDetailsFragment : Fragment() {
                 ticketQuantityText.text = ticketQuantity.toString()
             }
         }
+
+        addToCartButton.setOnClickListener {
+            val eventName = eventNameText.text.toString().removePrefix("Event Name: ")
+            val ticketCost = 50.0 // Replace with a dynamic cost if necessary
+            val cartItem = CartItem(
+                eventId = eventId,
+                eventName = eventName,
+                ticketCost = ticketCost,
+                ticketQuantity = ticketQuantity
+            )
+            CartManager.addToCart(cartItem)
+            // Provide feedback to the user
+            addToCartButton.text = "Added to Cart"
+            addToCartButton.isEnabled = false
+        }
+
 
         return root
     }
