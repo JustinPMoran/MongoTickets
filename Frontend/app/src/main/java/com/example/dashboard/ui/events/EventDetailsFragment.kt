@@ -5,65 +5,77 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dashboard.R
+import com.example.dashboard.databinding.FragmentEventDetailsBinding
 import api.EventApiService
 import api.RetrofitClient
 import dataClasses.EventDetails
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.dashboard.R
 
 class EventDetailsFragment : Fragment() {
+
+    private var _binding: FragmentEventDetailsBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_event_details, container, false)
-        val eventId = 2
-        val eventDetailsText = root.findViewById<TextView>(R.id.eventDetailsText)
-        val bookTicketsButton = root.findViewById<Button>(R.id.bookTicketsButton)
+    ): View {
+        _binding = FragmentEventDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val retrofit = RetrofitClient.retrofitInstance
-        val apiService = retrofit.create(EventApiService::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Start the API call
-        val call = apiService.getEventDetails(eventId)
-        call.enqueue(object : Callback<EventDetails> {
-            override fun onResponse(call: Call<EventDetails>, response: Response<EventDetails>) {
-                Log.d("EventDetailsFragment", "Response received in ${response.raw().receivedResponseAtMillis - response.raw().sentRequestAtMillis} ms")
+        setupRecyclerView()
+        loadEventDetails()
 
+        // Add click listener for sellTicketsButton
+        binding.sellTicketsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_eventDetailsFragment_to_nav_purchase)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        eventAdapter = EventAdapter()
+        binding.EventRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = eventAdapter
+        }
+    }
+
+    private fun loadEventDetails() {
+        val apiService = RetrofitClient.retrofitInstance.create(EventApiService::class.java)
+        apiService.getAllEvents().enqueue(object : Callback<List<EventDetails>> {
+            override fun onResponse(call: Call<List<EventDetails>>, response: Response<List<EventDetails>>) {
                 if (response.isSuccessful) {
-                    val eventDetails = response.body()
-                    eventDetails?.let {
-                        eventDetailsText.text = "Event Name: ${it.name}\nDate: ${it.date}\nLocation: ${it.location}\nDescription: ${it.description}"
-
-                        bookTicketsButton.setOnClickListener {
-                            val bundle = Bundle().apply {
-                                putString("ticketQuantity", "1") // Example quantity
-                            }
-                            findNavController().navigate(R.id.action_eventDetailsFragment_to_ticketDetailsFragment, bundle)
-                        }
-                    }
+                    val events = response.body()?.filter { it.name.length >= 2 } ?: emptyList()
+                    eventAdapter.updateEvents(events)
                 } else {
-                    val errorMessage = "Failed to load event details. Error code: ${response.code()}"
-                    eventDetailsText.text = errorMessage
-                    Log.e("EventDetailsFragment", errorMessage)
+                    Log.e("EventDetailsFragment", "Error: ${response.code()}")
                 }
             }
 
-            override fun onFailure(call: Call<EventDetails>, t: Throwable) {
-                val errorMessage = "Failed to load event details. Error: ${t.message}"
-                eventDetailsText.text = errorMessage
-                Log.e("EventDetailsFragment", errorMessage, t)
+            override fun onFailure(call: Call<List<EventDetails>>, t: Throwable) {
+                Log.e("EventDetailsFragment", "Error: ${t.message}", t)
             }
         })
+    }
 
-        return root
+    private fun navigateToCreateEventsFragment() {
+        findNavController().navigate(R.id.action_nav_purchase_to_createEventsFragment)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

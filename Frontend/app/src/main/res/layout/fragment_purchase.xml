@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <FrameLayout
+        android:id="@+id/button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        app:layout_constraintVertical_bias="0.1">
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="277dp"
+            android:layout_height="42dp"
+            android:text="I Agree to the TOS" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="By creating a ticket, you acknowledge and agree to the following terms:
+
+\n\n1. User Responsibility: You, the ticket creator, assume full responsibility for the content and accuracy of the information provided in the ticket.
+
+\n\n2. Accountability: Any actions taken or decisions made based on the information in your ticket are your sole responsibility.
+
+\n\n3. Accuracy: You affirm that all details submitted in the ticket are true and correct to the best of your knowledge.
+
+\n\n4. Consequences: Submitting false, misleading, or malicious information may result in the suspension of your account privileges or other appropriate actions.
+
+\n\n5. Indemnification: You agree to indemnify and hold harmless the company, its employees, and affiliates from any claims, damages, or expenses arising from your ticket submission.
+
+\n\nBy proceeding with ticket creation, you confirm that you have read, understood, and agreed to these terms."
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
