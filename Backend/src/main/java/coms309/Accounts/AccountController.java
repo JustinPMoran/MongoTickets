@@ -288,5 +288,14 @@ public class AccountController {
         return account.getMyCart();
 }
 
+@GetMapping("/my_tickets")
+    List<Ticket> getMyTickets(@RequestParam int accountID) {
+        Account account = accountRepository.findById(accountID);
+        if (account == null) {
+            return null;
+        }
+        return account.getTickets();
+}
+
 
 }
