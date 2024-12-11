@@ -12,7 +12,7 @@ import com.example.dashboard.ui.cart.CartManager
 import dataClasses.CartItem
 import dataClasses.Ticket
 
-class TicketAdapter(private val tickets: List<Ticket>) :
+class TicketAdapter(private var tickets: List<Ticket>) :
     RecyclerView.Adapter<TicketAdapter.TicketViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TicketViewHolder {
@@ -27,6 +27,11 @@ class TicketAdapter(private val tickets: List<Ticket>) :
 
     override fun getItemCount() = tickets.size
 
+    fun updateTickets(newTickets: List<Ticket>) {
+        tickets = newTickets
+        notifyDataSetChanged()
+    }
+
     inner class TicketViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val ticketIdText: TextView = view.findViewById(R.id.ticketEventName)
         private val ticketDetailsText: TextView = view.findViewById(R.id.ticketDate)
@@ -34,8 +39,7 @@ class TicketAdapter(private val tickets: List<Ticket>) :
         private val addToCartButton: Button = view.findViewById(R.id.addToCartButton)
 
         fun bind(ticket: Ticket) {
-            // Safely handle nullable fields using `?:` operator
-            val ticketId = ticket.id ?: -1 // Use -1 or another default value if ID is null
+            val ticketId = ticket.id ?: -1
             val section = ticket.section ?: "Unknown"
             val row = ticket.row ?: "Unknown"
             val price = ticket.price ?: 0.0
@@ -46,11 +50,11 @@ class TicketAdapter(private val tickets: List<Ticket>) :
 
             addToCartButton.setOnClickListener {
                 val cartItem = CartItem(
-                    ticketId = ticketId, // Use non-nullable ticketId
+                    ticketId = ticketId,
                     section = section,
                     row = row,
                     ticketCost = price,
-                    ticketQuantity = 1 // Default to 1
+                    ticketQuantity = 1
                 )
                 CartManager.addToCart(cartItem, 5) { success ->
                     if (success) {
@@ -65,6 +69,5 @@ class TicketAdapter(private val tickets: List<Ticket>) :
                 }
             }
         }
-
     }
 }

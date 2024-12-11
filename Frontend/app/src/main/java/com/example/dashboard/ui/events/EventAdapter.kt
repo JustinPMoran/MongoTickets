@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dashboard.databinding.ItemEventCardBinding
 import dataClasses.EventDetails
 
-class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(private val onEventClick: (EventDetails) -> Unit) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     private var events: List<EventDetails> = emptyList()
 
     fun updateEvents(newEvents: List<EventDetails>) {
@@ -36,7 +36,12 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
                 """.trimIndent()
 
                 bookTicketsButton.setOnClickListener {
-                    // Handle booking action here
+                    onEventClick(event)
+                }
+
+                // Make the entire card clickable
+                root.setOnClickListener {
+                    onEventClick(event)
                 }
             }
         }
