@@ -1,110 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.events.TicketDetailsFragment"
-    android:background="#191E1F"
-    android:padding="16dp">
+    android:background="#191E1F">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/ticketCard"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTickets"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        android:backgroundTint="#034E4A"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/ticketEventName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Event Name"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ticketCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Cost"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/ticketDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Date"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/ticketQuantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Quantity"
-                android:textSize="16sp"
-                android:textColor="@color/white" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <Button
-                    android:id="@+id/decreaseQuantityButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/ticketQuantityValue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="1"
-                    android:textSize="16sp"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/increaseQuantityButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/addToCartButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/black"
-                android:text="Add to Cart"
-                android:textColor="@color/white" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

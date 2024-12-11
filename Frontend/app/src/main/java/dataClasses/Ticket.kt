@@ -3,7 +3,7 @@ package dataClasses
 import com.google.gson.annotations.SerializedName
 
 data class Ticket(
-    val id: Int,
+    val id: Int?,
     val row: String?,
     val section: String?,
     val price: Double,

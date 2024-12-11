@@ -4,95 +4,59 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import api.RetrofitClient
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import api.EventApiService
-import dataClasses.EventDetails
-import retrofit2.Call
-import dataClasses.CartManager
+import api.RetrofitClient
+import com.example.dashboard.R
 import dataClasses.CartItem
+import dataClasses.Ticket
+import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.dashboard.R
 
 class TicketDetailsFragment : Fragment() {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var ticketAdapter: TicketAdapter
+    private val tickets = mutableListOf<Ticket>()
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_ticket_details, container, false)
+        recyclerView = root.findViewById(R.id.recyclerViewTickets)
 
-        val eventNameText = root.findViewById<TextView>(R.id.ticketEventName)
-        val ticketCostText = root.findViewById<TextView>(R.id.ticketCost)
-        val ticketDateText = root.findViewById<TextView>(R.id.ticketDate)
-        val ticketQuantityText = root.findViewById<TextView>(R.id.ticketQuantityValue)
-        val increaseQuantityButton = root.findViewById<Button>(R.id.increaseQuantityButton)
-        val decreaseQuantityButton = root.findViewById<Button>(R.id.decreaseQuantityButton)
-        val addToCartButton = root.findViewById<Button>(R.id.addToCartButton)
+        // Set up RecyclerView
+        ticketAdapter = TicketAdapter(tickets)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ticketAdapter
+        }
 
-        val eventId = 2
+        fetchTickets()
+        return root
+    }
 
-        // Set initial ticket quantity
-        var ticketQuantity = 1
-        ticketQuantityText.text = ticketQuantity.toString()
-
-        // Make the API call to get event details
-        val retrofit = RetrofitClient.retrofitInstance
-        val apiService = retrofit.create(EventApiService::class.java)
-
-        val call = apiService.getEventDetails(eventId)
-        call.enqueue(object : Callback<EventDetails> {
-            override fun onResponse(call: Call<EventDetails>, response: Response<EventDetails>) {
+    private fun fetchTickets() {
+        val apiService = RetrofitClient.retrofitInstance.create(EventApiService::class.java)
+        apiService.getTickets().enqueue(object : Callback<List<Ticket>> {
+            override fun onResponse(call: Call<List<Ticket>>, response: Response<List<Ticket>>) {
                 if (response.isSuccessful) {
-                    val eventDetails = response.body()
-                    eventDetails?.let {
-                        eventNameText.text = "Event Name: ${it.name}"
-                        ticketDateText.text = "Date: ${it.date}"
-                        ticketCostText.text = "Cost: 50 USD" // Set a fixed or dynamic cost based on the event details if applicable
-                    }
+                    tickets.clear()
+                    tickets.addAll(response.body() ?: emptyList())
+                    ticketAdapter.notifyDataSetChanged()
                 } else {
-                    eventNameText.text = "Failed to load event details. Error code: ${response.code()}"
+                    Toast.makeText(context, "Failed to load tickets", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<EventDetails>, t: Throwable) {
-                eventNameText.text = "Failed to load event details. Error: ${t.message}"
+            override fun onFailure(call: Call<List<Ticket>>, t: Throwable) {
+                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
-        // Set button click listeners for increasing/decreasing quantity
-        increaseQuantityButton.setOnClickListener {
-            ticketQuantity++
-            ticketQuantityText.text = ticketQuantity.toString()
-        }
-
-        decreaseQuantityButton.setOnClickListener {
-            if (ticketQuantity > 1) {
-                ticketQuantity--
-                ticketQuantityText.text = ticketQuantity.toString()
-            }
-        }
-
-        addToCartButton.setOnClickListener {
-            val eventName = eventNameText.text.toString().removePrefix("Event Name: ")
-            val ticketCost = 50.0 // Replace with a dynamic cost if necessary
-            val cartItem = CartItem(
-                eventId = eventId,
-                eventName = eventName,
-                ticketCost = ticketCost,
-                ticketQuantity = ticketQuantity
-            )
-            CartManager.addToCart(cartItem)
-            // Provide feedback to the user
-            addToCartButton.text = "Added to Cart"
-            addToCartButton.isEnabled = false
-        }
-
-
-        return root
     }
 }
