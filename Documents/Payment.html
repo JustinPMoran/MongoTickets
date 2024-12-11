@@ -166,9 +166,7 @@
                 assignTicket();
 
                 alert("Payment successful!");
-                if (socket) {
-                    socket.close();
-                }
+
                 const paymentUrl = `PostTickets.html`;
                 window.location.href = paymentUrl;
             }, 1000);
@@ -193,6 +191,9 @@
                             console.log(`Sent ticket ID: ${ticketId}`);
                         } else {
                             console.error("WebSocket is not open");
+                        }
+                        if (socket) {
+                            socket.close();
                         }
                     } else {
                         console.error(`Failed to assign ticket ${ticketId}`);

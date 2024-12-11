@@ -68,6 +68,7 @@ public class TicketController {
         if (ticket == null)
             return failure;
         ticket.setEvent(eventRepository.findById(eventId));
+        ticket.setIs_active(true);
         event.addTicket(ticket);
         eventRepository.save(event);
         LiveTickets.broadcast("", eventId);

@@ -87,6 +87,23 @@
         <tbody id="tickets"></tbody>
     </table>
 
+    <h2 id ="ticketFormHeader" style="display: none;">Create a New Ticket</h2>
+    <form id="createTicketForm" style="display: none;">
+        <div class="form-group">
+            <label for="ticketPrice">Price</label>
+            <input type="number" id="ticketPrice" name="price" required>
+        </div>
+        <div class="form-group">
+            <label for="ticketRow">Row</label>
+            <input type="text" id="ticketRow" name="row" required>
+        </div>
+        <div class="form-group">
+            <label for="ticketSection">Section</label>
+            <input type="text" id="ticketSection" name="section" required>
+        </div>
+        <button type="submit">Create Ticket</button>
+    </form>
+
 
 
     <script>
@@ -94,6 +111,7 @@
         const baseUrl = 'http://localhost:8080';
         var userId;
         var eventId;
+        var eventTickets;
 
         document.getElementById('connectButton').addEventListener('click', () => {
 
@@ -110,12 +128,22 @@
             const data = await account.json();
             userId = data.id;
 
+            if (data.is_admin) {
+                document.getElementById('createTicketForm').style.display = 'block';
+                document.getElementById('ticketFormHeader').style.display = 'block';
+            }
+            else{
+                document.getElementById('createTicketForm').style.display = 'none';
+                document.getElementById('ticketFormHeader').style.display = 'none';
+            }
+
             if (userEmail.trim() === '' || isNaN(eventId)) {
                 alert("Please enter a valid email and event ID.");
                 return;
             }
 
             socket = new WebSocket(`ws://localhost:8080/tickets/${eventId}/${userId}`);
+            document.getElementById('messages').innerHTML = "";
 
             socket.addEventListener('open', (event) => {
                 console.log('Connected to WebSocket server');
@@ -141,14 +169,47 @@
 
 
 
-            fetchTickets();
             fetchEventTickets();
+            fetchTickets();
         }
+
+        document.getElementById('createTicketForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const ticketPrice = document.getElementById('ticketPrice').value;
+            const ticketRow = document.getElementById('ticketRow').value;
+            const ticketSection = document.getElementById('ticketSection').value;
+
+            const ticket = {
+                price: ticketPrice,
+                row: ticketRow,
+                section: ticketSection,
+                is_active: true
+            };
+
+            fetch(`${baseUrl}/tickets/${eventId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ticket)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Ticket created successfully!');
+                        fetchEventTickets();
+                    } else {
+                        alert('Failed to create ticket.');
+                    }
+                })
+                .catch(error => console.error('Error creating ticket:', error));
+        });
 
         function fetchEventTickets() {
             fetch(`${baseUrl}/events/${eventId}/all_tickets`)
                 .then(response => response.json())
                 .then(tickets => {
+                    eventTickets = tickets;
                     const eventTicketsTbody = document.getElementById('eventTickets');
                     eventTicketsTbody.innerHTML = ''; // Clear the table body
                     tickets.forEach(ticket => {
@@ -187,6 +248,9 @@
                     const ticketsTbody = document.getElementById('tickets');
                     ticketsTbody.innerHTML = '';
                     tickets.forEach(ticket => {
+
+                        if(eventTickets && !eventTickets.some(eventTicket => eventTicket.id === ticket.id))
+                            return;
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${ticket.id}</td>
