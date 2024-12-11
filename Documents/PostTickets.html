@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Ticket WebSocket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 100px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="input-group">
+        <label for="userEmail">Email</label>
+        <input type="email" id="userEmail" name="userEmail" required>
+    </div>
+    <div class="input-group">
+        <label for="eventId">Event ID</label>
+        <input type="number" id="eventId" name="eventId" required>
+    </div>
+    <button id="connectButton" class="connect-btn">Connect</button>
+
+
+    <h1>Live WebSocket Tickets</h1>
+
+    <div id="messages"></div>
+
+    <!-- <input id="messageInput" type="text" placeholder="Type a message" />
+    <button id="sendButton">Send</button> -->
+
+    <h2>Event Tickets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Price</th>
+                <th>Row</th>
+                <th>Section</th>
+                <th>Active</th>
+            </tr>
+        </thead>
+        <tbody id="eventTickets"></tbody>
+    </table>
+
+    <h2>My Tickets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Price</th>
+                <th>Row</th>
+                <th>Section</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tickets"></tbody>
+    </table>
+
+
+
+    <script>
+        var socket;
+        const baseUrl = 'http://localhost:8080';
+        var userId;
+        var eventId;
+
+        document.getElementById('connectButton').addEventListener('click', () => {
+
+
+            init();
+
+        });
+
+        const init = async function () {
+            const userEmail = document.getElementById('userEmail').value;
+            eventId = document.getElementById('eventId').value;
+
+            const account = await fetch(`${baseUrl}/accounts/email?email=${userEmail}`);
+            const data = await account.json();
+            userId = data.id;
+
+            if (userEmail.trim() === '' || isNaN(eventId)) {
+                alert("Please enter a valid email and event ID.");
+                return;
+            }
+
+            socket = new WebSocket(`ws://localhost:8080/tickets/${eventId}/${userId}`);
+
+            socket.addEventListener('open', (event) => {
+                console.log('Connected to WebSocket server');
+            });
+
+            socket.addEventListener('message', (event) => {
+                console.log('Message from server:', event.data);
+                const messageData = event.data;
+                document.getElementById('messages').innerHTML += `<div>${messageData}</div>`;
+
+                fetchEventTickets();
+                fetchTickets();
+            });
+
+            socket.addEventListener('close', (event) => {
+                console.log('WebSocket connection closed');
+                document.getElementById('messages').innerHTML += `<div><i>Connection closed.</i></div>`;
+            });
+
+            socket.addEventListener('error', (event) => {
+                console.error('WebSocket error:', event);
+            });
+
+
+
+            fetchTickets();
+            fetchEventTickets();
+        }
+
+        function fetchEventTickets() {
+            fetch(`${baseUrl}/events/${eventId}/all_tickets`)
+                .then(response => response.json())
+                .then(tickets => {
+                    const eventTicketsTbody = document.getElementById('eventTickets');
+                    eventTicketsTbody.innerHTML = ''; // Clear the table body
+                    tickets.forEach(ticket => {
+                        if (!ticket.is_active)
+                            return;
+
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${ticket.id}</td>
+                            <td>${ticket.price}</td>
+                            <td>${ticket.row}</td>
+                            <td>${ticket.section}</td>
+                            <td>${ticket.is_active ? 'Yes' : 'No'}</td>
+                            <td><button onclick="redirectToPayment(${ticket.id}, ${ticket.price})">Buy Ticket</button></td>
+                        `;
+                        eventTicketsTbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching event tickets:', error));
+        }
+
+        function sendTicketId(ticketId) {
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(ticketId.toString());
+                console.log(`Sent ticket ID: ${ticketId}`);
+            } else {
+                console.error("WebSocket is not open");
+            }
+        }
+
+
+        function fetchTickets() {
+            fetch(`${baseUrl}/accounts/${userId}/tickets`)
+                .then(response => response.json())
+                .then(tickets => {
+                    const ticketsTbody = document.getElementById('tickets');
+                    ticketsTbody.innerHTML = '';
+                    tickets.forEach(ticket => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${ticket.id}</td>
+                            <td>${ticket.price}</td>
+                            <td>${ticket.row}</td>
+                            <td>${ticket.section}</td>
+                            <td>${ticket.is_active ? 'Yes' : 'No'}</td>
+                            <td><button onclick="sendTicketId(${ticket.id})">Sell Ticket</button></td>
+                        `;
+                        ticketsTbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching tickets:', error));
+        }
+
+        function redirectToPayment(ticketId, price) {
+            const paymentUrl = `payment.html?ticketId=${ticketId}&price=${price}&accountId=${userId}&eventId=${eventId}`;
+            window.location.href = paymentUrl;
+        }
+    </script>
+</body>
+
+</html>

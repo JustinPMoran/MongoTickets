@@ -23,6 +23,7 @@ import coms309.Accounts.AccountRepository;
  */ 
 
 @RestController
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class TicketController {
 
     @Autowired
@@ -146,13 +147,16 @@ public class TicketController {
             @ApiResponse(responseCode = "404", description = "Error Assigning ticket",
                     content = @Content) })
     @PutMapping("/tickets/assign")
-    void assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
+    String assignTicket(@RequestParam int ticketId, @RequestParam int accountId){
         Account account = accountRepository.findById(accountId);
         Ticket ticket = ticketRepository.findById(ticketId);
         account.addTicket(ticket);
         ticket.setAccount(account);
+        ticket.setIs_active(false);
         accountRepository.save(account);
+        ticketRepository.save(ticket);
 
+        return success;
     }
 
     @Operation(summary = "Assign Ticket to an Event")
