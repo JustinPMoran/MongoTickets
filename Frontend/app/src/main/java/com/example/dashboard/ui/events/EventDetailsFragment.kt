@@ -38,19 +38,23 @@ class EventDetailsFragment : Fragment() {
         setupRecyclerView()
         loadEventDetails()
 
-        // Add click listener for sellTicketsButton
         binding.sellTicketsButton.setOnClickListener {
             findNavController().navigate(R.id.action_eventDetailsFragment_to_nav_purchase)
         }
     }
 
     private fun setupRecyclerView() {
-        eventAdapter = EventAdapter()
+        eventAdapter = EventAdapter { event ->
+            findNavController().navigate(R.id.action_eventDetailsFragment_to_ticketDetailsFragment, Bundle().apply {
+                putInt("eventId", event.id)
+            })
+        }
         binding.EventRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = eventAdapter
         }
     }
+
 
     private fun loadEventDetails() {
         val apiService = RetrofitClient.retrofitInstance.create(EventApiService::class.java)
